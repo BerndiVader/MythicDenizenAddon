@@ -2,25 +2,25 @@
 
 
 #### Conditions for dObject entity:
-##### <entity.isactivemob>
+##### entity.isactivemob
 ###### Returns true if activemob or false if not.
-##### <entity.activemob>
+##### entity.activemob
 ###### Returns the activemob instance of the entity.
 
 #### Conditions for dObject activemob:
-##### <activemob.isdead>
+##### activemob.isdead
 ###### True or False if activemob is dead.
-##### <activemob.hasthreattable> 
+##### activemob.hasthreattable 
 ###### True of False if activemob has target threattable.
-##### <activemob.hasmythicspawner> 
+##### activemob.hasmythicspawner
 ###### Returns true if the activemob has a MythicSpawner.
 
 #### Expressions for dObject activemob:
-##### <activemob.mobtype> 
+##### activemob.mobtype
 ###### Returns the name of the MobType of the ActiveMob.
-##### <activemob.displayname> 
+##### activemob.displayname 
 ###### Returns the DisplayName of the ActiveMob.
 
 #### Adjustments for dObject activemob:
-##### adjust <activemob> remove 
+##### adjust activemob remove 
 ###### Removes & unregister the ActiveMob from MythicMobs.
