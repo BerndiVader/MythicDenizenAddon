@@ -3,7 +3,9 @@ package com.gmail.berndivader.mmDenizenAddon.plugins;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
 
+import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizencore.objects.Adjustable;
@@ -18,10 +20,12 @@ public class dActiveMob implements dObject, Adjustable {
 	
 	private String prefix;
 	ActiveMob am;
+	Entity entity;
 
 	public dActiveMob(ActiveMob activeMob) {
 		if (activeMob==null) return;
 		this.am = activeMob;
+		this.entity = BukkitAdapter.adapt(activeMob.getEntity());
 	}
 	
     public static boolean matches(String string) {
@@ -37,7 +41,7 @@ public class dActiveMob implements dObject, Adjustable {
 		Element val = m.getValue();
 		if (m.matches("global_cooldown") && m.requireInteger()) {
 			this.am.setGlobalCooldown(val.asInt());
-		} else if (m.matches("remove_self")) {
+		} else if (m.matches("remove")) {
 			MythicMobsAddon.removeSelf(this.am);
 		} 
 	}
@@ -45,14 +49,19 @@ public class dActiveMob implements dObject, Adjustable {
 	@Override
 	public String getAttribute(Attribute a) {
 		if (a==null) return null;
-		
-		if (a.startsWith("mobtype")) 
+		if (a.startsWith("isdead")) {
+			return new Element(MythicMobsAddon.isDead(entity)).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("hasthreattable")) {
+			return new Element(MythicMobsAddon.hasThreatTable(entity)).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("hasmythicspawner")) {
+			return new Element(MythicMobsAddon.hasMythicSpawner(entity)).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("mobtype")) {
 			return new Element(am.getType().getInternalName()).getAttribute(a.fulfill(1));
-		else if (a.startsWith("displayname")) 
+		} else if (a.startsWith("displayname")) {
 			return new Element(am.getType().getDisplayName()).getAttribute(a.fulfill(1));
-		else if (a.startsWith("type"))
+		} else if (a.startsWith("type")) {
 			return new Element("ActiveMob").getAttribute(a.fulfill(1));
-		
+		}
 		return new Element(identify()).getAttribute(a);
 	}
 

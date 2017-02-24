@@ -31,12 +31,6 @@ public class dActiveMobExt extends dObjectExtension {
 
     	if (a.startsWith("isactivemob")) {
     		return new Element(MythicMobsAddon.isActiveMob(entity.getUUID())).getAttribute(a.fulfill(1));
-    	} else if (a.startsWith("isdead")) {
-    		return new Element(MythicMobsAddon.isDead(entity.getBukkitEntity())).getAttribute(a.fulfill(1));
-    	} else if (a.startsWith("hasthreattable")) {
-    		return new Element(MythicMobsAddon.hasThreatTable(entity.getBukkitEntity())).getAttribute(a.fulfill(1));
-    	} else if (a.startsWith("hasmythicspawner")) {
-    		return new Element(MythicMobsAddon.hasMythicSpawner(entity.getBukkitEntity())).getAttribute(a.fulfill(1));
     	} else if (a.startsWith("activemob") && MythicMobsAddon.isActiveMob(entity.getUUID())) {
     		return new dActiveMob(MythicMobsAddon.getActiveMob(entity.getBukkitEntity())).getAttribute(a.fulfill(1));
     	}
