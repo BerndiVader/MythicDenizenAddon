@@ -51,4 +51,28 @@ public class MythicMobsAddon extends Support {
 		}
 		return true;
 	}
+
+	public static boolean isDead(Entity e) {
+		ActiveMob am;
+		if ((am=MythicMobs.inst().getAPIHelper().getMythicMobInstance(e))!=null) {
+			return am.isDead();
+		}
+		return false;
+	}
+
+	public static boolean hasThreatTable(Entity e) {
+		ActiveMob am;
+		if ((am=MythicMobs.inst().getAPIHelper().getMythicMobInstance(e))!=null) {
+			return am.hasThreatTable();
+		}
+		return false;
+	}
+
+	public static boolean hasMythicSpawner(Entity e) {
+		ActiveMob am;
+		if ((am=MythicMobs.inst().getAPIHelper().getMythicMobInstance(e))!=null) {
+			return am.getSpawner()!=null;
+		}
+		return false;
+	}
 }

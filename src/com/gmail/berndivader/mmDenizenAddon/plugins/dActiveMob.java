@@ -46,9 +46,9 @@ public class dActiveMob implements dObject, Adjustable {
 	public String getAttribute(Attribute a) {
 		if (a==null) return null;
 		
-		if (a.startsWith("internal_name")) 
+		if (a.startsWith("mobtype")) 
 			return new Element(am.getType().getInternalName()).getAttribute(a.fulfill(1));
-		else if (a.startsWith("display_name")) 
+		else if (a.startsWith("displayname")) 
 			return new Element(am.getType().getDisplayName()).getAttribute(a.fulfill(1));
 		else if (a.startsWith("type"))
 			return new Element("ActiveMob").getAttribute(a.fulfill(1));
