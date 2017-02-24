@@ -8,6 +8,8 @@ import org.bukkit.entity.Entity;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import net.aufdemrand.denizen.objects.dEntity;
+import net.aufdemrand.denizen.objects.dLocation;
+import net.aufdemrand.denizen.objects.dWorld;
 import net.aufdemrand.denizencore.objects.Adjustable;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Fetchable;
@@ -39,11 +41,25 @@ public class dActiveMob implements dObject, Adjustable {
 	@Override
 	public void adjust(Mechanism m) {
 		Element val = m.getValue();
-		if (m.matches("global_cooldown") && m.requireInteger()) {
+		if (m.matches("gcd") && m.requireInteger()) {
 			this.am.setGlobalCooldown(val.asInt());
 		} else if (m.matches("remove")) {
 			MythicMobsAddon.removeSelf(this.am);
-		} 
+		} else if (m.matches("displayname")) {
+			MythicMobsAddon.setCustomName(am, val.asString());
+		} else if (m.matches("owner")) {
+			am.setOwner(val.asType(dEntity.class).getUUID());
+		} else if (m.matches("target")) {
+			MythicMobsAddon.setTarget(am, val.asType(dEntity.class).getBukkitEntity());
+		} else if (m.matches("faction")) {
+			am.setFaction(val.asString());
+		} else if (m.matches("stance")) {
+			am.setStance(val.asString());
+		} else if (m.matches("level")) {
+			am.setLevel(val.asInt());
+		} else if (m.matches("playerkills")) {
+			am.importPlayerKills(val.asInt());
+		}
 	}
 
 	@Override
@@ -53,12 +69,40 @@ public class dActiveMob implements dObject, Adjustable {
 			return new Element(MythicMobsAddon.isDead(entity)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hasthreattable")) {
 			return new Element(MythicMobsAddon.hasThreatTable(entity)).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("hastarget")) {
+			return new Element(MythicMobsAddon.hasTarget(am)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hasmythicspawner")) {
 			return new Element(MythicMobsAddon.hasMythicSpawner(entity)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("mobtype")) {
 			return new Element(am.getType().getInternalName()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("displayname")) {
 			return new Element(am.getType().getDisplayName()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("location")) {
+			return new dLocation(BukkitAdapter.adapt(am.getLocation())).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("world")) {
+			return new dWorld(BukkitAdapter.adapt(am.getLocation().getWorld())).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("owner")) {
+			return new dEntity(MythicMobsAddon.getOwner(am)).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("lastaggro")) {
+			return new dEntity(MythicMobsAddon.getLastAggro(am)).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("toptarget")) {
+			return new dEntity(MythicMobsAddon.getTopTarget(am)).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("uuid")) {
+			return new Element(am.getUniqueId().toString()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("health")) {
+			return new Element(am.getEntity().getHealth()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("maxhealth")) {
+			return new Element(am.getEntity().getMaxHealth()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("faction")) {
+			return new Element(am.getFaction()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("stance")) {
+			return new Element(am.getStance()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("level")) {
+			return new Element(am.getLevel()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("playerkills")) {
+			return new Element(am.getPlayerKills()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("lastsignal")) {
+			return new Element(am.getLastSignal()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("type")) {
 			return new Element("ActiveMob").getAttribute(a.fulfill(1));
 		}

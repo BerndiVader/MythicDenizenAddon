@@ -3,6 +3,7 @@ package com.gmail.berndivader.mmDenizenAddon.plugins;
 import java.util.UUID;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.berndivader.mmDenizenAddon.MythicDenizenPlugin;
@@ -74,5 +75,46 @@ public class MythicMobsAddon extends Support {
 			return am.getSpawner()!=null;
 		}
 		return false;
+	}
+
+	public static Entity getOwner(ActiveMob am) {
+		if (am.getOwner().isPresent()) {
+			UUID uuid = am.getOwner().get();
+			return dEntity.getEntityForID(uuid);
+		}
+		return null;
+	}
+
+	public static Entity getLastAggro(ActiveMob am) {
+		if (am.getLastAggroCause() != null) {
+			return am.getLastAggroCause().getBukkitEntity();
+		};
+		return null;
+	}
+
+	public static Entity getTopTarget(ActiveMob am) {
+		if (am.hasThreatTable()) {
+			return am.getThreatTable().getTopThreatHolder().getBukkitEntity();
+		} else if (am.hasTarget()) {
+			return am.getEntity().getTarget().getBukkitEntity();
+		}
+		return null;
+	}
+
+	public static boolean hasTarget(ActiveMob am) {
+		return (am.hasThreatTable() || am.hasTarget())?true:false;
+	}
+
+	public static void setCustomName(ActiveMob am, String name) {
+		am.getEntity().getBukkitEntity().setCustomName(name);
+	}
+
+	public static void setTarget(ActiveMob am, Entity target) {
+		if (am.hasThreatTable() && (target instanceof LivingEntity)) {
+			double h = am.getThreatTable().getTopTargetThreat();
+			MythicMobs.inst().getAPIHelper().addThreat(am.getEntity().getBukkitEntity(), (LivingEntity)target, h+1);
+		} else {
+			am.setTarget(BukkitAdapter.adapt(target));
+		}
 	}
 }
