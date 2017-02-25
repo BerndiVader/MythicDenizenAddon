@@ -1,7 +1,11 @@
 package com.gmail.berndivader.mmDenizenAddon.plugins;
 
+import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
+import net.aufdemrand.denizen.objects.dLocation;
+import net.aufdemrand.denizen.objects.dWorld;
 import net.aufdemrand.denizencore.objects.Adjustable;
+import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Fetchable;
 import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dObject;
@@ -29,9 +33,31 @@ public class dMythicSpawner implements dObject, Adjustable {
 	}
 	
 	@Override
-	public String getAttribute(Attribute arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getAttribute(Attribute a) {
+		if (a.startsWith("location")) {
+			return new dLocation(BukkitAdapter.adapt(ms.getLocation())).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("world")) {
+			return new dWorld(BukkitAdapter.adapt(ms.getLocation().getWorld())).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("allactivemobs")) {
+			return MythicMobsAddon.getActiveMobsFromSpawner(ms).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("mobtype")) {
+			return new Element(ms.getTypeName()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("moblevel")) {
+			return new Element(ms.getMobLevel()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("cooldown")) {
+			return new Element(ms.getCooldownSeconds()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("remainingcooldown")) {
+			return new Element(ms.getRemainingCooldownSeconds()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("warmup")) {
+			return new Element(ms.getWarmupSeconds()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("remainingwarmup")) {
+			return new Element(ms.getRemainingWarmupSeconds()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("mobamount")) {
+			return new Element(ms.getNumberOfMobs()).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("maxmobamount")) {
+			return new Element(ms.getMaxMobs()).getAttribute(a.fulfill(1));
+		}
+		return new Element(identify()).getAttribute(a);
 	}
 	
 	@Override

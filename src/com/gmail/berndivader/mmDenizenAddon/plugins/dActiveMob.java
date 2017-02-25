@@ -72,6 +72,8 @@ public class dActiveMob implements dObject, Adjustable {
 			return new Element(MythicMobsAddon.hasTarget(am)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hasmythicspawner")) {
 			return new Element(MythicMobsAddon.hasMythicSpawner(entity)).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("mythicspawner")) {
+			return new dMythicSpawner(am.getSpawner()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("mobtype")) {
 			return new Element(am.getType().getInternalName()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("displayname")) {

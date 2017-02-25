@@ -9,7 +9,10 @@
 #### Expressions for dObject world:
 
 - world.allactivemobs
-  - Returns a dList<ActiveMobs> of all ActiveMobs in the given world
+  - Returns a dList<ActiveMob> of all ActiveMobs in the given world
+  
+- world.allmythicspawners
+  - Returns a dList<dMythicSpawner> of all MythicSpawners in the given world
 
 
 #### Conditions for dObject entity:
@@ -80,8 +83,42 @@
 
 - activemob.lastsignal
   - last signal of the activemob as string
+  
+- activemob.mythicspawner
+  - mythicspawner object if activemob has a customspawner
 
+  
+#### Expressions for dObject mythicspawner:
 
+- mythicspawner.location
+  - dLocation of Spawner
+  
+- mythicspawner.world
+  - dWorld of Spawner
+  
+- mythicspawner.allactivemobs
+  - dList with all activemobs from spawner
+  
+- mythicspawner.mobtype
+  - String mobtype
+  
+- mythicspawner.moblevel
+  - Integer moblevel
+  
+- mythicspawner.cooldown
+  - Integer cooldown
+- mythicspawner.remainingcooldown
+  - Integer cooldowncounter
+- mythicspawner.warmup
+  - Integer warmup
+- mythicspawner.remainingwarmup
+  - Integer warmupcounter
+- mythicspawner.mobamount
+  - Integer mobamount
+- mythicspawner.maxmobamount
+  - Integer max mob amount
+
+  
 #### Adjustments for dObject activemob:
 
 - adjust activemob remove 

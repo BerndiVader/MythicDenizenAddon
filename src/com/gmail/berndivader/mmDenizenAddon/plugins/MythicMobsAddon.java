@@ -22,8 +22,7 @@ public class MythicMobsAddon extends Support {
 	
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
-		registerObjects(dActiveMob.class);
-		registerObjects(dMythicSpawner.class);
+		registerObjects(dMythicSpawner.class, dActiveMob.class);
 		registerProperty(dEntityExt.class, dEntity.class);
 		registerProperty(dWorldExt.class, dWorld.class);
 	}
@@ -140,5 +139,25 @@ public class MythicMobsAddon extends Support {
 
 	public static MythicSpawner getMythicSpawner(String uniqueName) {
 		return MythicMobs.inst().getSpawnerManager().getSpawnerByName(uniqueName);
+	}
+
+	public static dList allMythicSpawners(World world) {
+		dList mss = new dList();
+		for (MythicSpawner ms : MythicMobs.inst().getSpawnerManager().listSpawners) {
+			if (ms.getLocation().getWorld().getName().equals(world.getName())) {
+				mss.add(new dMythicSpawner(ms).identify());
+			}
+		}
+		return mss;
+	}
+
+	public static dList getActiveMobsFromSpawner(MythicSpawner ms) {
+		dList ams = new dList();
+		for (UUID uuid : ms.getAssociatedMobs()) {
+			if (MythicMobs.inst().getMobManager().getActiveMob(uuid).isPresent()) {
+				ams.add(new dActiveMob(MythicMobs.inst().getMobManager().getActiveMob(uuid).get()).identify());
+			}
+		}
+		return ams;
 	}
 }
