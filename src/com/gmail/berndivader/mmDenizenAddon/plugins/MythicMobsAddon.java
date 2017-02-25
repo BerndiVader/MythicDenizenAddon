@@ -2,6 +2,7 @@ package com.gmail.berndivader.mmDenizenAddon.plugins;
 
 import java.util.UUID;
 
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,14 +13,19 @@ import com.gmail.berndivader.mmDenizenAddon.Support;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
+import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
 import net.aufdemrand.denizen.objects.dEntity;
+import net.aufdemrand.denizen.objects.dWorld;
+import net.aufdemrand.denizencore.objects.dList;
 
 public class MythicMobsAddon extends Support {
 	
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
 		registerObjects(dActiveMob.class);
-		registerProperty(dActiveMobExt.class, dEntity.class);
+		registerObjects(dMythicSpawner.class);
+		registerProperty(dEntityExt.class, dEntity.class);
+		registerProperty(dWorldExt.class, dWorld.class);
 	}
 
 	public static boolean isActiveMob(UUID uuid) {
@@ -116,5 +122,23 @@ public class MythicMobsAddon extends Support {
 		} else {
 			am.setTarget(BukkitAdapter.adapt(target));
 		}
+	}
+
+	public static dList allActiveMobs(World world) {
+		dList ams = new dList();
+		for (ActiveMob am : MythicMobs.inst().getMobManager().getActiveMobs()) {
+			if (am.getLocation().getWorld().getName().equals(world.getName())) {
+				ams.add(new dActiveMob(am).identify());
+			}
+		}
+		return ams;
+	}
+
+	public static boolean isMythicSpawner(String uniqueName) {
+		return MythicMobs.inst().getSpawnerManager().getSpawnerByName(uniqueName) != null;
+	}
+
+	public static MythicSpawner getMythicSpawner(String uniqueName) {
+		return MythicMobs.inst().getSpawnerManager().getSpawnerByName(uniqueName);
 	}
 }

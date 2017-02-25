@@ -8,11 +8,11 @@ import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.tags.Attribute;
 
-public class dActiveMobExt extends dObjectExtension {
+public class dEntityExt extends dObjectExtension {
 	private dEntity entity;
 	
 	
-    public dActiveMobExt(dEntity e) {
+    public dEntityExt(dEntity e) {
     	this.entity = e;
 	}
 
@@ -20,9 +20,9 @@ public class dActiveMobExt extends dObjectExtension {
         return object instanceof dEntity;
     }
     
-    public static dActiveMobExt getFrom(dObject o) {
+    public static dEntityExt getFrom(dObject o) {
     	if (!describes(o)) return null;
-    	return new dActiveMobExt((dEntity)o);
+    	return new dEntityExt((dEntity)o);
     }
     
 	

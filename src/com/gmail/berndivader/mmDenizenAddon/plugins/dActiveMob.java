@@ -2,7 +2,6 @@ package com.gmail.berndivader.mmDenizenAddon.plugins;
 
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
@@ -95,7 +94,7 @@ public class dActiveMob implements dObject, Adjustable {
 			return new Element(am.getEntity().getMaxHealth()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("faction")) {
 			return new Element(am.getFaction()).getAttribute(a.fulfill(1));
-		} else if (a.startsWith("stance")) {
+		} else if (a.startsWith("faction")) {
 			return new Element(am.getStance()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("level")) {
 			return new Element(am.getLevel()).getAttribute(a.fulfill(1));
@@ -111,7 +110,6 @@ public class dActiveMob implements dObject, Adjustable {
 
 	@Override
 	public void applyProperty(Mechanism mech) {
-		Bukkit.getLogger().warning("Cannot apply properties to a ActiveMob.");
 	}
 
 	@Override
