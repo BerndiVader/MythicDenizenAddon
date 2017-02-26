@@ -5,6 +5,13 @@
 ##### activemob
 ##### mythicspawner
 
+#### Commands for ActiveMobs:
+
+- spawnmythicmob mobtype:string <location> world:string level:integer save:string
+  - Required: mobtype (valid mythicmob) and location as dLocation
+  - Optional: world as string, level as integer and save as string
+  - Returns: <entry[savename].activemob> instance of the spawned mythicmob
+
 
 #### Expressions for dObject world:
 
@@ -152,3 +159,39 @@
 
 - adjust activemob playerkills:integer
   - set playerkills
+
+- adjust activemob health:integer
+  - set health
+  
+- adjust activemob maxhealth:integer
+  - set max health
+  
+  
+#### Adjustments for dObject mythicspawner:
+
+- adjust mythicspawner activate [true||false]
+  - Activate (true) or deactivate (false) the spawner
+  
+- adjust cooldown [integer]
+  - set the cooldown in seconds
+  
+- adjust remainingcooldown [integer]
+  - set the actual remaining cooldown in seconds
+  
+- adjust warmup [integer]
+  - set the warmup in seconds
+  
+- adjust remainingwarmup [integer]
+  - set the actual remaining warmup in seconds
+  
+- adjust mobtype [string]
+  - set the mobtype of the spawner to a valid mythicmob type
+  
+- adjust moblevel [integer]
+  - set the level of the spawner mob
+  
+- adjust spawn
+  - Make the spawner spawn
+  
+- adjust attach [dActiveMob]
+  - Attach the given ActiveMob to the spawner if not already attached.

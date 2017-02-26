@@ -30,6 +30,32 @@ public class dMythicSpawner implements dObject, Adjustable {
 
 	@Override
 	public void adjust(Mechanism m) {
+		Element val = m.getValue();
+		if (m.matches("activate") && m.requireBoolean()) {
+			if (val.asBoolean()) {
+				ms.ActivateSpawner();
+			} else {
+				ms.Disable();
+			}
+		} else if (m.matches("remainingcooldown") && m.requireInteger()) {
+			ms.setRemainingCooldownSeconds(val.asLong());
+		} else if (m.matches("cooldown")&& m.requireInteger()) {
+			ms.setCooldownSeconds(val.asInt());
+		} else if (m.matches("remainingwarmup")&& m.requireInteger()) {
+			ms.setRemainingWarmupSeconds(val.asLong());
+		} else if (m.matches("warmup")&& m.requireInteger()) {
+			ms.setRemainingWarmupSeconds(val.asInt());
+		} else if (m.matches("mobtype")) {
+			if (MythicMobsAddon.isMythicMob(val.asString())) {
+				ms.setType(val.asString());
+			}
+		} else if (m.matches("moblevel")&& m.requireInteger()) {
+			ms.setMobLevel(val.asInt());
+		} else if (m.matches("spawn")) {
+			ms.Spawn();
+		} else if (m.matches("attachmob")&& m.requireObject(dActiveMob.class)) {
+			MythicMobsAddon.attachMobToSpawner(ms, val.asType(dActiveMob.class));
+		}
 	}
 	
 	@Override

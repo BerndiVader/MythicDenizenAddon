@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.berndivader.mmDenizenAddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mmDenizenAddon.Support;
+import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.MythicMobsSpawn;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
@@ -25,10 +26,15 @@ public class MythicMobsAddon extends Support {
 		registerObjects(dMythicSpawner.class, dActiveMob.class);
 		registerProperty(dEntityExt.class, dEntity.class);
 		registerProperty(dWorldExt.class, dWorld.class);
+		new MythicMobsSpawn().activate().as("spawnmythicmob").withOptions("- spawnmythicmob [mobtype:string] [location] (world:string) (level:integer)", 2);
 	}
 
 	public static boolean isActiveMob(UUID uuid) {
 		return MythicMobs.inst().getMobManager().isActiveMob(uuid);
+	}
+	
+	public static boolean isMythicMob(String type) {
+		return MythicMobs.inst().getMobManager().getMythicMob(type)!=null;
 	}
 
 	public static boolean isActiveMob(Entity e) {
@@ -159,5 +165,11 @@ public class MythicMobsAddon extends Support {
 			}
 		}
 		return ams;
+	}
+
+	public static void attachMobToSpawner(MythicSpawner ms, dActiveMob activeMob) {
+		ActiveMob am = activeMob.am;
+		am.setSpawner(ms);
+		if (!ms.getAssociatedMobs().contains(am.getUniqueId())) ms.trackMob(am);
 	}
 }

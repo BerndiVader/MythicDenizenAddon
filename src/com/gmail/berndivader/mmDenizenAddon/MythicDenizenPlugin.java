@@ -38,10 +38,7 @@ public class MythicDenizenPlugin extends JavaPlugin {
         supportManager = new SupportManager(plugin);
         try {
 			supportManager.register(Support.setPlugin(MythicMobsAddon.class, pm.getPlugin(Dependings.MythicMobs.toString())));
-		} catch (IllegalAccessException e) {
-			initError(e);
-			return;
-		} catch (InstantiationException e) {
+		} catch (Exception e) {
 			initError(e);
 			return;
 		}

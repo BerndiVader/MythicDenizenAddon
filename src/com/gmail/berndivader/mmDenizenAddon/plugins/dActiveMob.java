@@ -58,6 +58,10 @@ public class dActiveMob implements dObject, Adjustable {
 			am.setLevel(val.asInt());
 		} else if (m.matches("playerkills")) {
 			am.importPlayerKills(val.asInt());
+		} else if (m.matches("health")) {
+			am.getEntity().setHealth(val.asDouble());
+		} else if (m.matches("maxhealth")) {
+			am.getEntity().setMaxHealth(val.asDouble());
 		}
 	}
 
