@@ -91,32 +91,37 @@
 #### Expressions for dObject mythicspawner:
 
 - mythicspawner.location
-  - dLocation of Spawner
+  - Location of Spawner
   
 - mythicspawner.world
-  - dWorld of Spawner
+  - World of Spawner
   
 - mythicspawner.allactivemobs
-  - dList with all activemobs from spawner
+  - List with all activemobs from spawner
   
 - mythicspawner.mobtype
-  - String mobtype
+  - String MythicMob type
   
 - mythicspawner.moblevel
-  - Integer moblevel
+  - Integer level of the mob
   
 - mythicspawner.cooldown
-  - Integer cooldown
+  - Integer cooldown in seconds
+  
 - mythicspawner.remainingcooldown
-  - Integer cooldowncounter
+  - Integer remaining cooldown in seconds
+  
 - mythicspawner.warmup
-  - Integer warmup
+  - Integer warmup in seconds
+  
 - mythicspawner.remainingwarmup
-  - Integer warmupcounter
+  - Integer remeining warmup seconds
+  
 - mythicspawner.mobamount
-  - Integer mobamount
+  - Integer amount of spawned and living activemobs
+  
 - mythicspawner.maxmobamount
-  - Integer max mob amount
+  - Integer Max amount of mobs the spawner can spawn
 
   
 #### Adjustments for dObject activemob:
