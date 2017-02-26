@@ -7,7 +7,7 @@
 
 #### Commands for ActiveMobs:
 
-- spawnmythicmob mobtype:string <location> world:string level:integer save:string
+- spawnmythicmob mobtype:string location world:string level:integer save:string
   - Required: mobtype (valid mythicmob) and location as dLocation
   - Optional: world as string, level as integer and save as string
   - Returns: <entry[savename].activemob> instance of the spawned mythicmob
