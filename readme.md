@@ -104,10 +104,10 @@ on player clicks:
 #### Attributes for dObject world:
 
 - world.allactivemobs
-  - Returns a dList<ActiveMob> of all ActiveMobs in the given world
+  - Returns a dList of all ActiveMobs in the given world
   
 - world.allmythicspawners
-  - Returns a dList<dMythicSpawner> of all MythicSpawners in the given world
+  - Returns a dList of all MythicSpawners in the given world
 
 
 #### Attributes for dObject entity:
@@ -255,29 +255,29 @@ on player clicks:
   
 #### Adjustments for dObject mythicspawner:
 
-- adjust mythicspawner activate [true||false]
+- adjust mythicspawner activate true||false
   - Activate (true) or deactivate (false) the spawner
   
-- adjust cooldown [integer]
+- adjust cooldown integer
   - set the cooldown in seconds
   
-- adjust remainingcooldown [integer]
+- adjust remainingcooldown integer
   - set the actual remaining cooldown in seconds
   
-- adjust warmup [integer]
+- adjust warmup integer
   - set the warmup in seconds
   
-- adjust remainingwarmup [integer]
+- adjust remainingwarmup integer
   - set the actual remaining warmup in seconds
   
-- adjust mobtype [string]
+- adjust mobtype string
   - set the mobtype of the spawner to a valid mythicmob type
   
-- adjust moblevel [integer]
+- adjust moblevel integer
   - set the level of the spawner mob
   
 - adjust spawn
   - Make the spawner spawn
   
-- adjust attach [dActiveMob]
+- adjust attach dActiveMob
   - Attach the given ActiveMob to the spawner if not already attached.
