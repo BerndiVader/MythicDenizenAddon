@@ -43,10 +43,10 @@ Denizen script:
 
 on player clicks:
   - if <player.target> != NULL {
-    - mmplayercast caster:<player.entity> skill:Damage target:<player.target>
+    - mmcastplayer caster:<player.entity> skill:Damage target:<player.target>
   }
   - if <player.target> == NULL {
-    - mmplayercast caster:<player.entity> skill:Heal target:<player.entity> repeat:4 delay:20
+    - mmcastplayer caster:<player.entity> skill:Heal target:<player.entity> repeat:4 delay:20
   }
 
 ```
