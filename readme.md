@@ -15,6 +15,11 @@
 - mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)
   - Required: caster (valid activemob), target a entity or location, skill string with valid metaskill
   - Optional: trigger as Entity (default = caster), power as float (default=1)
+  
+- mmsignal [activemob:dActiveMob] [singal:string] (trigger:dEntity)
+  - Required: activemob (valid activemob), signal as a string
+  - Optional: trigger as dEntity (default = self)
+
 
 #### Commands for Players:
   
