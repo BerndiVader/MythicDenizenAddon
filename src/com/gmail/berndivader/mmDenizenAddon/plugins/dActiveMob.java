@@ -20,8 +20,8 @@ import net.aufdemrand.denizencore.tags.TagContext;
 public class dActiveMob implements dObject, Adjustable {
 	
 	private String prefix;
-	ActiveMob am;
-	Entity entity;
+	public ActiveMob am;
+	public Entity entity;
 
 	public dActiveMob(ActiveMob activeMob) {
 		if (activeMob==null) return;

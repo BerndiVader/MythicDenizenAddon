@@ -9,7 +9,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.berndivader.mmDenizenAddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mmDenizenAddon.Support;
+import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.ActiveMobSkillCast;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.MythicMobsSpawn;
+import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.PlayerSkillCast;
+import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.SendSignal;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
@@ -26,7 +29,10 @@ public class MythicMobsAddon extends Support {
 		registerObjects(dMythicSpawner.class, dActiveMob.class);
 		registerProperty(dEntityExt.class, dEntity.class);
 		registerProperty(dWorldExt.class, dWorld.class);
-		new MythicMobsSpawn().activate().as("spawnmythicmob").withOptions("- spawnmythicmob [mobtype:string] [location] (world:string) (level:integer)", 2);
+		new MythicMobsSpawn().activate().as("mmspawnmob").withOptions("- mmspawnmob [mobtype:string] [location] (world:string) (level:integer)", 2);
+		new ActiveMobSkillCast().activate().as("mmcastmob").withOptions("- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);
+		new SendSignal().activate().as("mmsignal").withOptions("- mmsignal [activemob:dActiveMob] [singal:string] (trigger:dEntity)", 2);
+		new PlayerSkillCast().activate().as("mmplayercast").withOptions("- mmplayercast [player:dPlayer] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)", 3);
 	}
 
 	public static boolean isActiveMob(UUID uuid) {

@@ -7,13 +7,54 @@
 
 #### Commands for ActiveMobs:
 
-- spawnmythicmob mobtype:string location world:string level:integer save:string
+- mmspawnmob mobtype:string location world:string level:integer save:string
   - Required: mobtype (valid mythicmob) and location as dLocation
   - Optional: world as string, level as integer and save as string
   - Returns: <entry[savename].activemob> instance of the spawned mythicmob
+  
+- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)
+  - Required: caster (valid activemob), target a entity or location, skill string with valid metaskill
+  - Optional: trigger as Entity (default = caster), power as float (default=1)
+  
+- mmplayercast [caster:dEntity] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)
+  - Required: caster as dEntitiy of Player, skill string with valid metaskill, target dEntity or dLocation
+  - Optional: trigger as dEntity (default = caster), repeat as integer, delay ticks as integer
+
+```
+mythicmobs skill yml:
+
+Heal:
+  Skills:
+  - effect:particles{particle=heart;amount=8;vSpread=0.5;hSpread=0.5;Spped=0.01;yoffset=1} @self
+  - heal{a=2;overheal=false} @self
+
+Damage:
+  TargetConditions:
+  - lineofsight true
+  - distance{d=<10} true
+  - distance{d=>3} true
+  Skills:
+  - effect:particleline{particle=lava;amount=20;vSpread=0.10;hSpread=0.10;Speed=0.2;yoffset=1;ystartoffset=0;distancebetween=1} @target
+  - damage @target
+  
+Denizen script:
+
+on player clicks:
+  - if <player.target> != NULL {
+    - mmplayercast caster:<player.entity> skill:Damage target:<player.target>
+  }
+  - if <player.target> == NULL {
+    - mmplayercast caster:<player.entity> skill:Heal target:<player.entity> repeat:4 delay:20
+  }
+
+```
+  
+- mmsignal [activemob:dActiveMob] [signal:string] (trigger:dEntity)
+  - Required: activemob (valid activemob), signal as string
+  - Optional: trigger as entity (default = activemob)
 
 
-#### Expressions for dObject world:
+#### Attributes for dObject world:
 
 - world.allactivemobs
   - Returns a dList<ActiveMob> of all ActiveMobs in the given world
@@ -22,7 +63,7 @@
   - Returns a dList<dMythicSpawner> of all MythicSpawners in the given world
 
 
-#### Conditions for dObject entity:
+#### Attributes for dObject entity:
 
 - entity.isactivemob
   - Returns true if activemob or false if not.
@@ -30,7 +71,7 @@
 - entity.activemob
   - Returns the activemob instance of the entity.
 
-#### Conditions for dObject activemob:
+#### Attributes for dObject activemob:
 
 - activemob.isdead
   - True or False if activemob is dead.
@@ -43,8 +84,6 @@
 
 - activemob.hastarget
   - Returns true if the activemob has a target
-
-#### Expressions for dObject activemob:
 
 - activemob.mobtype
   - MobType of the ActiveMob as string
@@ -95,7 +134,7 @@
   - mythicspawner object if activemob has a customspawner
 
   
-#### Expressions for dObject mythicspawner:
+#### Attributes for dObject mythicspawner:
 
 - mythicspawner.location
   - Location of Spawner
