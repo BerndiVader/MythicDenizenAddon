@@ -5,6 +5,51 @@
 ##### activemob
 ##### mythicspawner
 
+#### CustomConditions:
+
+- on mm denizen condition:
+  - Returns: context.type context.entity context.location context.condition context.args context.meet
+  
+  - context.type is "e" for entity condition or "l" for location condition
+  - context.entity if type = e : the entity can be the caster or if used as targetcondtion the target
+  - context.location if type = l : the location to work with
+  - context.condition the name of the condition.
+  - context.args the arguments for the condition.
+  
+  - determine true or false where true meet the condition
+  
+  - event is fired if in the skill yml under conditions the dcondition is present.
+  
+```
+Example:
+
+mythicmobs skill yml:
+
+niceweather:
+  Conditions:
+  - dcondition{c=weather;args=sunny}
+  - dcondition{c=time;args=day}
+  Skills:
+  - message{msg="Nice weather today, isnt it <target.name>?"}
+  
+denizen part:
+
+    on mm denizen condition:
+	  - if <context.condition> == "time" {
+	    - if <context.args> != <context.entity.world.time.period> {
+		  - determine false
+		}
+	  }
+	  - if <context.condition> == "weather" {
+	    - if <context.args> == "sunny" {
+		  - if <context.entity.world.has_storm> == true {
+		    - determine false
+		  }
+		}
+	  }
+```
+  
+
 #### Commands for ActiveMobs:
 
 - mmspawnmob mobtype:string location world:string level:integer save:string

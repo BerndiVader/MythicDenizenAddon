@@ -26,9 +26,13 @@ public class MythicMobsAddon extends Support {
 	
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
+		
 		registerObjects(dMythicSpawner.class, dActiveMob.class);
 		registerProperty(dEntityExt.class, dEntity.class);
 		registerProperty(dWorldExt.class, dWorld.class);
+		
+		registerScriptEvents(new DenizenConditionEvent());
+		
 		new MythicMobsSpawn().activate().as("mmspawnmob").withOptions("- mmspawnmob [mobtype:string] [location] (world:string) (level:integer)", 2);
 		new ActiveMobSkillCast().activate().as("mmcastmob").withOptions("- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);
 		new SendSignal().activate().as("mmsignal").withOptions("- mmsignal [activemob:dActiveMob] [singal:string] (trigger:dEntity)", 2);
