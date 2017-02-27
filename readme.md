@@ -16,7 +16,7 @@
   - Required: caster (valid activemob), target a entity or location, skill string with valid metaskill
   - Optional: trigger as Entity (default = caster), power as float (default=1)
   
-- mmplayercast [caster:dEntity] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)
+- mmcastplayer [caster:dEntity] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)
   - Required: caster as dEntitiy of Player, skill string with valid metaskill, target dEntity or dLocation
   - Optional: trigger as dEntity (default = caster), repeat as integer, delay ticks as integer
 
