@@ -12,18 +12,18 @@
   - Optional: world as string, level as integer and save as string
   - Returns: <entry[savename].activemob> instance of the spawned mythicmob
   
-- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)
+- mmcastmob caster:dActiveMob target:dEntity||dLocation skill:string trigger:dEntity power:float
   - Required: caster (valid activemob), target a entity or location, skill string with valid metaskill
   - Optional: trigger as Entity (default = caster), power as float (default=1)
   
-- mmsignal [activemob:dActiveMob] [singal:string] (trigger:dEntity)
+- mmsignal activemob:dActiveMob singal:string trigger:dEntity
   - Required: activemob (valid activemob), signal as a string
   - Optional: trigger as dEntity (default = self)
 
 
 #### Commands for Players:
   
-- mmcastplayer [caster:dEntity] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)
+- mmcastplayer caster:dEntity skill:string target:dEntity||dLocation trigger:dEntity repeat:integer delay:integer
   - Required: caster as dEntitiy of Player, skill string with valid metaskill, target dEntity or dLocation
   - Optional: trigger as dEntity (default = caster), repeat as integer, delay ticks as integer
 
@@ -56,11 +56,6 @@ on player clicks:
 
 ```
   
-- mmsignal [activemob:dActiveMob] [signal:string] (trigger:dEntity)
-  - Required: activemob (valid activemob), signal as string
-  - Optional: trigger as entity (default = activemob)
-
-
 #### Attributes for dObject world:
 
 - world.allactivemobs
