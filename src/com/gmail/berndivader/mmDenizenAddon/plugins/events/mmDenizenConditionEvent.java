@@ -1,4 +1,4 @@
-package com.gmail.berndivader.mmDenizenAddon.plugins;
+package com.gmail.berndivader.mmDenizenAddon.plugins.events;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;

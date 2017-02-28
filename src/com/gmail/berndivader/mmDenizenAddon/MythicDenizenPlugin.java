@@ -5,7 +5,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmail.berndivader.mmDenizenAddon.plugins.MythicMobsAddon;
-import com.gmail.berndivader.mmDenizenAddon.plugins.RegisterEvents;
 
 public class MythicDenizenPlugin extends JavaPlugin {
 	private static MythicDenizenPlugin plugin;

@@ -13,10 +13,19 @@ import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.ActiveMobSkillCast;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.MythicMobsSpawn;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.PlayerSkillCast;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.SendSignal;
+import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenConditionEvent;
+import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenMythicMobSpawnEvent;
+import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenSkillEvent;
+import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dActiveMob;
+import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dEntityExt;
+import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dMythicMob;
+import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dMythicSpawner;
+import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dWorldExt;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
+import io.lumine.xikage.mythicmobs.mobs.MythicMob;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dWorld;
@@ -27,11 +36,13 @@ public class MythicMobsAddon extends Support {
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
 		
-		registerObjects(dMythicSpawner.class, dActiveMob.class);
+		registerObjects(dMythicSpawner.class, dActiveMob.class, dMythicMob.class);
 		registerProperty(dEntityExt.class, dEntity.class);
 		registerProperty(dWorldExt.class, dWorld.class);
 		
 		registerScriptEvents(new DenizenConditionEvent());
+		registerScriptEvents(new DenizenSkillEvent());
+		registerScriptEvents(new DenizenMythicMobSpawnEvent());
 		
 		new MythicMobsSpawn().activate().as("mmspawnmob").withOptions("- mmspawnmob [mobtype:string] [location] (world:string) (level:integer)", 2);
 		new ActiveMobSkillCast().activate().as("mmcastmob").withOptions("- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);
@@ -181,5 +192,9 @@ public class MythicMobsAddon extends Support {
 		ActiveMob am = activeMob.am;
 		am.setSpawner(ms);
 		if (!ms.getAssociatedMobs().contains(am.getUniqueId())) ms.trackMob(am);
+	}
+
+	public static MythicMob getMythicMob(String uniqueName) {
+		return MythicMobs.inst().getMobManager().getMythicMob(uniqueName);
 	}
 }

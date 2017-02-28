@@ -2,7 +2,7 @@ package com.gmail.berndivader.mmDenizenAddon.plugins.cmds;
 
 import org.bukkit.entity.Entity;
 
-import com.gmail.berndivader.mmDenizenAddon.plugins.dActiveMob;
+import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;

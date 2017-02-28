@@ -1,4 +1,4 @@
-package com.gmail.berndivader.mmDenizenAddon;
+package com.gmail.berndivader.mmDenizenAddon.plugins.obj;
 
 import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.properties.Property;

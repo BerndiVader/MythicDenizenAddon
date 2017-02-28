@@ -4,6 +4,64 @@
 
 ##### activemob
 ##### mythicspawner
+##### mythicmob
+
+
+## Events:
+
+
+#### MythicMobsSpawnEvent:
+
+- mm denizen spawn
+  - returns: context.entity context.location context.level context.mobtype context.cancelled
+  
+  - entity = entity instance of activemob
+  - location = spawn location
+  - level = level of activemob
+  - mobtype = mobtype of activemob
+  - cancelled = if event is allready cancelled (cant be undo)
+  
+  - event can be cancelled by determine true
+
+  
+#### CustomMechanics:
+
+- on mm denizen mechanic:
+  - returns: context.skill context.args context.caster context.target context.targetlocation context.targettype context.trigger
+  
+  - context.skill = denizen skillname
+  - context.args = skill parameter
+  - context.caster = dEntity of the caster
+  - context.target = dEntity of target if target = entity
+  - context.targetlocatin = dLocation of target if target = location
+  - context.targettype = returns NONE for no targetskill, ENTITY for entitytarget or LOCATION for locationtarget
+  - context.trigger = dEntity of trigger
+  
+  - the event is fired if mythicmobs find the skill named "dskill"
+  
+```
+Example:
+
+mythicmobs mob yml:
+
+denizenmob:
+  Type: cow
+  Display: 'a MythicMobs Monkey'
+  Skills:
+  - dskill{s=skillname;a=this,is,for,the,args} @trigger ~onInteract 1
+  
+denizen script:
+
+	on mm denizen mechanic:
+	  - narrate <context.skill>
+	  - narrate <context.args>
+	  - narrate <context.caster>
+	  - narrate <context.target>
+	  - narrate <context.targetlocation>
+	  - narrate <context.trigger>
+	  - narrate <context.targettype>
+
+```
 
 #### CustomConditions:
 

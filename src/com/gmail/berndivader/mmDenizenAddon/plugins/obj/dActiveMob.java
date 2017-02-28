@@ -1,8 +1,10 @@
-package com.gmail.berndivader.mmDenizenAddon.plugins;
+package com.gmail.berndivader.mmDenizenAddon.plugins.obj;
 
 import java.util.UUID;
 
 import org.bukkit.entity.Entity;
+
+import com.gmail.berndivader.mmDenizenAddon.plugins.MythicMobsAddon;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;

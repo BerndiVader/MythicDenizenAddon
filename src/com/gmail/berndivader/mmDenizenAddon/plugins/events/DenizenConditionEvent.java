@@ -1,4 +1,4 @@
-package com.gmail.berndivader.mmDenizenAddon.plugins;
+package com.gmail.berndivader.mmDenizenAddon.plugins.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -23,9 +23,8 @@ public class DenizenConditionEvent extends BukkitScriptEvent implements Listener
 	private Element args;
 	private Element type;
 	private Element condition;
-	private dEntity dentity;
-	private dLocation dlocation;
-
+	private dEntity dentity=null;
+	private dLocation dlocation=null;
 	
 	public DenizenConditionEvent() {
 		instance = this;

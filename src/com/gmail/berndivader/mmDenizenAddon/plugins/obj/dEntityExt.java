@@ -1,7 +1,7 @@
-package com.gmail.berndivader.mmDenizenAddon.plugins;
+package com.gmail.berndivader.mmDenizenAddon.plugins.obj;
 
 
-import com.gmail.berndivader.mmDenizenAddon.dObjectExtension;
+import com.gmail.berndivader.mmDenizenAddon.plugins.MythicMobsAddon;
 
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizencore.objects.Element;

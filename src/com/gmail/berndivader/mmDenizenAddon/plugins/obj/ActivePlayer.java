@@ -1,4 +1,4 @@
-package com.gmail.berndivader.mmDenizenAddon.plugins;
+package com.gmail.berndivader.mmDenizenAddon.plugins.obj;
 
 import org.bukkit.entity.Entity;
 

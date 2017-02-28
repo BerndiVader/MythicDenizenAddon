@@ -1,4 +1,6 @@
-package com.gmail.berndivader.mmDenizenAddon.plugins;
+package com.gmail.berndivader.mmDenizenAddon.plugins.obj;
+
+import com.gmail.berndivader.mmDenizenAddon.plugins.MythicMobsAddon;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;

@@ -8,7 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.berndivader.mmDenizenAddon.MythicDenizenPlugin;
-import com.gmail.berndivader.mmDenizenAddon.plugins.ActivePlayer;
+import com.gmail.berndivader.mmDenizenAddon.plugins.obj.ActivePlayer;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
