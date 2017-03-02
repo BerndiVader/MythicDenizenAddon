@@ -10,6 +10,33 @@
 ## Events:
 
 
+#### MythicMobsDeathEvent:
+
+- mm denizen death
+  - returns: context.activemob context.entity context.killer context.drops context.money context.exp
+  
+  - entity = entity of victim
+  - activemob = instance of victim
+  - killer = entity of killer
+  - drops = mythicmobs drops of event as list
+  - money = money drop as value
+  - exp = exp drop as value
+  
+  - determine: the following event values can be changed:
+  
+  - determine drops:dlist change the drops to this new list
+  - determine money:value change the money amount
+  - determine exp:value change the exp amount
+  
+```
+  on mm denizen death:
+    - determine money:100
+    - determine exp:200
+
+```
+
+  
+
 #### MythicMobsSpawnEvent:
 
 - mm denizen spawn
