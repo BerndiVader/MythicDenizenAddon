@@ -30,7 +30,7 @@ public class MythicDenizenPlugin extends JavaPlugin {
 			return;
 		}
     	String strMMVer = Bukkit.getServer().getPluginManager().getPlugin(Dependings.MythicMobs.toString()).getDescription().getVersion();
-		int mmVer = Integer.valueOf(strMMVer.replaceAll("\\.", ""));
+		int mmVer = Integer.valueOf(strMMVer.replaceAll("[\\D]", ""));
 		if (mmVer < 400) {
 			initFail("Only for MythicMobs 4 or higher!");
 			return;
