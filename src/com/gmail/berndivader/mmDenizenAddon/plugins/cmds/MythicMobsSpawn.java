@@ -57,7 +57,7 @@ public class MythicMobsSpawn extends AbstractCommand {
 		AbstractLocation location = BukkitAdapter.adapt(loc);
 		AbstractWorld world = BukkitAdapter.adapt(Bukkit.getServer().getWorld(worldName));
 		if (location==null || world == null) return;
-		AbstractLocation sl = new AbstractLocation(world, location.getX(), location.getY()+0.5, location.getZ());
+		AbstractLocation sl = new AbstractLocation(world, location.getX(), location.getY(), location.getZ());
 		ActiveMob am;
 		if ((am=MythicMobs.inst().getMobManager().spawnMob(mobtype, sl, level))==null) return;
 		entry.addObject("activemob", new dActiveMob(am));
