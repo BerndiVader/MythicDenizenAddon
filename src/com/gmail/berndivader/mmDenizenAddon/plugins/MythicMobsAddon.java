@@ -1,5 +1,6 @@
 package com.gmail.berndivader.mmDenizenAddon.plugins;
 
+import java.util.Iterator;
 import java.util.UUID;
 
 import org.bukkit.World;
@@ -24,6 +25,7 @@ import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dMythicSpawner;
 import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dWorldExt;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
+import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
@@ -198,5 +200,39 @@ public class MythicMobsAddon extends Support {
 
 	public static MythicMob getMythicMob(String uniqueName) {
 		return MythicMobs.inst().getMobManager().getMythicMob(uniqueName);
+	}
+
+	public static dList getThreatTable(ActiveMob am) {
+		if (!am.hasThreatTable()) return null;
+		dList tt = new dList();
+		Iterator<AbstractEntity> it = am.getThreatTable().getAllThreatTargets().iterator();
+		while (it.hasNext()) {
+			AbstractEntity ae = it.next();
+			tt.add(new dEntity(ae.getBukkitEntity()).identify());
+		}
+		return tt;
+	}
+
+	public static double getThreatValueOf(ActiveMob am, dEntity dentity) {
+		AbstractEntity ae = BukkitAdapter.adapt(dentity.getBukkitEntity());
+		if (am.hasThreatTable() && am.getThreatTable().getAllThreatTargets().contains(ae)) {
+			return am.getThreatTable().getThreat(ae);
+		}
+		return 0;
+	}
+
+	public static void modThreatOfEntity(ActiveMob am, dEntity dentity, double amount, String action) {
+		AbstractEntity ae = BukkitAdapter.adapt(dentity.getBukkitEntity());
+		if (action.equals("incthreat")) {
+			am.getThreatTable().threatGain(ae, amount);
+		} else {
+			am.getThreatTable().threatLoss(ae, amount);
+		}
+		return;
+	}
+
+	public static void removeThreatOfEntity(ActiveMob am, dEntity dentity) {
+		AbstractEntity ae = BukkitAdapter.adapt(dentity.getBukkitEntity());
+		am.getThreatTable().getAllThreatTargets().remove(ae);
 	}
 }

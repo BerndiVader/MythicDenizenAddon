@@ -64,6 +64,23 @@ public class dActiveMob implements dObject, Adjustable {
 			am.getEntity().setHealth(val.asDouble());
 		} else if (m.matches("maxhealth")) {
 			am.getEntity().setMaxHealth(val.asDouble());
+	    // @adjust <activemob.incthreat> <dEntity>|double
+		} else if (m.matches("incthreat") || m.matches("decthreat")) {
+			String[] parse = val.asString().split("\\|");
+			if (parse.length<2) return;
+			Element entity = new Element(parse[0]);
+			Element value = new Element(parse[1]);
+			if (entity.matchesType(dEntity.class) && value.isDouble())  {
+				MythicMobsAddon.modThreatOfEntity(am, entity.asType(dEntity.class), value.asDouble(), m.getName());
+			};
+	    // @adjust <activemob.clearthreat>
+		} else if (m.matches("clearthreat")) {
+			am.getThreatTable().getAllThreatTargets().clear();
+	    // @adjust <activemob.removethreat> <dEntity>
+		} else if (m.matches("removethreat")) {
+			if (val.matchesType(dEntity.class)) {
+				MythicMobsAddon.removeThreatOfEntity(am, val.asType(dEntity.class));
+			}
 		}
 	}
 
@@ -74,6 +91,14 @@ public class dActiveMob implements dObject, Adjustable {
 			return new Element(MythicMobsAddon.isDead(entity)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hasthreattable")) {
 			return new Element(MythicMobsAddon.hasThreatTable(entity)).getAttribute(a.fulfill(1));
+	    // @attribute <activemob.threattable>
+        // @returns dList<dEntity>
+		} else if (a.startsWith("threattable")) {
+			return MythicMobsAddon.getThreatTable(am).getAttribute(a.fulfill(1));
+	    // @attribute <activemob.threatvalueof[<dEntity]>
+        // @returns Element(double)
+		} else if (a.startsWith("threatvalueof") && a.hasContext(1)) {
+			return new Element(MythicMobsAddon.getThreatValueOf(am, dEntity.valueOf(a.getContext(1)))).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hastarget")) {
 			return new Element(MythicMobsAddon.hasTarget(am)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hasmythicspawner")) {

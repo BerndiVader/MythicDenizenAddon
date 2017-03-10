@@ -6,7 +6,7 @@
 	<classpathentry kind="lib" path="X:/SpigotJars/1_11_2/Spigot-API/target/spigot-api-1.11.2-R0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="X:/SpigotJars/1_11_2/Spigot-API/target/spigot-api-1.11.2-R0.1-SNAPSHOT-shaded.jar"/>
 	<classpathentry kind="lib" path="X:/SpigotJars/denizen-1.0.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="X:/SpigotJars/Citizens.jar"/>
-	<classpathentry kind="lib" path="X:/SpigotJars/MythicMobs-4.1.0-2014.jar" sourcepath="X:/maven/MythicMobs-4.1.0-2014_source_from_cfr"/>
+	<classpathentry kind="lib" path="X:/SpigotJars/MythicMobs-4.0.1-release.jar" sourcepath="X:/maven/MythicMobs-4.0.1-1973_source_from_cfr"/>
+	<classpathentry kind="lib" path="X:/SpigotJars/Citizens2-0-21.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

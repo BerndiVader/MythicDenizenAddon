@@ -264,6 +264,12 @@ on player clicks:
   
 - activemob.mythicspawner
   - mythicspawner object if activemob has a customspawner
+  
+- activemob.threattable
+  - returns dList of dEntity in activemobs threattable
+  
+- activemob.threatvalueof[<dEntity>]
+  - returns threat amount as double of dEntity out of activemobs threattable
 
   
 #### Attributes for dObject mythicspawner:
@@ -336,6 +342,19 @@ on player clicks:
   
 - adjust activemob maxhealth:integer
   - set max health
+  
+- adjust activemob incthreat:<dEntity>|amount
+  - add amount to threat dEntity of activemob
+  
+- adjust activemob decthreat:<dEntity>|amount
+  - dec amount to threat dEntity of activemob
+  
+- adjust activemob removethreat:<dEntity>
+  - remove dEntity from activemobs threattable
+  
+- adjust activemob clearthreat
+  - clear the whole threattable
+
   
   
 #### Adjustments for dObject mythicspawner:
