@@ -64,7 +64,7 @@ public class dActiveMob implements dObject, Adjustable {
 			am.getEntity().setHealth(val.asDouble());
 		} else if (m.matches("maxhealth")) {
 			am.getEntity().setMaxHealth(val.asDouble());
-	    // @adjust <activemob.incthreat> <dEntity>|double
+	    // @adjust <DActiveMob> incthreat <dEntity>|double
 		} else if (m.matches("incthreat") || m.matches("decthreat")) {
 			String[] parse = val.asString().split("\\|");
 			if (parse.length<2) return;
@@ -73,10 +73,10 @@ public class dActiveMob implements dObject, Adjustable {
 			if (entity.matchesType(dEntity.class) && value.isDouble())  {
 				MythicMobsAddon.modThreatOfEntity(am, entity.asType(dEntity.class), value.asDouble(), m.getName());
 			};
-	    // @adjust <activemob.clearthreat>
+	    // @adjust <dActiveMob> clearthreat
 		} else if (m.matches("clearthreat")) {
 			am.getThreatTable().getAllThreatTargets().clear();
-	    // @adjust <activemob.removethreat> <dEntity>
+	    // @adjust <dActiveMob> removethreat <dEntity>
 		} else if (m.matches("removethreat")) {
 			if (val.matchesType(dEntity.class)) {
 				MythicMobsAddon.removeThreatOfEntity(am, val.asType(dEntity.class));
@@ -127,7 +127,7 @@ public class dActiveMob implements dObject, Adjustable {
 			return new Element(am.getEntity().getMaxHealth()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("faction")) {
 			return new Element(am.getFaction()).getAttribute(a.fulfill(1));
-		} else if (a.startsWith("faction")) {
+		} else if (a.startsWith("stance")) {
 			return new Element(am.getStance()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("level")) {
 			return new Element(am.getLevel()).getAttribute(a.fulfill(1));
