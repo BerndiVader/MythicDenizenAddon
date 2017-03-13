@@ -81,6 +81,14 @@ public class dActiveMob implements dObject, Adjustable {
 			if (val.matchesType(dEntity.class)) {
 				MythicMobsAddon.removeThreatOfEntity(am, val.asType(dEntity.class));
 			}
+	    // @adjust <dActiveMob> newtargetthreattable
+		} else if (m.matches("newtargetthreattable")) {
+			am.getThreatTable().clearTarget();
+			am.getThreatTable().dropCombat();
+			am.getThreatTable().targetHighestThreat();
+        // @adjust <dActiveMob> getnewtarget
+		} else if (m.matches("getnewtarget")) {
+			am.getNewTarget();
 		}
 	}
 

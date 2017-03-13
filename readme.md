@@ -354,6 +354,12 @@ on player clicks:
   
 - adjust activemob clearthreat
   - clear the whole threattable
+  
+- adjust activemob newtargetthreattable
+  - search a new target for activemobs with threattable
+  
+- adjust activemob getnewtarget	
+  - search new target for activemobs without threattable
 
   
   
