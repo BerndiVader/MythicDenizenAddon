@@ -5,6 +5,7 @@
 ##### activemob
 ##### mythicspawner
 ##### mythicmob
+##### team
 
 
 ## Events:
@@ -391,3 +392,156 @@ on player clicks:
   
 - adjust attach dActiveMob
   - Attach the given ActiveMob to the spawner if not already attached.
+  
+  
+## Scoreboard Teams Support:
+
+#### Commands:
+
+- createTeam name:string
+  - createteam name:TeamName save:store]
+  - Returns <entry[store].team>
+  - Use this command to create a new team  on the main scoreboard. Max length of the teamname is 16 chars.
+  
+- getAllTeams
+  - getallteams save:teamlist
+  - This example returns a dlist of all teams from the main scoreboard.
+  
+- getEntityByEntry entry:string 
+  - getentitybyentry entry:uuid||playername save:store
+  - Returns <entry[store].entity> Get the entity of the team entry.
+  - Returns false if the entry is no longer present: Is removed or offline in case of a player.
+  
+- getTeam
+  - name:string
+  - getteam name:TeamName save:store
+  - Returns <entry[store].team> dTeam instance of the given team if present.
+  
+- removeTeam
+  - name:string
+  - removeteam name:TeamName
+  - Remove the team from the main scoreboard.
+  
+#### dEntity Attributes:
+
+- dEntity.hasteam
+  - boolean
+  - Returns true if the entity is in a team or false if not.
+  
+- dEntity.team
+  - dTeam
+  - Get the dTeam instance of entities team.
+
+#### dEntity Adjustments:
+
+- jointeam
+  - string
+  - adjust dEntity jointeam:teamname
+  - Make the entity join the given team. The entity will be removed from any other team and join the new team.
+  
+- leaveteam
+  - adjust dEntity leaveteam
+  - Remove the entity from the team it is part of.
+  
+#### dTeam Attributes:
+
+- dTeam.name
+  - string
+  - Returns the internal name of the team.
+  
+- dTeam.displayname
+  - string
+  - Returns the display name of the team.
+  
+- dTeam.members
+  - dList string
+  - Returns a string dlist with the entries of the team. UUID's for the entities and if instanceof player the player name.
+  
+- dTeam.collision
+  - string
+  - Returns the OptionType of the COLLISION_RULE.
+  - Possible values: ALWAYS || NEVER || FOR_OTHER_TEAMS || FOR_OWN_TEAM
+  
+- dTeam.deathmessage
+  - string
+  - Returns the OptionType of DEATH_MESSAGE_VISIBILITY.
+  - Possible values: ALWAYS || NEVER || FOR_OTHER_TEAMS || FOR_OWN_TEAM
+  
+- dTeam.nametag
+  - string
+  - Returns the OptionType of NAME_TAG_VISIBILITY.
+  - Possible values: ALWAYS || NEVER || FOR_OTHER_TEAMS || FOR_OWN_TEAM
+  
+- dTeam.friendlyfire
+  - boolean
+  - Retruns true or false whatever friendlyfire is on or off.
+  
+- dTeam.friendlyinvisibles
+  - boolean
+  - Returns true or false if invisible teammembers shall be visible to all members.
+  
+- dTeam.prefix
+  - string
+  - Get the prefix of the team.
+  
+- dTeam.suffix
+  - string
+  - Get the suffix of the team.
+  
+#### dTeam Adjustments:
+
+- addmember
+  - dEntity
+  - adjust dTeam addmember:dEntity
+  - Add the dEntity to the dTeam.
+  
+- delmember
+  - string
+  - adjust dTeam delmember:EntryName
+  - Remove the entry from the dTeam. If only the dEntity is present, use getentitybyentry command to get the entryname of the entity.
+  
+- displayname
+  - string
+  - adjust dTeam displayname:newName
+  - Change the displayname of the team.
+  
+- collision
+  - string
+  - adjust dTeam collision:OptionType
+  - Change the COLLISION_RULE for the team.
+  - Possible values: ALWAYS || NEVER || FOR_OTHER_TEAMS || FOR_OWN_TEAM
+  
+- deathmessage
+  - string
+  - adjust dTeam deathmessage:OptionType
+  - Change the DEATH_MESSAGE_VISIBILITY.
+  - Possible values: ALWAYS || NEVER || FOR_OTHER_TEAMS || FOR_OWN_TEAM
+  
+- nametag
+  - string
+  - adjust dTeam nametag:OptionType
+  - Change the NAME_TAG_VISIBILITY.
+  - Possible values: ALWAYS || NEVER || FOR_OTHER_TEAMS || FOR_OWN_TEAM
+  
+- friendlyinvisibles
+  - boolean
+  - adjust dteam friendlyinvisibles:boolean
+  - Change if invisible teammembers are shown to all teammembers.
+  - Possible values: true/false
+  
+- friendlyfire
+  - boolean
+  - adjust dTeam friendlyfire:boolean
+  - Enable or disable friendlyfire.
+  - Possible values: true/false
+  
+- prefix
+  - string
+  - adjust dTeam prefix:newprefix
+  - Set the prefix for the team. Default is empty.
+  
+- suffix
+  - string
+  - adjust dTeam suffix:newsuffix
+  - Set the suffix for the team. Default is empty.
+  

@@ -5,6 +5,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmail.berndivader.mmDenizenAddon.plugins.MythicMobsAddon;
+import com.gmail.berndivader.mmDenizenAddon.plugins.ScoreBoardsAddon;
 
 public class MythicDenizenPlugin extends JavaPlugin {
 	private static MythicDenizenPlugin plugin;
@@ -39,6 +40,7 @@ public class MythicDenizenPlugin extends JavaPlugin {
         supportManager = new SupportManager(plugin);
         try {
 			supportManager.register(Support.setPlugin(MythicMobsAddon.class, pm.getPlugin(Dependings.MythicMobs.toString())));
+			supportManager.register(Support.setPlugin(ScoreBoardsAddon.class, pm.getPlugin(Dependings.MythicMobs.toString())));
 		} catch (Exception e) {
 			initError(e);
 			return;

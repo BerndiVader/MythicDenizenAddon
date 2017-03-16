@@ -64,7 +64,7 @@ public class dActiveMob implements dObject, Adjustable {
 			am.getEntity().setHealth(val.asDouble());
 		} else if (m.matches("maxhealth")) {
 			am.getEntity().setMaxHealth(val.asDouble());
-	    // @adjust <DActiveMob> incthreat <dEntity>|double
+	    // @adjust <dActiveMob> incthreat <dEntity>|double
 		} else if (m.matches("incthreat") || m.matches("decthreat")) {
 			String[] parse = val.asString().split("\\|");
 			if (parse.length<2) return;

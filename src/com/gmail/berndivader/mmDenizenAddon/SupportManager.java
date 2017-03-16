@@ -1,9 +1,7 @@
 package com.gmail.berndivader.mmDenizenAddon;
 
-import net.aufdemrand.denizen.objects.dNPC;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizen.utilities.debugging.dB;
-import net.aufdemrand.denizen.utilities.depends.Depends;
 import net.aufdemrand.denizencore.events.ScriptEvent;
 import net.aufdemrand.denizencore.objects.ObjectFetcher;
 import net.aufdemrand.denizencore.objects.dObject;
@@ -43,9 +41,9 @@ public class SupportManager {
             for (Map.Entry<Class<? extends Property>, Class<? extends dObject>[]> prop
                     : support.getProperties().entrySet()) {
                 for (Class<? extends dObject> obj : prop.getValue()) {
-                    if (obj.equals(dNPC.class) && Depends.citizens == null) {
-                        continue;
-                    }
+//                    if (obj.equals(dNPC.class) && Depends.citizens == null) {
+//                        continue;
+//                    }
                     propertyParser.registerProperty(prop.getKey(), obj);
                 }
             }
