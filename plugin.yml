@@ -1,4 +1,4 @@
 name: mmDenizenAddon
 main: com.gmail.berndivader.mmDenizenAddon.MythicDenizenPlugin
-version: 0.45a
+version: 0.46a
 softdepend: [MythicMobs, Denizen]

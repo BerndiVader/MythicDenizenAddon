@@ -6,6 +6,7 @@ import org.bukkit.entity.Entity;
 
 import com.gmail.berndivader.mmDenizenAddon.plugins.MythicMobsAddon;
 
+import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import net.aufdemrand.denizen.objects.dEntity;
@@ -89,6 +90,9 @@ public class dActiveMob implements dObject, Adjustable {
         // @adjust <dActiveMob> getnewtarget
 		} else if (m.matches("getnewtarget")) {
 			am.getNewTarget();
+        // @adjust <dActiveMob> setimmunitycooldown:<dEntity>
+		} else if (m.matches("setimmunitycooldown") && m.requireObject(dEntity.class)) {
+			am.getImmunityTable().setCooldown(BukkitAdapter.adapt(val.asType(dEntity.class).getBukkitEntity()));
 		}
 	}
 
@@ -145,6 +149,27 @@ public class dActiveMob implements dObject, Adjustable {
 			return new Element(am.getLastSignal()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("type")) {
 			return new Element("ActiveMob").getAttribute(a.fulfill(1));
+	    // @attribute <activemob.damage>
+        // @returns Element(double)
+		} else if (a.startsWith("damage")) {
+			return new Element(am.getDamage()).getAttribute(a.fulfill(1));
+	    // @attribute <activemob.power>
+        // @returns Element(float)
+		} else if (a.startsWith("power")) {
+			return new Element(am.getPower()).getAttribute(a.fulfill(1));
+	    // @attribute <activemob.lastdamageskillamount>
+        // @returns Element(double)
+		} else if (a.startsWith("lastdamageskillamount")) {
+			return new Element(am.getLastDamageSkillAmount()).getAttribute(a.fulfill(1));
+	    // @attribute <activemob.hasimmunitytable>
+        // @returns Element(boolean)
+		} else if (a.startsWith("hasimmunitytable")) {
+				return new Element(this.am.hasImmunityTable()).getAttribute(a.fulfill(1));
+	    // @attribute <activemob.isonimmunitycooldown[dEntity]>
+        // @returns Element(boolean)
+		} else if (a.startsWith("isonimmunitycooldown") && a.hasContext(1)) {
+			AbstractEntity ae = BukkitAdapter.adapt(dEntity.valueOf(a.getContext(1)).getBukkitEntity());
+			return new Element(am.getImmunityTable().onCooldown(ae)).getAttribute(a.fulfill(1));
 		}
 		return new Element(identify()).getAttribute(a);
 	}

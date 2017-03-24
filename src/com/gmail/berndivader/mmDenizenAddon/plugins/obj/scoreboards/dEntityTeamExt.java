@@ -32,10 +32,8 @@ public class dEntityTeamExt extends dObjectExtension {
 	@Override
 	public void adjust(Mechanism m) {
 		Element val = m.getValue();
-	    // @adjust <dEntity> jointeam:<teamName>
 		if (m.matches("jointeam")) {
 			ScoreBoardsAddon.EntityJoinTeam(this.entity, val.asString());
-		    // @adjust <dEntity> leaveteam:<teamName>
 		} else if (m.matches("leaveteam")) {
 			ScoreBoardsAddon.EntityLeaveTeam(this.entity);
 		}
@@ -44,14 +42,10 @@ public class dEntityTeamExt extends dObjectExtension {
     @Override
     public String getAttribute(Attribute a) {
     	Team team=null;
-		// @attribute <dEntity.hasteam>
-		// @returns Element<boolean>
     	if (a.startsWith("hasteam")) {
     		team = (this.entity instanceof Player)?ScoreBoardsAddon.scoreboard.getEntryTeam(this.entity.getName())
     				:ScoreBoardsAddon.scoreboard.getEntryTeam(this.entity.getUUID().toString());
     		return new Element(team!=null).getAttribute(a.fulfill(1));
-   		// @attribute <dEntity.team>
-   		// @returns dTeam
     	} else if (a.startsWith("team")) {
     		team = (this.entity instanceof Player)?ScoreBoardsAddon.scoreboard.getEntryTeam(this.entity.getName())
     				:ScoreBoardsAddon.scoreboard.getEntryTeam(this.entity.getUUID().toString());

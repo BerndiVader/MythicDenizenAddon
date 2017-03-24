@@ -26,17 +26,13 @@ public class ScoreBoardsAddon extends Support {
 
 		registerObjects(dTeam.class);
 		registerProperty(dEntityTeamExt.class, dEntity.class);
-
-		//@requirements
+		
 		new isTeamEntryOnline().activate().as("isentryonline").withOptions("- isentryonline [entry:string]", 1);
 
-		//@commands
 		new createTeam().activate().as("createteam").withOptions("- createteam [name:string]", 1);
 		new removeTeam().activate().as("removeteam").withOptions("- removeteam [name:string]", 1);
 		new getAllTeams().activate().as("getallteams").withOptions("- getallteams", 0);
-		//@return <dTeam.team>
 		new getTeam().activate().as("getteam").withOptions("- getteam [name:string]", 1);
-		//@return <dEntity.entity> or <boolean.entity>
 		new getEntityByEntry().as("getentitybyentry").withOptions("- getentitybyentry [entry:string]", 1);
 	}
 

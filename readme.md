@@ -203,7 +203,40 @@ on player clicks:
 
 - entity.activemob
   - Returns the activemob instance of the entity.
+  
+- entity.damage
+  - returns Element(double)
+  - Base damage (>1.9 only)
 
+- entity.followrange
+    - returns Element(double)
+	- Base followrange (>1.9 only)
+
+- entity.armor
+    - returns Element(double)
+	- Base armor (>1.9 only)
+	
+- entity.attackspeed
+    - returns Element(double)
+	- Base attackspeed (>1.9 only) 
+
+- entity.knockbackresist
+    - returns Element(double)
+	- Base knockback resistance (>1.9 only)
+	
+- entity.jumpstrength
+    - returns Element(double)
+	- Base jump strength if entity of horse type (>1.9 only)
+	
+- entity.maxnodamageticks
+    - returns Element(integer)
+	- Max amount of nodamageticks
+	
+- entity.nodamageticks
+    - returns Element(integer)
+	- Actual nodamageticks
+
+	
 #### Attributes for dObject activemob:
 
 - activemob.isdead
@@ -271,6 +304,26 @@ on player clicks:
   
 - activemob.threatvalueof[<dEntity>]
   - returns threat amount as double of dEntity out of activemobs threattable
+  
+- activemob.damage
+    - returns Element(double)
+	- max possible amount of damage the mob can make.
+	
+- activemob.power
+    - returns Element(float)
+	- Powerlevel of the mob
+	
+- activemob.lastdamageskillamount
+    - returns Element(double)
+	- Amount of damage from the last used damage skill.
+
+- activemob.hasimmunitytable
+    - returns Element(boolean)
+	- Check if the mob has immunitytable enabled.
+
+- activemob.isonimmunitycooldown[dEntity]
+    - returns Element(boolean)
+	- Check if the entity is on the mob's immunitytable.
 
   
 #### Attributes for dObject mythicspawner:
@@ -362,6 +415,26 @@ on player clicks:
 - adjust activemob getnewtarget	
   - search new target for activemobs without threattable
 
+- adjust dActiveMob setimmunitycooldown:dEntity
+    - set the mobs immunitycooldown for the entity.
+  
+
+#### Adjustments for dObject dEntity:
+
+- adjust dEntity followrange:double
+    - set follow range
+	
+- adjust dEntity damage:double
+    - set base damage
+
+- adjust dEntity armor:double
+    - set base armor (>1.9 only)
+	
+- adjust dEntity attackspeed:double
+    - set attack speed (>1.9 only)
+
+- adjust dEntity knockbackresist:double
+    - set knockback resistance
   
   
 #### Adjustments for dObject mythicspawner:
