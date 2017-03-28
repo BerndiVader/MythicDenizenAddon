@@ -51,6 +51,6 @@ public class dEntityTeamExt extends dObjectExtension {
     				:ScoreBoardsAddon.scoreboard.getEntryTeam(this.entity.getUUID().toString());
     		return new dTeam(team).getAttribute(a.fulfill(1));
     	}
-        return null;
+        return new Element(this.entity.identify()).getAttribute(a);
     }
 }

@@ -184,6 +184,6 @@ public class dEntityExt extends dObjectExtension {
        			return new Element(le.getNoDamageTicks()).getAttribute(a.fulfill(1));
     		}
     	}
-		return new Element(null).getAttribute(a.fulfill(1));
+        return new Element(this.entity.identify()).getAttribute(a);
     }
 }

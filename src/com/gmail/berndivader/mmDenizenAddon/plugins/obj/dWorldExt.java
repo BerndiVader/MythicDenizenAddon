@@ -3,6 +3,7 @@ package com.gmail.berndivader.mmDenizenAddon.plugins.obj;
 import com.gmail.berndivader.mmDenizenAddon.plugins.MythicMobsAddon;
 
 import net.aufdemrand.denizen.objects.dWorld;
+import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.tags.Attribute;
@@ -31,7 +32,7 @@ public class dWorldExt extends dObjectExtension {
     	} else if (a.startsWith("allmythicspawners")) {
     		return MythicMobsAddon.allMythicSpawners(world.getWorld()).getAttribute(a.fulfill(1));
     	}
-        return null;
+        return new Element(this.world.identify()).getAttribute(a);
     }
 
     @Override

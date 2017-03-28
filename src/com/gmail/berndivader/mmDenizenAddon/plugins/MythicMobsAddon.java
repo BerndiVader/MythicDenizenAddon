@@ -14,6 +14,7 @@ import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.ActiveMobSkillCast;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.MythicMobsSpawn;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.PlayerSkillCast;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.SendSignal;
+import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.TriggerSkill;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenConditionEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenMythicMobDeathEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenMythicMobSpawnEvent;
@@ -52,6 +53,7 @@ public class MythicMobsAddon extends Support {
 		new ActiveMobSkillCast().activate().as("mmcastmob").withOptions("- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);
 		new SendSignal().activate().as("mmsignal").withOptions("- mmsignal [activemob:dActiveMob] [singal:string] (trigger:dEntity)", 2);
 		new PlayerSkillCast().activate().as("mmcastplayer").withOptions("- mmcastplayer [player:dPlayer] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)", 3);
+		new TriggerSkill().activate().as("mmtrigger").withOptions("- mmtrigger [activemob:dActiveMob] [trigger:string] [entity:dEntity]", 3);
 	}
 
 	public static boolean isActiveMob(UUID uuid) {

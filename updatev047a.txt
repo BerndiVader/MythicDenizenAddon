@@ -1,0 +1,27 @@
+# Updates in v0.47a
+
+##### fixed ugly bug in all dClass extensions
+
+#### new command
+
+- mmtrigger [activemob:dActiveMob] [trigger:string] [entity:dEntity]
+- trigger the <activemob> with trigger <string> and triggerenttiy <dEntity>
+
+```
+Denizen part:
+
+	on entity damaged by projectile:
+	  - if <context.entity.isactivemob> == true && <context.projectile.name> == "arrow" {
+	    - mmtrigger activemob:<context.entity.activemob> trigger:boghit entity:<context.damager>
+	  }
+	  
+MythicMobs part:
+
+Monkey:
+  Type: zombie
+  Display: "MythicMobs Monkey"
+  Health: 40
+  Armor: 10
+  Skills:
+  - message{msg="Ouch! Stop shooting arrows at me!"} @trigger ~onBowHit 1
+```

@@ -1,4 +1,4 @@
-# Denizen Support for MythicMobs 4.x.x
+# Denizen Support for MythicMobs 4.0.1 or higher
 
 #### dObjects:
 
@@ -150,6 +150,30 @@ denizen part:
 - mmsignal activemob:dActiveMob singal:string trigger:dEntity
   - Required: activemob (valid activemob), signal as a string
   - Optional: trigger as dEntity (default = self)
+
+- mmtrigger [activemob:dActiveMob] [trigger:string] [entity:dEntity]
+  - Required activemob <dActiveMob>, trigger <string>, entity <dEntity> the entity which trigger the activemob
+  - trigger the <activemob> with trigger <string> and triggerenttiy <dEntity>
+  - Valid triggers are: DEFAULT, ATTACK, BOW_HIT, BLOCK, COMBAT, CROUCH, UNCROUCH, DAMAGED, DROPCOMBAT, DEATH, ENTERCOMBAT, EXPLODE, INTERACT, KILL, KILLPLAYER, PLAYERDEATH, SHOOT, SIGNAL, SPAWN, SPLASH_POTION, SWING, TARGETCHANGE, TELEPORT, TIMER, USE, READY
+```
+Denizen part:
+
+	on entity damaged by projectile:
+	  - if <context.entity.isactivemob> == true && <context.projectile.name> == "arrow" {
+	    - mmtrigger activemob:<context.entity.activemob> trigger:boghit entity:<context.damager>
+	  }
+	  
+MythicMobs part:
+
+Monkey:
+  Type: zombie
+  Display: "MythicMobs Monkey"
+  Health: 40
+  Armor: 10
+  Skills:
+  - message{msg="Ouch! Stop shooting arrows at me!"} @trigger ~onBowHit 1
+```
+
 
 
 #### Commands for Players:

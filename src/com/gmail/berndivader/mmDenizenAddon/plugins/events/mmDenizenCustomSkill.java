@@ -22,7 +22,12 @@ public class mmDenizenCustomSkill extends Event {
 	private TargetType targettype;
 
 	public mmDenizenCustomSkill(SkillCaster caster, Entity target, Location targetloc, AbstractEntity t, String s, String a) {
-		this.caster = caster; skill = s; args = a.substring(1, a.length()-1);
+		this.caster = caster; this.skill = s; 
+		if (a.length()>1 && (a.startsWith("\"") && a.endsWith("\""))) {
+			this.args = a.substring(1, a.length()-1);
+		} else {
+			this.args = a;
+		}
 		if (t!=null) trigger = t.getBukkitEntity();
 		this.targettype = TargetType.NONE;
 		if (target instanceof Entity) {
