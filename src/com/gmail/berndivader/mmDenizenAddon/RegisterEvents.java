@@ -23,6 +23,9 @@ public class RegisterEvents implements Listener {
 		if (e.getConditionName().toLowerCase().equals("dcondition")) {
 			SkillCondition c;
 			if ((c = new dConditionEvent(e.getConditionName(), e.getConfig())) != null) e.register(c);
+		} else if (e.getConditionName().toLowerCase().equals("dspawncondition")) {
+			SkillCondition c;
+			if ((c = new dSpawnConditionEvent(e.getConditionName(), e.getConfig())) != null) e.register(c);
 		}
 	}
 	

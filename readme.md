@@ -109,7 +109,19 @@ denizen script:
 ```
 Example:
 
-mythicmobs skill yml:
+for RandomSpawners (works with MyhticMobs SnapShot 2105 or higher): 
+
+RandomExampleSpawner:
+  Mobname: SkeletonKing
+  Worlds: world
+  Chance: 1
+  Priority: 1
+  Action: replace
+  Conditions:
+  - dspawncondition{c=weather;args=sunny}
+  - dspawncondition{c=time;args=day}
+  
+For Skills:
 
 niceweather:
   Conditions:
@@ -118,18 +130,32 @@ niceweather:
   Skills:
   - message{msg="Nice weather today, isnt it <target.name>?"}
   
-denizen part:
+For Denizen:
 
     on mm denizen condition:
 	  - if <context.condition> == "time" {
-	    - if <context.args> != <context.entity.world.time.period> {
-		  - determine false
+	    - if <context.type> == "e" {
+	      - if <context.args> != <context.entity.world.time.period> {
+		    - determine false
+		  }
+		}
+		if <context.type> == "l" {
+	      - if <context.args> != <context.location.world.time.period> {
+		    - determine false
+		  }
 		}
 	  }
 	  - if <context.condition> == "weather" {
 	    - if <context.args> == "sunny" {
-		  - if <context.entity.world.has_storm> == true {
-		    - determine false
+		  - if <context.type> == "e" {
+		    - if <context.entity.world.has_storm> == true {
+		      - determine false
+		    }
+		  }
+		  - if <context.type> == "l" {
+		    - if <context.location.world.has_storm> == true {
+		      - determine false
+		    }
 		  }
 		}
 	  }

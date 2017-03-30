@@ -1,0 +1,62 @@
+# Updates in v0.48a
+
+##### added dspawncondition for MythicMobs RandomSpawners to work with MythicMobs SnapShot 2105 or greater.
+
+#### new MythicMobs Condition:
+
+- dspawncondition{c=denizenconditionname;args=arguments}
+  - Meanwhile RandomSpawnerConditions only work with Location. So you always have to check with <context.location>
+  - Use <context.type> to check if its an EntityCondition or a LocationCondition.
+
+#### Example:  
+
+```
+RandomExampleSpawner:
+  Mobname: SkeletonKing
+  Worlds: world
+  Chance: 1
+  Priority: 1
+  Action: replace
+  Conditions:
+  - dspawncondition{c=weather;args=sunny}
+  - dspawncondition{c=time;args=day}
+  
+For Skills:
+
+niceweather:
+  Conditions:
+  - dcondition{c=weather;args=sunny}
+  - dcondition{c=time;args=day}
+  Skills:
+  - message{msg="Nice weather today, isnt it <target.name>?"}
+  
+For Denizen:
+
+    on mm denizen condition:
+	  - if <context.condition> == "time" {
+	    - if <context.type> == "e" {
+	      - if <context.args> != <context.entity.world.time.period> {
+		    - determine false
+		  }
+		}
+		if <context.type> == "l" {
+	      - if <context.args> != <context.location.world.time.period> {
+		    - determine false
+		  }
+		}
+	  }
+	  - if <context.condition> == "weather" {
+	    - if <context.args> == "sunny" {
+		  - if <context.type> == "e" {
+		    - if <context.entity.world.has_storm> == true {
+		      - determine false
+		    }
+		  }
+		  - if <context.type> == "l" {
+		    - if <context.location.world.has_storm> == true {
+		      - determine false
+		    }
+		  }
+		}
+	  }
+```
