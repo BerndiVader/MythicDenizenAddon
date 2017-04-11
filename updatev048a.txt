@@ -11,6 +11,9 @@
 #### Example:  
 
 ```
+
+MythicMobs part:
+
 RandomExampleSpawner:
   Mobname: SkeletonKing
   Worlds: world
@@ -21,16 +24,7 @@ RandomExampleSpawner:
   - dspawncondition{c=weather;args=sunny}
   - dspawncondition{c=time;args=day}
   
-For Skills:
-
-niceweather:
-  Conditions:
-  - dcondition{c=weather;args=sunny}
-  - dcondition{c=time;args=day}
-  Skills:
-  - message{msg="Nice weather today, isnt it <target.name>?"}
-  
-For Denizen:
+Denizen part:
 
     on mm denizen condition:
 	  - if <context.condition> == "time" {

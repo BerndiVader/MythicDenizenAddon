@@ -1,6 +1,5 @@
 package com.gmail.berndivader.mmDenizenAddon.plugins.obj;
 
-
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 
@@ -183,6 +182,10 @@ public class dEntityExt extends dObjectExtension {
     			LivingEntity le = this.entity.getLivingEntity();
        			return new Element(le.getNoDamageTicks()).getAttribute(a.fulfill(1));
     		}
+  	    // @attribute <entity.mmtargets[<String]>
+        // @returns dList(dEntity||dLocation)
+    	} else if (a.startsWith("mmtargets") && a.hasContext(1)) {
+			return MythicMobsAddon.getTargetsFor(this.entity.getBukkitEntity(), a.getContext(1)).getAttribute(a.fulfill(1));
     	}
         return new Element(this.entity.identify()).getAttribute(a);
     }

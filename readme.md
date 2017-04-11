@@ -1,5 +1,9 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
+
+## Update 0.49a - Read updatev049a.txt for more details!
+
+
 #### dObjects:
 
 ##### activemob
@@ -285,6 +289,18 @@ on player clicks:
 - entity.nodamageticks
     - returns Element(integer)
 	- Actual nodamageticks
+	
+- entity.mmtargets[<String>]
+    - Returns dList<dEntity||dLocation>
+	- Use any MythicMobs targeter in <String>
+    - Example:
+```
+	on player right clicks:
+	  - announce <player.entity.mmtargets[@EIR{r=30}]>
+	  ## returns a dEntity dList
+	  - announce <player.entity.mmtargets[@Ring{r=10;p=5}]>
+	  ## returns a dLocation dList
+```
 
 	
 #### Attributes for dObject activemob:

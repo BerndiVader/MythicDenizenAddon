@@ -1,8 +1,11 @@
 package com.gmail.berndivader.mmDenizenAddon.plugins;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -19,6 +22,7 @@ import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenConditionEvent
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenMythicMobDeathEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenMythicMobSpawnEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenSkillEvent;
+import com.gmail.berndivader.mmDenizenAddon.plugins.obj.ActivePlayer;
 import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dActiveMob;
 import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dEntityExt;
 import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dMythicMob;
@@ -27,11 +31,23 @@ import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dWorldExt;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
+import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
+import io.lumine.xikage.mythicmobs.skills.AbstractSkill;
+import io.lumine.xikage.mythicmobs.skills.SkillCaster;
+import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
+import io.lumine.xikage.mythicmobs.skills.SkillTargeter;
+import io.lumine.xikage.mythicmobs.skills.SkillTrigger;
+import io.lumine.xikage.mythicmobs.skills.targeters.ConsoleTargeter;
+import io.lumine.xikage.mythicmobs.skills.targeters.IEntitySelector;
+import io.lumine.xikage.mythicmobs.skills.targeters.ILocationSelector;
+import io.lumine.xikage.mythicmobs.skills.targeters.MTOrigin;
+import io.lumine.xikage.mythicmobs.skills.targeters.MTTriggerLocation;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
 import net.aufdemrand.denizen.objects.dEntity;
+import net.aufdemrand.denizen.objects.dLocation;
 import net.aufdemrand.denizen.objects.dWorld;
 import net.aufdemrand.denizencore.objects.dList;
 
@@ -236,5 +252,60 @@ public class MythicMobsAddon extends Support {
 	public static void removeThreatOfEntity(ActiveMob am, dEntity dentity) {
 		AbstractEntity ae = BukkitAdapter.adapt(dentity.getBukkitEntity());
 		am.getThreatTable().getAllThreatTargets().remove(ae);
+	}
+
+	public static dList getTargetsFor(Entity bukkitEntity, String targeter) {
+		SkillTargeter st = getSkillTargeter(targeter);
+		return getTargetsForTargeter(bukkitEntity, st);
+	}
+	
+	private static SkillTargeter getSkillTargeter(String targeterName) {
+	    Optional<SkillTargeter> maybeTargeter = Optional.empty();
+		targeterName = targeterName.startsWith("@")?targeterName:"@"+targeterName;
+		maybeTargeter = Optional.of(AbstractSkill.parseSkillTargeter(targeterName));
+		if (!maybeTargeter.isPresent()) return null;
+        SkillTargeter targeter = maybeTargeter.get();
+        return targeter;
+	}
+	private static dList getTargetsForTargeter(Entity entity, SkillTargeter targeter) {
+		dList targetList = new dList();
+		SkillCaster caster = MythicMobs.inst().getAPIHelper().isMythicMob(entity)
+				?MythicMobs.inst().getAPIHelper().getMythicMobInstance(entity)
+				:new ActivePlayer(entity);
+		SkillMetadata data = new SkillMetadata(SkillTrigger.API, caster, caster.getEntity(), caster.getLocation(), null, null, 1.0f);
+        if (targeter instanceof IEntitySelector) {
+            data.setEntityTargets(((IEntitySelector)targeter).getEntities(data));
+            ((IEntitySelector)targeter).filter(data, false);
+            for (AbstractEntity ae : data.getEntityTargets()) {
+            	targetList.add(new dEntity(ae.getBukkitEntity()).identify());
+            }
+        }
+        if (targeter instanceof ILocationSelector) {
+            data.setLocationTargets(((ILocationSelector)targeter).getLocations(data));
+            ((ILocationSelector)targeter).filter(data);
+            for (AbstractLocation al : data.getLocationTargets()) {
+            	Location l = BukkitAdapter.adapt(al);
+            	targetList.add(new dLocation(l).identify());
+            }
+        } else if (targeter instanceof MTOrigin) {
+            data.setLocationTargets(((MTOrigin)targeter).getLocation(data.getOrigin()));
+            for (AbstractLocation al : data.getLocationTargets()) {
+            	Location l = BukkitAdapter.adapt(al);
+            	targetList.add(new dLocation(l).identify());
+            }
+        } else if (targeter instanceof MTTriggerLocation) {
+            HashSet<AbstractLocation> lTargets = new HashSet<AbstractLocation>();
+            lTargets.add(data.getTrigger().getLocation());
+            data.setLocationTargets(lTargets);
+            for (AbstractLocation al : data.getLocationTargets()) {
+            	Location l = BukkitAdapter.adapt(al);
+            	targetList.add(new dLocation(l).identify());
+            }
+        }
+        if (targeter instanceof ConsoleTargeter) {
+            data.setEntityTargets(null);
+            data.setLocationTargets(null);
+        }
+        return targetList;
 	}
 }
