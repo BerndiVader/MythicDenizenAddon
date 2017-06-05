@@ -26,13 +26,11 @@ public class DenizenMythicMobDeathEvent extends BukkitScriptEvent implements Lis
 
 	public static DenizenMythicMobDeathEvent instance;
 	public MythicMobDeathEvent event;
-	
 	private dList drops;
 	private boolean dchange;
-	private dEntity killer;
+	private dEntity killer, victim;
 	private dActiveMob am;
-	private Element money;
-	private Element xp;
+	private Element money, xp;
 	
 	public DenizenMythicMobDeathEvent() {
 		instance = this;
@@ -89,6 +87,8 @@ public class DenizenMythicMobDeathEvent extends BukkitScriptEvent implements Lis
 			return this.drops;
 		} else if (name.equals("killer")) {
 			return this.killer;
+		} else if (name.equals("victim")) {
+			return this.victim;
 		} else if (name.equals("activemob")) {
 			return this.am;
 		} else if (name.equals("money")) {
@@ -102,6 +102,7 @@ public class DenizenMythicMobDeathEvent extends BukkitScriptEvent implements Lis
 	@EventHandler
 	public void onMythicMobsDeathEvent(MythicMobDeathEvent e) {
 		this.killer = new dEntity(e.getKiller());
+		this.victim = new dEntity(e.getEntity());
 		this.am = new dActiveMob(e.getMob());
 		this.money = new Element(e.getCurrency());
 		this.xp = new Element(e.getExp());

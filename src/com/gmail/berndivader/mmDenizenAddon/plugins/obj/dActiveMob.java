@@ -23,21 +23,28 @@ import net.aufdemrand.denizencore.tags.TagContext;
 public class dActiveMob implements dObject, Adjustable {
 	
 	private String prefix;
-	public ActiveMob am;
-	public Entity entity;
+	private ActiveMob am;
+	private Entity entity;
 
-	public dActiveMob(ActiveMob activeMob) {
-		if (activeMob==null) return;
-		this.am = activeMob;
-		this.entity = BukkitAdapter.adapt(activeMob.getEntity());
-	}
-	
     public static boolean matches(String string) {
         return valueOf(string) != null;
     }
     
 	public static dActiveMob valueOf(String uuid) {
 		return valueOf(uuid, null);
+	}
+	
+	public dActiveMob(ActiveMob activeMob) {
+		if (activeMob==null) return;
+		this.am = activeMob;
+		this.entity = BukkitAdapter.adapt(activeMob.getEntity());
+	}
+	
+	public ActiveMob getActiveMob() {
+		return this.am;
+	}
+	public Entity getEntity() {
+		return this.entity;
 	}
 	
 	@Override
@@ -101,6 +108,10 @@ public class dActiveMob implements dObject, Adjustable {
 		if (a==null) return null;
 		if (a.startsWith("isdead")) {
 			return new Element(MythicMobsAddon.isDead(entity)).getAttribute(a.fulfill(1));
+		} else if (a.startsWith("entity")) {
+		    // @attribute <activemob.activemob>
+	        // @returns dEntity
+			return new dEntity(this.am.getEntity().getBukkitEntity()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hasthreattable")) {
 			return new Element(MythicMobsAddon.hasThreatTable(entity)).getAttribute(a.fulfill(1));
 	    // @attribute <activemob.threattable>

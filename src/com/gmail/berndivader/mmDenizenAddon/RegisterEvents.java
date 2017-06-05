@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import com.gmail.berndivader.mmDenizenAddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.dConditionEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.dMechanicEvent;
+import com.gmail.berndivader.mmDenizenAddon.plugins.events.dSpawnConditionEvent;
 
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicConditionLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;

@@ -54,7 +54,7 @@ public class ActiveMobSkillCast extends AbstractCommand {
 		}
 		
 		if (!entry.hasObject(Types.trigger.name())) {
-			entry.addObject(Types.trigger.name(), new dEntity(((dActiveMob)entry.getdObject(Types.caster.name())).entity));
+			entry.addObject(Types.trigger.name(), new dEntity(((dActiveMob)entry.getdObject(Types.caster.name())).getEntity()));
 		}
 		if (!entry.hasObject(Types.power.name())) {
 			entry.addObject(Types.power.name(), new Element("1"));
@@ -71,7 +71,7 @@ public class ActiveMobSkillCast extends AbstractCommand {
 		} else {
 			ltargets.add(((dLocation)entry.getdObject(Types.target.name())));
 		}
-		ActiveMob caster = ((dActiveMob)entry.getdObject(Types.caster.name())).am;
+		ActiveMob caster = ((dActiveMob)entry.getdObject(Types.caster.name())).getActiveMob();
 		Entity trigger = ((dEntity)entry.getdObject(Types.trigger.name())).getBukkitEntity();
 		String skill = entry.getElement(Types.skill.name()).asString();
 		float power = entry.getElement(Types.power.name()).asFloat();

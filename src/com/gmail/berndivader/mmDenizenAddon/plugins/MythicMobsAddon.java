@@ -14,6 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.gmail.berndivader.mmDenizenAddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mmDenizenAddon.Support;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.ActiveMobSkillCast;
+import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.CreateMythicSpawner;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.MythicMobsSpawn;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.PlayerSkillCast;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.SendSignal;
@@ -70,6 +71,7 @@ public class MythicMobsAddon extends Support {
 		new SendSignal().activate().as("mmsignal").withOptions("- mmsignal [activemob:dActiveMob] [singal:string] (trigger:dEntity)", 2);
 		new PlayerSkillCast().activate().as("mmcastplayer").withOptions("- mmcastplayer [player:dPlayer] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)", 3);
 		new TriggerSkill().activate().as("mmtrigger").withOptions("- mmtrigger [activemob:dActiveMob] [trigger:string] [entity:dEntity]", 3);
+		new CreateMythicSpawner().activate().as("mmcreatespawner").withOptions("- mmcreatespawner [string:uniquename] [location:dLocation] [string:mobtype]", 3);
 	}
 
 	public static boolean isActiveMob(UUID uuid) {
@@ -211,7 +213,7 @@ public class MythicMobsAddon extends Support {
 	}
 
 	public static void attachMobToSpawner(MythicSpawner ms, dActiveMob activeMob) {
-		ActiveMob am = activeMob.am;
+		ActiveMob am = activeMob.getActiveMob();
 		am.setSpawner(ms);
 		if (!ms.getAssociatedMobs().contains(am.getUniqueId())) ms.trackMob(am);
 	}

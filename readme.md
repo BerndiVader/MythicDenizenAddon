@@ -1,7 +1,7 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
 
-## Update 0.49a - Read updatev049a.txt for more details!
+## Update 0.491a - Read updatev0491a.txt for more details!
 
 
 #### dObjects:
@@ -18,11 +18,11 @@
 #### MythicMobsDeathEvent:
 
 - mm denizen death
-  - returns: context.activemob context.entity context.killer context.drops context.money context.exp
+  - returns: context.activemob context.victim context.killer context.drops context.money context.exp
   
-  - entity = entity of victim
-  - activemob = instance of victim
-  - killer = entity of killer
+  - victim = dEntity of victim
+  - activemob = dActiveMob of victim
+  - killer = dEntity of killer
   - drops = mythicmobs drops of event as list
   - money = money drop as value
   - exp = exp drop as value
@@ -47,11 +47,11 @@
 - mm denizen spawn
   - returns: context.entity context.location context.level context.mobtype context.cancelled
   
-  - entity = entity instance of activemob
-  - location = spawn location
-  - level = level of activemob
-  - mobtype = mobtype of activemob
-  - cancelled = if event is allready cancelled (cant be undo)
+  - entity = dEntity of activemob
+  - location = dLocation
+  - level = Integer value of the moblevel
+  - mobtype = Mobtype of activemob as string
+  - cancelled = Boolean value if event is cancelled or not. (cant be undo)
   
   - event can be cancelled by determine true
 
@@ -69,7 +69,7 @@
   - context.targettype = returns NONE for no targetskill, ENTITY for entitytarget or LOCATION for locationtarget
   - context.trigger = dEntity of trigger
   
-  - the event is fired if mythicmobs find the skill named "dskill"
+  - the event is fired if mythicmobs run the skill named "dskill"
   
 ```
 Example:

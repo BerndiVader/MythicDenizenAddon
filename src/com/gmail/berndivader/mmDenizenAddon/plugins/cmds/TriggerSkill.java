@@ -38,7 +38,7 @@ public class TriggerSkill extends AbstractCommand {
 		} catch (Exception ex) {
 			return;
 		}
-		ActiveMob am = ((dActiveMob)entry.getObject("activemob")).am;
+		ActiveMob am = ((dActiveMob)entry.getObject("activemob")).getActiveMob();
 		AbstractEntity ae = BukkitAdapter.adapt(((dEntity)entry.getObject("entity")).getBukkitEntity());
 		@SuppressWarnings("unused")
 		TriggeredSkill ts = new TriggeredSkill(trigger, am, ae, true);

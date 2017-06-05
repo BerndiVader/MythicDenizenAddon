@@ -35,12 +35,12 @@ public class SendSignal extends AbstractCommand {
 		}
 		
 		if (!entry.hasObject(Types.trigger.name())) {
-			entry.addObject(Types.trigger.name(), new dEntity(((dActiveMob)entry.getObject(Types.activemob.name())).entity));
+			entry.addObject(Types.trigger.name(), new dEntity(((dActiveMob)entry.getObject(Types.activemob.name())).getEntity()));
 		}
 	}
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		ActiveMob am = ((dActiveMob)entry.getObject(Types.activemob.name())).am;
+		ActiveMob am = ((dActiveMob)entry.getObject(Types.activemob.name())).getActiveMob();
 		String signal = entry.getElement(Types.signal.name()).asString();
 		Entity trigger = ((dEntity)entry.getObject(Types.trigger.name())).getBukkitEntity();
 		am.signalMob(BukkitAdapter.adapt(trigger), signal);
