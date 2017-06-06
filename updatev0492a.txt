@@ -1,0 +1,19 @@
+# Updates in v0.492a
+
+##### Changed attribute format for determine in mm denizen death. Because determine can only run once and will stop the remaining code after being executed.
+##### Use a list separeted by ";" Valid entries are: drops:dList;money:Value;exp:Value All entries of the list are optional. Additinal info: determine should always be called at the end of the code because of the fact that it will stop executing the rest.
+
+#### Example:
+```
+	on mm denizen death:
+	  - determine drops:li@;money:0;exp:0
+```
+```
+	on mm denizen death:
+	  - determine money:0;exp:0
+```
+```
+	on mm denizen death:
+	  - determine money:0
+```
+

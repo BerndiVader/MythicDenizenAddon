@@ -1,7 +1,7 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
 
-## Update 0.491a - Read updatev0491a.txt for more details!
+## Update 0.492a - Read updatev0492a.txt for more details!
 
 
 #### dObjects:
@@ -27,17 +27,21 @@
   - money = money drop as value
   - exp = exp drop as value
   
-  - determine: the following event values can be changed:
+  - determine: change drops money exp values of the event:
   
-  - determine drops:dlist change the drops to this new list
-  - determine money:value change the money amount
-  - determine exp:value change the exp amount
-  
+  - Changed attribute format for determine in mm denizen death. Because determine can only run once and will stop the remaining code after being executed.
+  - Use a list separeted by ";" Valid entries are: drops:dList;money:Value;exp:Value All entries of the list are optional. Additinal info: determine should always be called at the end of the code because of the fact that it will stop executing the rest.
 ```
-  on mm denizen death:
-    - determine money:100
-    - determine exp:200
+Examples:
 
+	on mm denizen death:
+	  - determine drops:li@;money:0;exp:0
+	  
+	on mm denizen death:
+	  - determine money:0;exp:0
+	  
+	on mm denizen death:
+	  - determine money:0
 ```
 
   
