@@ -1,6 +1,7 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
 
+## Update 0.493a - 1.12 support and build with denizen 1.0.2
 ## Update 0.492a - Read updatev0492a.txt for more details!
 
 
