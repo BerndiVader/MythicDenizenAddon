@@ -95,7 +95,7 @@ public class PlayerSkillCast extends AbstractCommand {
 		castSkillFromPlayer(caster, skill, trigger, caster.getLocation(), eTargets, lTargets, 1.0f, ttimer, tdelay);
 	}
 	
-	private boolean castSkillFromPlayer(Entity e, String skillName, Entity trigger, 
+	private static boolean castSkillFromPlayer(Entity e, String skillName, Entity trigger, 
 			Location origin, HashSet<AbstractEntity> feTargets, HashSet<AbstractLocation> flTargets, float power,
 			int ttimer, long tdelay) {
 

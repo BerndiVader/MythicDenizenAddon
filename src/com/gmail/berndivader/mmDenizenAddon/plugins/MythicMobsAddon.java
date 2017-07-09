@@ -18,6 +18,8 @@ import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.CreateMythicSpawner;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.MythicMobsSpawn;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.PlayerSkillCast;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.SendSignal;
+import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.TransformMythicMob;
+import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.TransformToMythicMob;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.TriggerSkill;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenConditionEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenMythicMobDeathEvent;
@@ -72,6 +74,8 @@ public class MythicMobsAddon extends Support {
 		new PlayerSkillCast().activate().as("mmcastplayer").withOptions("- mmcastplayer [player:dPlayer] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)", 3);
 		new TriggerSkill().activate().as("mmtrigger").withOptions("- mmtrigger [activemob:dActiveMob] [trigger:string] [entity:dEntity]", 3);
 		new CreateMythicSpawner().activate().as("mmcreatespawner").withOptions("- mmcreatespawner [string:uniquename] [location:dLocation] [string:mobtype]", 3);
+		new TransformToMythicMob().activate().as("mmapplymythic").withOptions("- mmapplymythic [entity:dEntity] [mobtype:string] [level:integer]", 2);
+		new TransformMythicMob().activate().as("mmremovemythic").withOptions("- mmremovemythic [activemob:dActiveMob]", 1);
 	}
 
 	public static boolean isActiveMob(UUID uuid) {

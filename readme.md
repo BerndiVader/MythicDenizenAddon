@@ -1,6 +1,6 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
-
+## Update 0.495a - added mmapplymythic & mmremovemythic command
 ## Update 0.493a - 1.12 support and build with denizen 1.0.2
 ## Update 0.492a - Read updatev0492a.txt for more details!
 
@@ -173,6 +173,15 @@ For Denizen:
 
 #### Commands for ActiveMobs:
 
+- mmapplymythic entity:dEntity mobtype:string level:integer
+  - Required: entity - any living entity and mobtype - the name of the mythicmobs mob
+  - Optional: level - apply a level to the new mythicmob
+  - Returns: <entry[savename].activemob> intance of the transformed mythicmobs mob
+  
+- mmremovemythic activemob:dActiveMob
+  - Required: activemob - any mythicmobs mob that should be transformed into an ordinary entity
+  - Returns: <entry[savename].entity> intance of the transformed mythicmobs mob
+
 - mmspawnmob mobtype:string location world:string level:integer save:string
   - Required: mobtype (valid mythicmob) and location as dLocation
   - Optional: world as string, level as integer and save as string
@@ -207,6 +216,25 @@ Monkey:
   Armor: 10
   Skills:
   - message{msg="Ouch! Stop shooting arrows at me!"} @trigger ~onBowHit 1
+```
+
+mmapplymythic & mmremovemythic example:
+```
+    on player right clicks entity:
+		- if <context.entity.isactivemob> == false {
+			- mmapplymythic entity:<context.entity> mobtype:MythicEntity level:1
+			- announce "Applied mythic to entity"
+		} else {
+			- mmremovemythic activemob:<context.entity.activemob>
+			- announce "Removed mythic from entity"
+		}
+		
+mob yaml:
+
+MythicEntity:
+  Type: zombie
+  Skills:
+  - message{msg="Me a MythicMobs mob now!"} @world ~onTimer:60
 ```
 
 
