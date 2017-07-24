@@ -1,12 +1,12 @@
 package com.gmail.berndivader.mmDenizenAddon.plugins.cmds;
 
+import com.gmail.berndivader.mmDenizenAddon.plugins.AbstractTriggeredSkill;
 import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.skills.SkillTrigger;
-import io.lumine.xikage.mythicmobs.skills.TriggeredSkill;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
@@ -40,7 +40,6 @@ public class TriggerSkill extends AbstractCommand {
 		}
 		ActiveMob am = ((dActiveMob)entry.getObject("activemob")).getActiveMob();
 		AbstractEntity ae = BukkitAdapter.adapt(((dEntity)entry.getObject("entity")).getBukkitEntity());
-		@SuppressWarnings("unused")
-		TriggeredSkill ts = new TriggeredSkill(trigger, am, ae, true);
+		new AbstractTriggeredSkill(trigger, am, ae);
 	}
 }
