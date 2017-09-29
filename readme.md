@@ -1,5 +1,6 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
+## Update 0.467a - added "mm denizen targetcondition" event
 ## Update 0.496a - added 1.12.1 support
 ## Update 0.495a - added mmapplymythic & mmremovemythic command
 ## Update 0.493a - 1.12 support and build with denizen 1.0.2
@@ -103,12 +104,14 @@ denizen script:
 
 #### CustomConditions:
 
-- on mm denizen condition:
+- on mm denizen condition / mm denizen targetcondition:
   - Returns: context.type context.entity context.location context.condition context.args context.meet
   
   - context.type is "e" for entity condition or "l" for location condition
   - context.entity if type = e : the entity can be the caster or if used as targetcondtion the target
+  - context.targetentity (if targetcondition) = the entity of the mythicmobs targeter used in the skill.
   - context.location if type = l : the location to work with
+  - context.targetlocation (if targetcondition) = location of the mythicmobs targeter used in the skill.
   - context.condition the name of the condition.
   - context.args the arguments for the condition.
   
