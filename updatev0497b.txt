@@ -1,5 +1,7 @@
 # Updates in v0.497b
 
++ fixed cancelled in spawn event.
+# added `mythicmobs spawn` event name for `mm denizen spawn`.
 + added `mythicmobs death` event name for `mm denizen death`.
 + fixed `mmremovemythic activemob:dActiveMob` command.
 + added new determine syntax for mythicmobs death event.

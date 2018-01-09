@@ -30,7 +30,8 @@ public class DenizenMythicMobSpawnEvent extends BukkitScriptEvent implements Lis
 	
 	@Override
 	public boolean couldMatch(ScriptContainer container, String s) {
-		return CoreUtilities.toLowerCase(s).startsWith("mm denizen spawn");
+		return CoreUtilities.toLowerCase(s).startsWith("mm denizen spawn")
+				||CoreUtilities.toLowerCase(s).startsWith("mythicmobs spawn");
 	}
 	@Override
 	public boolean matches(ScriptContainer container, String a) {
@@ -54,8 +55,8 @@ public class DenizenMythicMobSpawnEvent extends BukkitScriptEvent implements Lis
 	@Override
     public boolean applyDetermination(ScriptContainer container, String d) {
 		if (aH.Argument.valueOf(d).matchesPrimitive(aH.PrimitiveType.Boolean)) {
-			this.cancel = new Element(d);
-			return true;
+			this.cancel=new Element(d);
+			if (this.cancel.asBoolean()) this.event.setCancelled();
 		}
         return super.applyDetermination(container, d);
     }
@@ -70,8 +71,8 @@ public class DenizenMythicMobSpawnEvent extends BukkitScriptEvent implements Lis
 			return this.location;
 		} else if (name.equals("mobtype")) {
 			return this.mobtpye;
-		} else if (name.equals("iscancelled")) {
-			return this.cancel;
+		} else if (name.equals("iscancelled")||name.equals("cancelled")) {
+			return new Element(this.event.isCancelled());
 		}
         return super.getContext(name);
     }
@@ -83,7 +84,7 @@ public class DenizenMythicMobSpawnEvent extends BukkitScriptEvent implements Lis
     	this.mobtpye = new Element(e.getMobType().getInternalName());
     	this.location = new dLocation(e.getLocation());
     	this.cancel = new Element(e.isCancelled());
-    	this.event = e;
+    	this.event=e;
         fire();
         if (this.cancel.asBoolean()) e.setCancelled();
     }
