@@ -2,16 +2,12 @@ package com.gmail.berndivader.mmDenizenAddon.plugins.cmds;
 
 import java.util.UUID;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.TransformToMythicMob.Types;
 import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
-import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
-import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
@@ -49,19 +45,21 @@ public class TransformMythicMob extends AbstractCommand {
 	}
 	
 	private static Entity transformToNormalEntity(ActiveMob am) {
-		Entity entity = am.getEntity().getBukkitEntity();
-		Location l = am.getEntity().getBukkitEntity().getLocation();
-		l.setY(0);
-		AbstractEntity d = BukkitAdapter.adapt(l.getWorld().spawnEntity(l, EntityType.BAT));
-		am.getEntity().getBukkitEntity().removeMetadata("Faction", MythicMobs.inst());
-		unregisterActiveMob(am.getUniqueId());
-		am.setEntity(d);
-		d.remove();
+		Entity entity=am.getEntity().getBukkitEntity();
+		entity.removeMetadata("Faction", MythicMobs.inst());
+		am.setDead();
+		ureg(am.getUniqueId());
+		am.setEntity(null);
+		ureg(am);
+		MythicMobs.inst().getMobManager().getVoidList().remove(entity.getUniqueId());
 		return entity;
 	}
 	
-    private static void unregisterActiveMob(UUID uuid) {
-		MythicMobs.inst().getMobManager().unregisterActiveMob(uuid);
+    private static void ureg(ActiveMob o) {
+    	MythicMobs.inst().getMobManager().unregisterActiveMob(((ActiveMob)o));
+    }
+    private static void ureg(UUID o) {
+    	MythicMobs.inst().getMobManager().unregisterActiveMob(((UUID)o));
     }
 	
 	

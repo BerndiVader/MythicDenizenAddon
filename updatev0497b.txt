@@ -1,0 +1,15 @@
+# Updates in v0.497b
+
++ added `mythicmobs death` event name for `mm denizen death`.
++ fixed `mmremovemythic activemob:dActiveMob` command.
++ added new determine syntax for mythicmobs death event.
+
+```
+	on mythicmobs death event:
+	  - determine passively exp:10000
+	  - determine money:2
+
+	on mythicmobs death event:
+	  - determine drops:li@ money:20 exp:20
+	  
+```

@@ -22,6 +22,7 @@ import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.TransformMythicMob;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.TransformToMythicMob;
 import com.gmail.berndivader.mmDenizenAddon.plugins.cmds.TriggerSkill;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenConditionEvent;
+import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenEntityTargeterEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenMythicMobDeathEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenMythicMobSpawnEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.DenizenSkillEvent;
@@ -69,10 +70,12 @@ public class MythicMobsAddon extends Support {
 		registerScriptEvents(new DenizenMythicMobSpawnEvent());
 		registerScriptEvents(new DenizenMythicMobDeathEvent());
 		registerScriptEvents(new DenizenTargetConditionEvent());
+		registerScriptEvents(new DenizenEntityTargeterEvent());
+//		registerScriptEvents(new DenizenLocationTargeterEvent());
 		
 		new MythicMobsSpawn().activate().as("mmspawnmob").withOptions("- mmspawnmob [mobtype:string] [location] (world:string) (level:integer)", 2);
 		new ActiveMobSkillCast().activate().as("mmcastmob").withOptions("- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);
-		new SendSignal().activate().as("mmsignal").withOptions("- mmsignal [activemob:dActiveMob] [singal:string] (trigger:dEntity)", 2);
+		new SendSignal().activate().as("mmsignal").withOptions("- mmsignal [activemob:dActiveMob] [signal:string] (trigger:dEntity)", 2);
 		new PlayerSkillCast().activate().as("mmcastplayer").withOptions("- mmcastplayer [player:dPlayer] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)", 3);
 		new TriggerSkill().activate().as("mmtrigger").withOptions("- mmtrigger [activemob:dActiveMob] [trigger:string] [entity:dEntity]", 3);
 		new CreateMythicSpawner().activate().as("mmcreatespawner").withOptions("- mmcreatespawner [string:uniquename] [location:dLocation] [string:mobtype]", 3);

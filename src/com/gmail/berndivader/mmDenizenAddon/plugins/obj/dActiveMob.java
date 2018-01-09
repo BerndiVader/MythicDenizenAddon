@@ -49,77 +49,82 @@ public class dActiveMob implements dObject, Adjustable {
 	
 	@Override
 	public void adjust(Mechanism m) {
-		Element val = m.getValue();
-		if (m.matches("gcd") && m.requireInteger()) {
-			this.am.setGlobalCooldown(val.asInt());
-		} else if (m.matches("remove")) {
+		Element val=m.getValue();
+		switch(val.asString().toLowerCase()) {
+		case "gcd":
+			if (m.requireInteger()) this.am.setGlobalCooldown(val.asInt());
+			break;
+		case "remove":
 			MythicMobsAddon.removeSelf(this.am);
-		} else if (m.matches("displayname")) {
-			MythicMobsAddon.setCustomName(am, val.asString());
-		} else if (m.matches("owner")) {
+			break;
+		case "displayname":
+			MythicMobsAddon.setCustomName(am,val.asString());
+			break;
+		case "owner":
 			am.setOwner(val.asType(dEntity.class).getUUID());
-		} else if (m.matches("target")) {
+			break;
+		case "target":
 			MythicMobsAddon.setTarget(am, val.asType(dEntity.class).getBukkitEntity());
-		} else if (m.matches("faction")) {
+			break;
+		case "faction":
 			am.setFaction(val.asString());
-		} else if (m.matches("stance")) {
+			break;
+		case "stance":
 			am.setStance(val.asString());
-		} else if (m.matches("level")) {
+			break;
+		case "level":
 			am.setLevel(val.asInt());
-		} else if (m.matches("playerkills")) {
+			break;
+		case "playerkills":
 			am.importPlayerKills(val.asInt());
-		} else if (m.matches("health")) {
+			break;
+		case "health":
 			am.getEntity().setHealth(val.asDouble());
-		} else if (m.matches("maxhealth")) {
+			break;
+		case "maxhealth":
 			am.getEntity().setMaxHealth(val.asDouble());
-	    // @adjust <dActiveMob> incthreat <dEntity>|double
-		} else if (m.matches("incthreat") || m.matches("decthreat")) {
-			String[] parse = val.asString().split("\\|");
-			if (parse.length<2) return;
-			Element entity = new Element(parse[0]);
-			Element value = new Element(parse[1]);
-			if (entity.matchesType(dEntity.class) && value.isDouble())  {
-				MythicMobsAddon.modThreatOfEntity(am, entity.asType(dEntity.class), value.asDouble(), m.getName());
-			};
-	    // @adjust <dActiveMob> clearthreat
-		} else if (m.matches("clearthreat")) {
+			break;
+		case "incthreat":
+		case "decthreat":
+			String[]parse=val.asString().split("\\|");
+			if(parse.length>1) {
+				Element entity=new Element(parse[0]);
+				Element value=new Element(parse[1]);
+				if (entity.matchesType(dEntity.class) && value.isDouble()) MythicMobsAddon.modThreatOfEntity(am, entity.asType(dEntity.class), value.asDouble(), m.getName());
+			}	
+			break;
+		case "clearthreat":
 			am.getThreatTable().getAllThreatTargets().clear();
-	    // @adjust <dActiveMob> removethreat <dEntity>
-		} else if (m.matches("removethreat")) {
-			if (val.matchesType(dEntity.class)) {
-				MythicMobsAddon.removeThreatOfEntity(am, val.asType(dEntity.class));
-			}
-	    // @adjust <dActiveMob> newtargetthreattable
-		} else if (m.matches("newtargetthreattable")) {
+			break;
+		case "removethreat":
+			if (val.matchesType(dEntity.class)) MythicMobsAddon.removeThreatOfEntity(am, val.asType(dEntity.class));
+			break;
+		case "newtargetthreattable":
 			am.getThreatTable().clearTarget();
 			am.getThreatTable().dropCombat();
 			am.getThreatTable().targetHighestThreat();
-        // @adjust <dActiveMob> getnewtarget
-		} else if (m.matches("getnewtarget")) {
+			break;
+		case "getnewtarget":
 			am.getNewTarget();
-        // @adjust <dActiveMob> setimmunitycooldown:<dEntity>
-		} else if (m.matches("setimmunitycooldown") && m.requireObject(dEntity.class)) {
-			am.getImmunityTable().setCooldown(BukkitAdapter.adapt(val.asType(dEntity.class).getBukkitEntity()));
+			break;
+		case "setimmunitycooldown":
+			if (m.requireObject(dEntity.class)) am.getImmunityTable().setCooldown(BukkitAdapter.adapt(val.asType(dEntity.class).getBukkitEntity()));
+			break;
 		}
+        if (!m.fulfilled()) m.reportInvalid();
 	}
 
 	@Override
 	public String getAttribute(Attribute a) {
-		if (a==null) return null;
+		if (a==null) return "<NONE>";
 		if (a.startsWith("isdead")) {
 			return new Element(MythicMobsAddon.isDead(entity)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("entity")) {
-		    // @attribute <activemob.activemob>
-	        // @returns dEntity
 			return new dEntity(this.am.getEntity().getBukkitEntity()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hasthreattable")) {
 			return new Element(MythicMobsAddon.hasThreatTable(entity)).getAttribute(a.fulfill(1));
-	    // @attribute <activemob.threattable>
-        // @returns dList<dEntity>
 		} else if (a.startsWith("threattable")) {
 			return MythicMobsAddon.getThreatTable(am).getAttribute(a.fulfill(1));
-	    // @attribute <activemob.threatvalueof[<dEntity]>
-        // @returns Element(double)
 		} else if (a.startsWith("threatvalueof") && a.hasContext(1)) {
 			return new Element(MythicMobsAddon.getThreatValueOf(am, dEntity.valueOf(a.getContext(1)))).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hastarget")) {
@@ -160,24 +165,14 @@ public class dActiveMob implements dObject, Adjustable {
 			return new Element(am.getLastSignal()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("type")) {
 			return new Element("ActiveMob").getAttribute(a.fulfill(1));
-	    // @attribute <activemob.damage>
-        // @returns Element(double)
 		} else if (a.startsWith("damage")) {
 			return new Element(am.getDamage()).getAttribute(a.fulfill(1));
-	    // @attribute <activemob.power>
-        // @returns Element(float)
 		} else if (a.startsWith("power")) {
 			return new Element(am.getPower()).getAttribute(a.fulfill(1));
-	    // @attribute <activemob.lastdamageskillamount>
-        // @returns Element(double)
 		} else if (a.startsWith("lastdamageskillamount")) {
 			return new Element(am.getLastDamageSkillAmount()).getAttribute(a.fulfill(1));
-	    // @attribute <activemob.hasimmunitytable>
-        // @returns Element(boolean)
 		} else if (a.startsWith("hasimmunitytable")) {
 				return new Element(this.am.hasImmunityTable()).getAttribute(a.fulfill(1));
-	    // @attribute <activemob.isonimmunitycooldown[dEntity]>
-        // @returns Element(boolean)
 		} else if (a.startsWith("isonimmunitycooldown") && a.hasContext(1)) {
 			AbstractEntity ae = BukkitAdapter.adapt(dEntity.valueOf(a.getContext(1)).getBukkitEntity());
 			return new Element(am.getImmunityTable().onCooldown(ae)).getAttribute(a.fulfill(1));
@@ -227,9 +222,7 @@ public class dActiveMob implements dObject, Adjustable {
 
     @Fetchable("activemob")
     public static dActiveMob valueOf(String string, TagContext context) {
-        if (string == null) {
-            return null;
-        }
+        if (string==null) return null;
         try {
             string = string.replace("activemob@", "");
             UUID uuid = UUID.fromString(string);

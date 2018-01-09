@@ -5,14 +5,17 @@ import org.bukkit.event.Listener;
 
 import com.gmail.berndivader.mmDenizenAddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.dConditionEvent;
+import com.gmail.berndivader.mmDenizenAddon.plugins.events.dEntityTargeter;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.dMechanicEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.dSpawnConditionEvent;
 import com.gmail.berndivader.mmDenizenAddon.plugins.events.dTargetConditionEvent;
 
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicConditionLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicTargeterLoadEvent;
 import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
+import io.lumine.xikage.mythicmobs.skills.SkillTargeter;
 
 public class RegisterEvents implements Listener {
 	
@@ -39,6 +42,21 @@ public class RegisterEvents implements Listener {
 		if (e.getMechanicName().toLowerCase().equals("dskill")) {
 			SkillMechanic m;
 			if ((m = new dMechanicEvent(e.getContainer().getConfigLine(), e.getConfig()))!=null) e.register(m);
+		}
+	}
+	
+	public void onMythicMobsTargeterLoad(MythicTargeterLoadEvent e) {
+		switch(e.getTargeterName().toLowerCase()) {
+		case "dentitytargeter":{
+			SkillTargeter targeter=new dEntityTargeter(e.getConfig());
+			e.register(targeter);
+			break;
+		}
+//		case "dlocationtargeter":{
+//			SkillTargeter targeter=new dLocationTargeter(e.getConfig());
+//			e.register(targeter);
+//			break;
+//		}
 		}
 	}
 }

@@ -99,14 +99,12 @@ public class PlayerSkillCast extends AbstractCommand {
 			Location origin, HashSet<AbstractEntity> feTargets, HashSet<AbstractLocation> flTargets, float power,
 			int ttimer, long tdelay) {
 
-        Optional<Skill> maybeSkill = MythicMobs.inst().getSkillManager().getSkill(skillName);
-        if (!maybeSkill.isPresent()) {
-            return false;
-        }
-        ActivePlayer ap = new ActivePlayer(e);
-        Skill skill = maybeSkill.get();
+        Optional<Skill>maybeSkill=MythicMobs.inst().getSkillManager().getSkill(skillName);
+        if (!maybeSkill.isPresent()) return false;
+        ActivePlayer ap=new ActivePlayer(e);
+        Skill skill=maybeSkill.get();
 		SkillMetadata data;
-        if (skill.usable(data = new SkillMetadata(SkillTrigger.API, ap, BukkitAdapter.adapt(trigger), BukkitAdapter.adapt(origin), feTargets, flTargets, power), SkillTrigger.API)) {
+        if (skill.usable(data=new SkillMetadata(SkillTrigger.API, ap,BukkitAdapter.adapt(trigger),BukkitAdapter.adapt(origin),feTargets,flTargets,power),SkillTrigger.API)) {
         	new BukkitRunnable() {
         		int timer = ttimer;
         		public void run() {

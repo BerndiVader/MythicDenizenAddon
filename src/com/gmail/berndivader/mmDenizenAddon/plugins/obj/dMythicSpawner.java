@@ -4,6 +4,7 @@ import com.gmail.berndivader.mmDenizenAddon.plugins.MythicMobsAddon;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
+import io.lumine.xikage.mythicmobs.util.types.RandomInt;
 import net.aufdemrand.denizen.objects.dLocation;
 import net.aufdemrand.denizen.objects.dWorld;
 import net.aufdemrand.denizencore.objects.Adjustable;
@@ -52,7 +53,7 @@ public class dMythicSpawner implements dObject, Adjustable {
 				ms.setType(val.asString());
 			}
 		} else if (m.matches("moblevel")&& m.requireInteger()) {
-			ms.setMobLevel(val.asInt());
+			ms.setMobLevel(new RandomInt(val.asInt()));
 		} else if (m.matches("spawn")) {
 			ms.Spawn();
 		} else if (m.matches("attachmob")&& m.requireObject(dActiveMob.class)) {
@@ -71,7 +72,7 @@ public class dMythicSpawner implements dObject, Adjustable {
 		} else if (a.startsWith("mobtype")) {
 			return new Element(ms.getTypeName()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("moblevel")) {
-			return new Element(ms.getMobLevel()).getAttribute(a.fulfill(1));
+			return new Element(ms.getMobLevel().get()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("cooldown")) {
 			return new Element(ms.getCooldownSeconds()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("remainingcooldown")) {

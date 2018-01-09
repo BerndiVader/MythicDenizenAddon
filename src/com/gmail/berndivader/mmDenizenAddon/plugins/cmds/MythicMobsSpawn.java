@@ -18,7 +18,6 @@ import net.aufdemrand.denizencore.scripts.ScriptEntry;
 import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
 public class MythicMobsSpawn extends AbstractCommand {
-
 	private enum Types {
 		mobtype,
 		location,
@@ -28,7 +27,6 @@ public class MythicMobsSpawn extends AbstractCommand {
 	
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		
 		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
 			if (!entry.hasObject(Types.mobtype.name()) && arg.matchesPrefix(Types.mobtype.name())) {
 				entry.addObject(Types.mobtype.name(), arg.asElement());
@@ -46,7 +44,6 @@ public class MythicMobsSpawn extends AbstractCommand {
 				|| !entry.hasObject(Types.location.name())) Bukkit.getLogger().warning("Mobtype and location required!");
 		if (!entry.hasObject(Types.level.name())) entry.defaultObject(Types.level.name(), new Element(1));
 	}
-
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
 		String mobtype = entry.getElement(Types.mobtype.name()).asString();
