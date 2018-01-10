@@ -14,7 +14,11 @@ import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
 import net.aufdemrand.denizencore.utilities.CoreUtilities;
 
-public class DenizenConditionEvent extends BukkitScriptEvent implements Listener {
+public class DenizenConditionEvent 
+extends
+BukkitScriptEvent
+implements 
+Listener {
 
 	public static DenizenConditionEvent instance;
 	public mmDenizenConditionEvent event;
@@ -83,16 +87,16 @@ public class DenizenConditionEvent extends BukkitScriptEvent implements Listener
 	
     @EventHandler
     public void onMythicMobConditionEvent(mmDenizenConditionEvent e) {
-    	this.event = e;
-    	this.condition = new Element(e.getName());
-    	this.args = new Element(e.getArgs());
-    	this.meet = new Element(e.getBool());
+    	this.event=e;
+    	this.condition=new Element(e.getName());
+    	this.args=new Element(e.getArgs());
+    	this.meet=new Element(e.getBool());
    		if (e.getEntity()!=null) {
-   			this.dentity = new dEntity(e.getEntity());
-   			this.type = new Element("e");
+   			this.dentity=new dEntity(e.getEntity());
+   			this.type=new Element("e");
    		} else if (e.getLocation()!=null) {
-   	   		this.dlocation = new dLocation(e.getLocation());
-   	   		this.type = new Element("l");
+   	   		this.dlocation=new dLocation(e.getLocation());
+   	   		this.type=new Element("l");
    		}
         fire();
         e.setBool(this.meet.asBoolean());

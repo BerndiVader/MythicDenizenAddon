@@ -12,6 +12,7 @@ import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dLocation;
+import net.aufdemrand.denizen.objects.dPlayer;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
 import net.aufdemrand.denizencore.objects.Element;
@@ -19,7 +20,7 @@ import net.aufdemrand.denizencore.objects.aH;
 import net.aufdemrand.denizencore.scripts.ScriptEntry;
 import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
-public class ActiveMobSkillCast extends AbstractCommand {
+public class MythicMobSkillCast extends AbstractCommand {
 	private boolean bool;
 	private enum Types {
 		caster,
@@ -32,9 +33,14 @@ public class ActiveMobSkillCast extends AbstractCommand {
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
 		for (aH.Argument arg:aH.interpret(entry.getArguments())) {
-			if (!entry.hasObject(Types.caster.name()) && arg.matchesPrefix(Types.caster.name())
-					&& arg.matchesArgumentType(dActiveMob.class)) {
-				entry.addObject(Types.caster.name(), arg.asType(dActiveMob.class));
+			if (!entry.hasObject(Types.caster.name()) && arg.matchesPrefix(Types.caster.name())) {
+				if (arg.matchesArgumentType(dEntity.class)) {
+					entry.addObject(Types.caster.name(),arg.asType(dEntity.class));
+				} else if (arg.matchesArgumentType(dPlayer.class)) {
+					entry.addObject(Types.caster.name(),arg.asType(dPlayer.class).getDenizenEntity());
+				} else if (arg.matchesArgumentType(dActiveMob.class)) {
+					entry.addObject(Types.caster.name(),new dEntity(arg.asType(dActiveMob.class).getEntity()));
+				}
 			} else if (!entry.hasObject(Types.skill.name()) && arg.matchesPrefix(Types.skill.name())) {
 				entry.addObject(Types.skill.name(), arg.asElement());
 			} else if (!entry.hasObject(Types.target.name()) && arg.matchesPrefix(Types.target.name())) {
@@ -54,7 +60,7 @@ public class ActiveMobSkillCast extends AbstractCommand {
 		}
 		
 		if (!entry.hasObject(Types.trigger.name())) {
-			entry.addObject(Types.trigger.name(), new dEntity(((dActiveMob)entry.getdObject(Types.caster.name())).getEntity()));
+			entry.addObject(Types.trigger.name(), entry.getdObject(Types.caster.name()));
 		}
 		if (!entry.hasObject(Types.power.name())) {
 			entry.addObject(Types.power.name(), new Element("1"));

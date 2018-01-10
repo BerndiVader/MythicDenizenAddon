@@ -1,8 +1,6 @@
 package com.gmail.berndivader.mmDenizenAddon.plugins.cmds;
 
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.berndivader.mmDenizenAddon.plugins.obj.dActiveMob;
@@ -28,10 +26,9 @@ public class TransformToMythicMob extends AbstractCommand {
 
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
-			if (!entry.hasObject(Types.entity.name()) && arg.matchesPrefix(Types.entity.name()) 
-					&& arg.matchesArgumentType(dEntity.class)) {
-				entry.addObject(Types.entity.name(), arg.asType(dEntity.class));
+		for (aH.Argument arg:aH.interpret(entry.getArguments())) {
+			if (!entry.hasObject(Types.entity.name())&&arg.matchesPrefix(Types.entity.name())&&arg.matchesArgumentType(dEntity.class)) {
+				entry.addObject(Types.entity.name(),arg.asType(dEntity.class));
 			} else if (!entry.hasObject(Types.mobtype.name()) && arg.matchesPrefix(Types.mobtype.name())) {
 				entry.addObject(Types.mobtype.name(), arg.asElement());
 			} else if (!entry.hasObject(Types.level.name()) && arg.matchesPrefix(Types.level.name())) {
@@ -47,20 +44,14 @@ public class TransformToMythicMob extends AbstractCommand {
 		String mmName = entry.getElement(Types.mobtype.name()).asString();
 		MythicMob mm = MythicMobs.inst().getMobManager().getMythicMob(mmName);
 		int level = entry.getElement(Types.level.name()).asInt();
-		if (mm==null 
-				|| !(entity instanceof LivingEntity) 
-				|| (entity instanceof Player && !mm.isPersistent())) return;
-		ActiveMob am = TransformToMythicMob.transformEntityToMythicMob(entity, mm, level);
-		if (am!=null) {
-			entry.addObject(Types.activemob.name(), new dActiveMob(am).identify());
-		} else {
-			entry.addObject(Types.activemob.name(), Types.activemob.name()+"@");
-		}
+		ActiveMob am=null;
+		if (mm!=null) am=TransformToMythicMob.transformEntityToMythicMob(entity,mm,level);
+		entry.addObject(Types.activemob.name(),am!=null?new dActiveMob(am).identify():Types.activemob.name()+"@");
 	}
 	
 	private static ActiveMob transformEntityToMythicMob(Entity l, MythicMob mm, int level) {
 		ActiveMob am = new ActiveMob(l.getUniqueId(), BukkitAdapter.adapt((Entity)l), mm, level);
-	    TransformToMythicMob.addActiveMobToFaction(mm, am);
+	    TransformToMythicMob.addActiveMobToFaction(mm,am);
 	    TransformToMythicMob.registerActiveMob(am);
 	    return am;
 	}

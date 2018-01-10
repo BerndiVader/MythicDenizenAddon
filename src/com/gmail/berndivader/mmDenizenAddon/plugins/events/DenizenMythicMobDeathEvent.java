@@ -1,5 +1,6 @@
 package com.gmail.berndivader.mmDenizenAddon.plugins.events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -28,17 +29,11 @@ extends
 BukkitScriptEvent 
 implements 
 Listener {
-
 	public static DenizenMythicMobDeathEvent instance;
-	public MythicMobDeathEvent event;
-	private dList drops;
-	private boolean dchange;
-	private dEntity killer, victim;
-	private dActiveMob am;
-	private Element money,xp;
+	public MythicMobDeathEvent e;
 	
 	public DenizenMythicMobDeathEvent() {
-		instance = this;
+		instance=this;
 	}
 
 	@Override
@@ -68,82 +63,67 @@ Listener {
     
     @Override
     public ScriptEntryData getScriptEntryData() {
+    	dEntity killer=new dEntity(e.getEntity());
     	return new BukkitScriptEntryData(killer.isPlayer()?killer.getDenizenPlayer():null,killer.isNPC()?killer.getDenizenNPC():null);
     }
 
 	@Override
-    public boolean applyDetermination(ScriptContainer container, String determination) {
-		String[]c=determination.toLowerCase().split(" ");
-		if (determination.contains(";")) {
-			c=determination.toLowerCase().split(";");
-		}
+    public boolean applyDetermination(ScriptContainer container,String determination) {
+		String[]c=determination.toLowerCase().split(";");
 		for (int a=0;a<c.length;a++) {
 			String[]parse=c[a].split(":");
 			String d=parse[0].toLowerCase();
 			String v=parse[1];
-			if (d.equals("drops")) {
+			switch(d) {
+			case "drops":
 				if (aH.Argument.valueOf(v).matchesArgumentType(dList.class)) {
-					this.drops=aH.Argument.valueOf(v).asType(dList.class);
-					this.dchange=true;
+					List<ItemStack>is=new ArrayList<ItemStack>();
+					for(dItem di:aH.Argument.valueOf(v).asType(dList.class).filter(dItem.class)) {
+						is.add(di.getItemStack());
+					}
+					e.setDrops(is);
 				}
-				continue;
-			} else if (d.equals("money")) {
-				if (aH.Argument.valueOf(v).matchesPrimitive(PrimitiveType.Double)) {
-					this.money=aH.Argument.valueOf(v).asElement();
-				} 
-				continue;
-			} else if (d.equals("exp")) {
-				if (aH.Argument.valueOf(v).matchesPrimitive(PrimitiveType.Integer)) {
-					this.xp = aH.Argument.valueOf(v).asElement();
-				}
-				continue;
+				break;
+			case "money":
+				if (aH.Argument.valueOf(v).matchesPrimitive(PrimitiveType.Double)) e.setCurrency(Double.parseDouble(v));
+				break;
+			case "exp":
+			case "xp":
+				if (aH.Argument.valueOf(v).matchesPrimitive(PrimitiveType.Integer)) e.setExp(Integer.parseInt(v));
+				break;
 			}
 		}
-        return super.applyDetermination(container,determination);
+		return true;
     }
 	
 	@Override
     public dObject getContext(String name) {
-		if (name.equals("drops")) {
-			return this.drops;
-		} else if (name.equals("killer")) {
-			return this.killer;
-		} else if (name.equals("victim")) {
-			return this.victim;
-		} else if (name.equals("activemob")) {
-			return this.am;
-		} else if (name.equals("money")) {
-			return this.money;
-		} else if (name.equals("exp")) {
-			return this.xp;
-		} else if (name.equals("event")) {
-			return new Element(this.event.toString());
+		switch(name) {
+		case "drops":
+			dList dl=new dList();
+			for (ItemStack i:e.getDrops()) {
+				dl.add(new dItem(i).identify());
+			}
+			return dl;
+		case "killer":
+			return new dEntity(e.getKiller());
+		case "victim":
+			return new dEntity(e.getEntity());
+		case "activemob":
+			return new dActiveMob(e.getMob());
+		case "money":
+			return new Element(e.getCurrency());
+		case "exp":
+			return new Element(e.getExp());
+		case "event":
+			return new Element(this.e.toString());
 		}
         return super.getContext(name);
     }
-
+	
 	@EventHandler
 	public void onMythicMobsDeathEvent(MythicMobDeathEvent e) {
-		this.event=e;
-		this.killer=new dEntity(e.getKiller());
-		this.victim=new dEntity(e.getEntity());
-		this.am=new dActiveMob(e.getMob());
-		this.money=new Element(e.getCurrency());
-		this.xp=new Element(e.getExp());
-		this.drops=new dList();
-		this.dchange=false;
-		for (ItemStack i:e.getDrops()) {
-			this.drops.add(new dItem(i).identify());
-		}
+		this.e=e;
 		fire();
-		if (this.dchange) {
-			List<dItem>items=this.drops.filter(dItem.class);
-			e.getDrops().clear();
-			for (dItem i:items) {
-				e.getDrops().add(i.getItemStack());
-			}
-		}
-		e.setCurrency(this.money.asDouble());
-		e.setExp(this.xp.asInt());
 	}
 }

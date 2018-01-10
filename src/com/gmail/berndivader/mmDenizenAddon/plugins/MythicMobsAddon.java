@@ -75,8 +75,8 @@ public class MythicMobsAddon extends Support {
 		
 		new MythicMobsSpawn().activate().as("mmspawnmob").withOptions("- mmspawnmob [mobtype:string] [location] (world:string) (level:integer)", 2);
 		new ActiveMobSkillCast().activate().as("mmcastmob").withOptions("- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);
-		new SendSignal().activate().as("mmsignal").withOptions("- mmsignal [activemob:dActiveMob] [signal:string] (trigger:dEntity)", 2);
 		new PlayerSkillCast().activate().as("mmcastplayer").withOptions("- mmcastplayer [player:dPlayer] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)", 3);
+		new SendSignal().activate().as("mmsignal").withOptions("- mmsignal [activemob:dActiveMob] [signal:string] (trigger:dEntity)", 2);
 		new TriggerSkill().activate().as("mmtrigger").withOptions("- mmtrigger [activemob:dActiveMob] [trigger:string] [entity:dEntity]", 3);
 		new CreateMythicSpawner().activate().as("mmcreatespawner").withOptions("- mmcreatespawner [string:uniquename] [location:dLocation] [string:mobtype]", 3);
 		new TransformToMythicMob().activate().as("mmapplymythic").withOptions("- mmapplymythic [entity:dEntity] [mobtype:string] [level:integer]", 2);

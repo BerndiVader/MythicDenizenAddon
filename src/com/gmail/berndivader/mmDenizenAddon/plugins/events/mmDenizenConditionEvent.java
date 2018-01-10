@@ -8,7 +8,9 @@ import org.bukkit.event.HandlerList;
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 
-public class mmDenizenConditionEvent extends Event {
+public class mmDenizenConditionEvent 
+extends 
+Event {
 	private static final HandlerList handlers = new HandlerList();
 	private Entity entity;
 	private Location location;
@@ -17,11 +19,11 @@ public class mmDenizenConditionEvent extends Event {
 	private Boolean bool;
 
 	public mmDenizenConditionEvent(Entity e, Location l, String n, String a, Boolean b) {
-		this.entity = e;
-		this.location = l;
-		this.conditionName = n;
-		this.condtionArgs = a;
-		this.bool = b;
+		this.entity=e;
+		this.location=l;
+		this.conditionName=n;
+		this.condtionArgs=a;
+		this.bool=b;
 	}
 	
 	public Entity getEntity() {

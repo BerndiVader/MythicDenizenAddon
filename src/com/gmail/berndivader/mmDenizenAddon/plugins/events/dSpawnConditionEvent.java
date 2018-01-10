@@ -12,7 +12,11 @@ import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.conditions.ConditionAction;
 import io.lumine.xikage.mythicmobs.skills.conditions.ILocationCondition;
 
-public class dSpawnConditionEvent extends SkillCondition implements ILocationCondition {
+public class dSpawnConditionEvent
+extends
+SkillCondition
+implements 
+ILocationCondition {
 	private String ConditionName;
 	private String ConditionArgs;
 	private boolean bool;
@@ -22,7 +26,7 @@ public class dSpawnConditionEvent extends SkillCondition implements ILocationCon
 		this.ACTION = ConditionAction.REQUIRED;
 		this.ConditionName = mlc.getString(new String[]{"condition","c"},"");
 		this.ConditionArgs = mlc.getString(new String[]{"args", "a"},"");
-		this.bool = true;
+		this.bool=true;
 	}
 
 	@Override
@@ -32,5 +36,4 @@ public class dSpawnConditionEvent extends SkillCondition implements ILocationCon
 		Bukkit.getServer().getPluginManager().callEvent(e);
 		return e.getBool();
 	}
-
 }
