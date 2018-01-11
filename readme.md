@@ -1,11 +1,14 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
-## Update 0.467b - some fixes & changes
-## Update 0.467a - added "mm denizen targetcondition" event
-## Update 0.496a - added 1.12.1 support
-## Update 0.495a - added mmapplymythic & mmremovemythic command
-## Update 0.493a - 1.12 support and build with denizen 1.0.2
-## Update 0.492a - Read updatev0492a.txt for more details!
+- Update 0.499  - even more rework
+- Update 0.498  - more rework
+- Update 0.497c - added mmskillcast command & some more fixes
+- Update 0.497b - some fixes & changes
+- Update 0.497a - added "mm denizen targetcondition" event
+- Update 0.496a - added 1.12.1 support
+- Update 0.495a - added mmapplymythic & mmremovemythic command
+- Update 0.493a - 1.12 support and build with denizen 1.0.2
+- Update 0.492a - Read updatev0492a.txt for more details!
 
 
 #### dObjects:
@@ -21,63 +24,76 @@
 
 #### MythicMobsDeathEvent:
 
-- mm denizen death
-  - returns: context.activemob context.victim context.killer context.drops context.money context.exp
-  
-  - victim = dEntity of victim
-  - activemob = dActiveMob of victim
-  - killer = dEntity of killer
-  - drops = mythicmobs drops of event as list
-  - money = money drop as value
-  - exp = exp drop as value
-  
-  - determine: change drops money exp values of the event:
-  
-  - Changed attribute format for determine in mm denizen death. Because determine can only run once and will stop the remaining code after being executed.
-  - Use a list separeted by ";" Valid entries are: drops:dList;money:Value;exp:Value All entries of the list are optional. Additinal info: determine should always be called at the end of the code because of the fact that it will stop executing the rest.
+##### mm denizen death
+##### mythicmobs death
+
+- **returns:** context.activemob context.victim context.killer context.drops context.money context.exp
+
+
+- *victim* = dEntity of victim
+- *activemob* = dActiveMob of victim
+- *killer* = dEntity of killer
+- *drops* = mythicmobs drops of event as list
+- *money* = money drop as value
+- *exp* = exp drop as value
+
+
+- **determine:** change drops money exp values of the event: Use a list separeted by ";" Valid entries are: drops:dList;money:Value;exp:Value All entries of the list are optional. Additinal info: determine should always be called at the end of the code because of the fact that it will stop executing the rest.
+
 ```
 Examples:
 
-	on mm denizen death:
-	  - determine drops:li@;money:0;exp:0
-	  
-	on mm denizen death:
+	on mythicmobs death:
+	  - determine passively drops:li@
 	  - determine money:0;exp:0
 	  
 	on mm denizen death:
-	  - determine money:0
+	on mythicmobs death:
+	  - determine drops:@li;money:0;exp:0
+	  
+	on mm denizen death:
+	on mythicmobs death:
+	  - determine passively money:0
+	  - determine exp:0
+	  - determine drops:@li
 ```
-
   
 
 #### MythicMobsSpawnEvent:
 
-- mm denizen spawn
-  - returns: context.entity context.location context.level context.mobtype context.cancelled
-  
-  - entity = dEntity of activemob
-  - location = dLocation
-  - level = Integer value of the moblevel
-  - mobtype = Mobtype of activemob as string
-  - cancelled = Boolean value if event is cancelled or not. (cant be undo)
-  
-  - event can be cancelled by determine true
+##### mm denizen spawn
+##### mythicmobs spawn
+
+- **returns:** context.entity context.location context.level context.mobtype context.cancelled
+
+
+- *entity* = dEntity of activemob
+- *location* = dLocation
+- *level* = Integer value of the moblevel
+- *mobtype* = Mobtype of activemob as string
+- *cancelled or iscancelled* = Boolean value if event is cancelled or not. (cant be undo)
+
+
+- **determine:** event can be cancelled by determine true
 
   
 #### CustomMechanics:
 
-- on mm denizen mechanic:
-  - returns: context.skill context.args context.caster context.target context.targetlocation context.targettype context.trigger
-  
-  - context.skill = denizen skillname
-  - context.args = skill parameter
-  - context.caster = dEntity of the caster
-  - context.target = dEntity of target if target = entity
-  - context.targetlocatin = dLocation of target if target = location
-  - context.targettype = returns NONE for no targetskill, ENTITY for entitytarget or LOCATION for locationtarget
-  - context.trigger = dEntity of trigger
-  
-  - the event is fired if mythicmobs run the skill named "dskill"
+##### on mm denizen mechanic:
+
+- **returns:** context.skill context.args context.caster context.target context.targetlocation context.targettype context.trigger
+
+ 
+- *skill* = denizen skillname
+- *args* = skill parameter
+- *caster* = dEntity of the caster
+- *target* = dEntity of target if target = entity
+- *targetlocation* = dLocation of target if target = location
+- *targettype* = returns NONE for no targetskill, ENTITY for entitytarget or LOCATION for locationtarget
+- *trigger* = dEntity of trigger
+
+
+- the event is fired if mythicmobs run the skill named "dskill"
   
 ```
 Example:
@@ -105,20 +121,24 @@ denizen script:
 
 #### CustomConditions:
 
-- on mm denizen condition / mm denizen targetcondition:
-  - Returns: context.type context.entity context.location context.condition context.args context.meet
-  
-  - context.type is "e" for entity condition or "l" for location condition
-  - context.entity if type = e : the entity can be the caster or if used as targetcondtion the target
-  - context.targetentity (if targetcondition) = the entity of the mythicmobs targeter used in the skill.
-  - context.location if type = l : the location to work with
-  - context.targetlocation (if targetcondition) = location of the mythicmobs targeter used in the skill.
-  - context.condition the name of the condition.
-  - context.args the arguments for the condition.
-  
-  - determine true or false where true meet the condition
-  
-  - event is fired if in the skill yml under conditions the dcondition is present.
+##### on mm denizen condition / mm denizen targetcondition:
+
+- **Returns:** context.type context.entity context.location context.condition context.args context.meet
+
+
+- *type* is "e" for entity condition or "l" for location condition
+- *entity* if type = e : the entity can be the caster or if used as targetcondtion the target
+- *targetentity* (if targetcondition) = the entity of the mythicmobs targeter used in the skill.
+- *location* if type = l : the location to work with
+- *targetlocation* (if targetcondition) = location of the mythicmobs targeter used in the skill.
+- *condition* the name of the condition.
+- *args* the arguments for the condition.
+
+
+- **determine:** true or false where true meet the condition
+
+
+- event is fired if in the skill yml under conditions the dcondition is present.
   
 ```
 Example:
@@ -174,39 +194,41 @@ For Denizen:
 		}
 	  }
 ```
-  
 
 #### Commands for ActiveMobs:
 
-- mmapplymythic entity:dEntity mobtype:string level:integer
-  - Required: entity - any living entity and mobtype - the name of the mythicmobs mob
-  - Optional: level - apply a level to the new mythicmob
-  - Returns: <entry[savename].activemob> intance of the transformed mythicmobs mob
+##### mmapplymythic entity:dEntity mobtype:string level:integer
++ **Required:** entity - any living entity and mobtype - the name of the mythicmobs mob
++ *Optional:* level - apply a level to the new mythicmob
++ *Returns:* <entry[savename].activemob> intance of the transformed mythicmobs mob
   
-- mmremovemythic activemob:dActiveMob
-  - Required: activemob - any mythicmobs mob that should be transformed into an ordinary entity
-  - Returns: <entry[savename].entity> intance of the transformed mythicmobs mob
+##### mmremovemythic activemob:dActiveMob
+- **Required:** activemob - any mythicmobs mob that should be transformed into an ordinary entity
+- *Returns:* <entry[savename].entity> intance of the transformed mythicmobs mob
 
-- mmspawnmob mobtype:string location world:string level:integer save:string
-  - Required: mobtype (valid mythicmob) and location as dLocation
-  - Optional: world as string, level as integer and save as string
-  - Returns: <entry[savename].activemob> instance of the spawned mythicmob
+##### mmspawnmob mobtype:string location world:string level:integer save:string
+- **Required:** mobtype (valid mythicmob) and location as dLocation
+- *Optional:* world as string, level as integer and save as string
+- *Returns:* <entry[savename].activemob> instance of the spawned mythicmob
   
-- mmcastmob caster:dActiveMob target:dEntity||dLocation skill:string trigger:dEntity power:float
-  - Required: caster (valid activemob), target a entity or location, skill string with valid metaskill
-  - Optional: trigger as Entity (default = caster), power as float (default=1)
+##### mmcastmob caster:dActiveMob target:dEntity||dLocation skill:string trigger:dEntity power:float
+- **Required:** caster (valid activemob), target a entity or location, skill string with valid metaskill
+- *Optional:* trigger as Entity (default = caster), power as float (default=1)
   
-- mmsignal activemob:dActiveMob singal:string trigger:dEntity
-  - Required: activemob (valid activemob), signal as a string
-  - Optional: trigger as dEntity (default = self)
+##### mmskillcast caster:dEntity target:dEntity||dLocation skill:string trigger:dEntity power:float repeat:int delay:int
+- **Required:** caster (valid activemob), target a entity or location, skill string with valid metaskill
+- *Optional:* trigger as Entity (default = caster), power as float (default=1)
+  
+##### mmsignal activemob:dActiveMob singal:string trigger:dEntity
+- **Required:** activemob (valid activemob), signal as a string
+- *Optional:* trigger as dEntity (default = self)
 
-- mmtrigger [activemob:dActiveMob] [trigger:string] [entity:dEntity]
-  - Required activemob <dActiveMob>, trigger <string>, entity <dEntity> the entity which trigger the activemob
-  - trigger the <activemob> with trigger <string> and triggerenttiy <dEntity>
-  - Valid triggers are: DEFAULT, ATTACK, BOW_HIT, BLOCK, COMBAT, CROUCH, UNCROUCH, DAMAGED, DROPCOMBAT, DEATH, ENTERCOMBAT, EXPLODE, INTERACT, KILL, KILLPLAYER, PLAYERDEATH, SHOOT, SIGNAL, SPAWN, SPLASH_POTION, SWING, TARGETCHANGE, TELEPORT, TIMER, USE, READY
+##### mmtrigger activemob:dActiveMob trigger:string entity:dEntity
+- **Required:** activemob <dActiveMob>, trigger <string>, entity <dEntity> the entity which trigger the activemob
+- trigger the <activemob> with trigger <string> and triggerenttiy <dEntity>
+- Valid triggers are: DEFAULT, ATTACK, BOW_HIT, BLOCK, COMBAT, CROUCH, UNCROUCH, DAMAGED, DROPCOMBAT, DEATH, ENTERCOMBAT, EXPLODE, INTERACT, KILL, KILLPLAYER, PLAYERDEATH, SHOOT, SIGNAL, SPAWN, SPLASH_POTION, SWING, TARGETCHANGE, TELEPORT, TIMER, USE, READY
+  
 ```
-Denizen part:
-
 	on entity damaged by projectile:
 	  - if <context.entity.isactivemob> == true && <context.projectile.name> == "arrow" {
 	    - mmtrigger activemob:<context.entity.activemob> trigger:boghit entity:<context.damager>
@@ -224,10 +246,12 @@ Monkey:
 ```
 
 mmapplymythic & mmremovemythic example:
+
 ```
     on player right clicks entity:
 		- if <context.entity.isactivemob> == false {
-			- mmapplymythic entity:<context.entity> mobtype:MythicEntity level:1
+			- mmapplymythic entity:<context.entity> mobtype:MythicEntity level:1 save:result
+			- mmtrigger activemob:<entry[result].activemob> trigger:SPAWN entity:<context.entity>
 			- announce "Applied mythic to entity"
 		} else {
 			- mmremovemythic activemob:<context.entity.activemob>
@@ -239,16 +263,15 @@ mob yaml:
 MythicEntity:
   Type: zombie
   Skills:
-  - message{msg="Me a MythicMobs mob now!"} @world ~onTimer:60
+  - message{msg="Me a MythicMobs mob now!"} @world ~onSpawn
 ```
-
 
 
 #### Commands for Players:
   
-- mmcastplayer caster:dEntity skill:string target:dEntity||dLocation trigger:dEntity repeat:integer delay:integer
-  - Required: caster as dEntitiy of Player, skill string with valid metaskill, target dEntity or dLocation
-  - Optional: trigger as dEntity (default = caster), repeat as integer, delay ticks as integer
+##### mmcastplayer caster:dEntity skill:string target:dEntity||dLocation trigger:dEntity repeat:integer delay:integer
+- **Required:** caster as dEntitiy of Player, skill string with valid metaskill, target dEntity or dLocation
+- *Optional:* trigger as dEntity (default = caster), repeat as integer, delay ticks as integer
 
 ```
 mythicmobs skill yml:
@@ -281,153 +304,153 @@ on player clicks:
   
 #### Attributes for dObject world:
 
-- world.allactivemobs
-  - Returns a dList of all ActiveMobs in the given world
+##### world.allactivemobs
+- Returns a dList of all ActiveMobs in the given world
   
-- world.allmythicspawners
-  - Returns a dList of all MythicSpawners in the given world
+##### world.allmythicspawners
+- Returns a dList of all MythicSpawners in the given world
 
 
 #### Attributes for dObject entity:
 
-- entity.isactivemob
-  - Returns true if activemob or false if not.
+##### entity.isactivemob
+- Returns true if activemob or false if not.
 
-- entity.activemob
-  - Returns the activemob instance of the entity.
+##### entity.activemob
+- Returns the activemob instance of the entity.
   
-- entity.damage
-  - returns Element(double)
-  - Base damage (>1.9 only)
+##### entity.damage
+- returns Element(double)
+- Base damage (>1.9 only)
 
-- entity.followrange
-    - returns Element(double)
-	- Base followrange (>1.9 only)
+##### entity.followrange
++ returns Element(double)
++ Base followrange (>1.9 only)
 
-- entity.armor
-    - returns Element(double)
-	- Base armor (>1.9 only)
+##### entity.armor
+- returns Element(double)
+- Base armor (>1.9 only)
 	
-- entity.attackspeed
-    - returns Element(double)
-	- Base attackspeed (>1.9 only) 
+##### entity.attackspeed
+- returns Element(double)
+- Base attackspeed (>1.9 only) 
 
-- entity.knockbackresist
-    - returns Element(double)
-	- Base knockback resistance (>1.9 only)
+##### entity.knockbackresist
+- returns Element(double)
+- Base knockback resistance (>1.9 only)
 	
-- entity.jumpstrength
-    - returns Element(double)
-	- Base jump strength if entity of horse type (>1.9 only)
+##### entity.jumpstrength
+- returns Element(double)
+- Base jump strength if entity of horse type (>1.9 only)
 	
-- entity.maxnodamageticks
-    - returns Element(integer)
-	- Max amount of nodamageticks
+##### entity.maxnodamageticks
+- returns Element(integer)
+- Max amount of nodamageticks
 	
-- entity.nodamageticks
-    - returns Element(integer)
-	- Actual nodamageticks
+##### entity.nodamageticks
+- returns Element(integer)
+- Actual nodamageticks
 	
-- entity.mmtargets[<String>]
-    - Returns dList<dEntity||dLocation>
-	- Use any MythicMobs targeter in <String>
-    - Example:
-```
+##### entity.mmtargets[<String>]
+- Returns dList<dEntity||dLocation>
+- Use any MythicMobs targeter in <String>
+- Example:
+    
+```yaml
 	on player right clicks:
 	  - announce <player.entity.mmtargets[@EIR{r=30}]>
 	  ## returns a dEntity dList
 	  - announce <player.entity.mmtargets[@Ring{r=10;p=5}]>
 	  ## returns a dLocation dList
 ```
-
 	
 #### Attributes for dObject activemob:
 
-- activemob.isdead
-  - True or False if activemob is dead.
+##### activemob.isdead
+- True or False if activemob is dead.
 
-- activemob.hasthreattable 
-  - True of False if activemob has target threattable.
+##### activemob.hasthreattable 
+- True of False if activemob has target threattable.
 
-- activemob.hasmythicspawner
-  - Returns true if the activemob has a MythicSpawner.
+##### activemob.hasmythicspawner
+- Returns true if the activemob has a MythicSpawner.
 
-- activemob.hastarget
-  - Returns true if the activemob has a target
+##### activemob.hastarget
+- Returns true if the activemob has a target
 
-- activemob.mobtype
-  - MobType of the ActiveMob as string
+##### activemob.mobtype
+- MobType of the ActiveMob as string
 
-- activemob.displayname 
-  - DisplayName of the ActiveMob as string
+##### activemob.displayname 
+- DisplayName of the ActiveMob as string
 
-- activemob.location
-  - location of the activemob as dLocation
+##### activemob.location
+- location of the activemob as dLocation
 
-- activemob.world
-  - world of the activemob as dWorld
+##### activemob.world
+- world of the activemob as dWorld
 
-- activemob.owner
-  - owner of the activemob as dEntity
+##### activemob.owner
+- owner of the activemob as dEntity
 
-- activemob.lastaggro
-  - lastaggroentity of the activemob as dEntity
+##### activemob.lastaggro
+- lastaggroentity of the activemob as dEntity
 
-- activemob.toptarget
-  - top target of the threattable if activemob uses them or the target of the activemob as dEntity
+##### activemob.toptarget
+- top target of the threattable if activemob uses them or the target of the activemob as dEntity
 
-- activemob.uuid
-  - uuid of the activemob as string
+##### activemob.uuid
+- uuid of the activemob as string
 
-- activemob.health
-  - returns the health as integer
+##### activemob.health
+- returns the health as integer
 
-- activemob.maxhealth
-  - max possible health as integer
+##### activemob.maxhealth
+- max possible health as integer
 
-- activemob.faction
-  - faction of the activemob as string
+##### activemob.faction
+- faction of the activemob as string
 
-- activemob.stance
-  - stance of the activemob as string
+##### activemob.stance
+- stance of the activemob as string
 
-- activemob.level
-  - level of the activemob as integer
+##### activemob.level
+- level of the activemob as integer
 
-- activemob.playerkills
-  - pks of the activemob as integer
+##### activemob.playerkills
+- pks of the activemob as integer
 
-- activemob.lastsignal
-  - last signal of the activemob as string
+##### activemob.lastsignal
+- last signal of the activemob as string
   
-- activemob.mythicspawner
-  - mythicspawner object if activemob has a customspawner
+##### activemob.mythicspawner
+- mythicspawner object if activemob has a customspawner
   
-- activemob.threattable
-  - returns dList of dEntity in activemobs threattable
+##### activemob.threattable
+- returns dList of dEntity in activemobs threattable
   
-- activemob.threatvalueof[<dEntity>]
-  - returns threat amount as double of dEntity out of activemobs threattable
+##### activemob.threatvalueof[<dEntity>]
+- returns threat amount as double of dEntity out of activemobs threattable
   
-- activemob.damage
-    - returns Element(double)
-	- max possible amount of damage the mob can make.
+##### activemob.damage
+- returns Element(double)
+- max possible amount of damage the mob can make.
 	
-- activemob.power
-    - returns Element(float)
-	- Powerlevel of the mob
+##### activemob.power
+- returns Element(float)
+- Powerlevel of the mob
 	
-- activemob.lastdamageskillamount
-    - returns Element(double)
-	- Amount of damage from the last used damage skill.
+##### activemob.lastdamageskillamount
+- returns Element(double)
+- Amount of damage from the last used damage skill.
 
-- activemob.hasimmunitytable
-    - returns Element(boolean)
-	- Check if the mob has immunitytable enabled.
+##### activemob.hasimmunitytable
+- returns Element(boolean)
+- Check if the mob has immunitytable enabled.
 
-- activemob.isonimmunitycooldown[dEntity]
-    - returns Element(boolean)
-	- Check if the entity is on the mob's immunitytable.
+##### activemob.isonimmunitycooldown[dEntity]
+- returns Element(boolean)
+- Check if the entity is on the mob's immunitytable.
 
   
 #### Attributes for dObject mythicspawner:
