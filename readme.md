@@ -1,5 +1,6 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
+- Update 0.499a - added MythicItem dObject, added getmythicitems command
 - Update 0.499  - even more rework
 - Update 0.498  - more rework
 - Update 0.497c - added mmskillcast command & some more fixes
@@ -16,6 +17,7 @@
 ##### activemob
 ##### mythicspawner
 ##### mythicmob
+##### mythicitem
 ##### team
 
 
@@ -194,6 +196,12 @@ For Denizen:
 		}
 	  }
 ```
+
+#### Commands for MythicItems:
+
+##### getmythicitems filter:<filter> save:<list>
++ *Optional* filter - if given regex is used to fitler the items
++ *Returns* <entry[savename].mythicitems> a dList of all returned mythicitems.
 
 #### Commands for ActiveMobs:
 
@@ -451,6 +459,25 @@ on player clicks:
 ##### activemob.isonimmunitycooldown[dEntity]
 - returns Element(boolean)
 - Check if the entity is on the mob's immunitytable.
+
+
+#### Attributes for dObject mythicitem:
+
+- mythicitem.internalname
+  - Internal MythicItem name
+  
+- mythicitem.amount
+  - Amount
+- mythicitem.displayname
+  - Displayname
+- mythicitem.lore
+  - dlist of the items lore
+- mythicitem.materialname
+  - material name
+- mythicitem.materialdata
+  - material data
+- mythicitem.itemstack
+  - creates the dItem
 
   
 #### Attributes for dObject mythicspawner:

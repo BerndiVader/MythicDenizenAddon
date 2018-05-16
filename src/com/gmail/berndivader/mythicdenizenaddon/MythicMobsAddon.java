@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.berndivader.mythicdenizenaddon.cmds.ActiveMobSkillCast;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.CreateMythicSpawner;
+import com.gmail.berndivader.mythicdenizenaddon.cmds.GetMythicItems;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.MythicMobSkillCast;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.MythicMobsSpawn;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.PlayerSkillCast;
@@ -29,6 +30,7 @@ import com.gmail.berndivader.mythicdenizenaddon.events.DenizenTargetConditionEve
 import com.gmail.berndivader.mythicdenizenaddon.obj.ActivePlayer;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dEntityExt;
+import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicItem;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMob;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicSpawner;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dWorldExt;
@@ -57,10 +59,12 @@ import net.aufdemrand.denizencore.objects.dList;
 
 public class MythicMobsAddon extends Support {
 	
+	public static MythicMobs mythicmobs=MythicMobs.inst();
+	
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
 		
-		registerObjects(dMythicSpawner.class, dActiveMob.class, dMythicMob.class);
+		registerObjects(dMythicSpawner.class, dActiveMob.class, dMythicMob.class,dMythicItem.class);
 		registerProperty(dEntityExt.class, dEntity.class);
 		registerProperty(dWorldExt.class, dWorld.class);
 		
@@ -81,22 +85,23 @@ public class MythicMobsAddon extends Support {
 		new CreateMythicSpawner().activate().as("mmcreatespawner").withOptions("- mmcreatespawner [string:uniquename] [location:dLocation] [string:mobtype]", 3);
 		new TransformToMythicMob().activate().as("mmapplymythic").withOptions("- mmapplymythic [entity:dEntity] [mobtype:string] [level:integer]", 2);
 		new TransformMythicMob().activate().as("mmremovemythic").withOptions("- mmremovemythic [activemob:dActiveMob]", 1);
+		new GetMythicItems().activate().as("getmythicitems").withOptions("- getmythicitems [filter:regex]",0);
 	}
 
 	public static boolean isActiveMob(UUID uuid) {
-		return MythicMobs.inst().getMobManager().isActiveMob(uuid);
+		return mythicmobs.getMobManager().isActiveMob(uuid);
 	}
 	
 	public static boolean isMythicMob(String type) {
-		return MythicMobs.inst().getMobManager().getMythicMob(type)!=null;
+		return mythicmobs.getMobManager().getMythicMob(type)!=null;
 	}
 
 	public static boolean isActiveMob(Entity e) {
-		return MythicMobs.inst().getMobManager().isActiveMob(BukkitAdapter.adapt(e));
+		return mythicmobs.getMobManager().isActiveMob(BukkitAdapter.adapt(e));
 	}
 
 	public static ActiveMob getActiveMob(Entity e) {
-		return MythicMobs.inst().getMobManager().getMythicMobInstance(e);
+		return mythicmobs.getMobManager().getMythicMobInstance(e);
 	}
 	
 	public static boolean removeSelf(ActiveMob am) {
@@ -120,7 +125,7 @@ public class MythicMobsAddon extends Support {
 
 	public static boolean isDead(Entity e) {
 		ActiveMob am;
-		if ((am=MythicMobs.inst().getAPIHelper().getMythicMobInstance(e))!=null) {
+		if ((am=mythicmobs.getAPIHelper().getMythicMobInstance(e))!=null) {
 			return am.isDead();
 		}
 		return false;
@@ -128,7 +133,7 @@ public class MythicMobsAddon extends Support {
 
 	public static boolean hasThreatTable(Entity e) {
 		ActiveMob am;
-		if ((am=MythicMobs.inst().getAPIHelper().getMythicMobInstance(e))!=null) {
+		if ((am=mythicmobs.getAPIHelper().getMythicMobInstance(e))!=null) {
 			return am.hasThreatTable();
 		}
 		return false;
@@ -136,7 +141,7 @@ public class MythicMobsAddon extends Support {
 
 	public static boolean hasMythicSpawner(Entity e) {
 		ActiveMob am;
-		if ((am=MythicMobs.inst().getAPIHelper().getMythicMobInstance(e))!=null) {
+		if ((am=mythicmobs.getAPIHelper().getMythicMobInstance(e))!=null) {
 			return am.getSpawner()!=null;
 		}
 		return false;
@@ -177,7 +182,7 @@ public class MythicMobsAddon extends Support {
 	public static void setTarget(ActiveMob am, Entity target) {
 		if (am.hasThreatTable() && (target instanceof LivingEntity)) {
 			double h = am.getThreatTable().getTopTargetThreat();
-			MythicMobs.inst().getAPIHelper().addThreat(am.getEntity().getBukkitEntity(), (LivingEntity)target, h+1);
+			mythicmobs.getAPIHelper().addThreat(am.getEntity().getBukkitEntity(), (LivingEntity)target, h+1);
 		} else {
 			am.setTarget(BukkitAdapter.adapt(target));
 		}
@@ -185,7 +190,7 @@ public class MythicMobsAddon extends Support {
 
 	public static dList allActiveMobs(World world) {
 		dList ams = new dList();
-		for (ActiveMob am : MythicMobs.inst().getMobManager().getActiveMobs()) {
+		for (ActiveMob am : mythicmobs.getMobManager().getActiveMobs()) {
 			if (am.getLocation().getWorld().getName().equals(world.getName())) {
 				ams.add(new dActiveMob(am).identify());
 			}
@@ -194,7 +199,7 @@ public class MythicMobsAddon extends Support {
 	}
 
 	public static boolean isMythicSpawner(String uniqueName) {
-		return MythicMobs.inst().getSpawnerManager().getSpawnerByName(uniqueName) != null;
+		return mythicmobs.getSpawnerManager().getSpawnerByName(uniqueName) != null;
 	}
 
 	public static MythicSpawner getMythicSpawner(String uniqueName) {
