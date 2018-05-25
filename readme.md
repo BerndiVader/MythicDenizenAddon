@@ -13,15 +13,15 @@
 <br>
 <br>
 
-**General Information**
-[Events](documentation/events.md)
-[Tags](documentation/tags.md)
-[Mechanisms](documentation/mechanisms.md)
+**General Information** <br>
+[Events](documentation/events.md) <br>
+[Tags](documentation/tags.md) <br>
+[Mechanisms](documentation/mechanisms.md) <br>
 [Commands](documentation/commands.md)
 
-**dObjects**
-\- dActiveMob
-\- dMythicSpawner
-\- dMythicMob
-\- dMythicItem
+**dObjects**<br>
+\- dActiveMob<br>
+\- dMythicSpawner<br>
+\- dMythicMob<br>
+\- dMythicItem<br>
 \- dTeam

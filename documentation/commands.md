@@ -1,22 +1,22 @@
 # Commands
-[Items](#items)
-[ActiveMobs](#activemobs)
+[Items](#items) <br>
+[ActiveMobs](#activemobs) <br>
 [Players](#players)
 
 ----
-#### Items
-**Command:** ```getmythicitems (filter:<filter>)```
-**Description:** Grabs a list of MythicItems.
-Optionally specify a filter.
-**Tags:** `<entry[saveName].mythicitems> `returns a dList of all returned MythicItems.
+### Items
+**Command:** ```getmythicitems (filter:<filter>)``` <br>
+**Description:** Grabs a list of MythicItems. <br>
+Optionally specify a filter. <br>
+**Tags:** `<entry[saveName].mythicitems> `returns a dList of all returned MythicItems. <br>
 
 ----
-#### ActiveMobs
-**Command:** `mmapplymythic [entity:<entity>] [mobtype:<element>] (level:<#>)`
-**Description:** Transforms an entity into an ActiveMob recognized by MythicMobs.
-"`mobtype`" specifies the internal name of the MythicMob that the entity is to be transformed into.
-**Tags:** `<entry[saveName].activemob>` returns the dActiveMob of the transformed entity.
-**Example:**
+### ActiveMobs
+**Command:** `mmapplymythic [entity:<entity>] [mobtype:<element>] (level:<#>)` <br>
+**Description:** Transforms an entity into an ActiveMob recognized by MythicMobs. <br>
+"`mobtype`" specifies the internal name of the MythicMob that the entity is to be transformed into. <br>
+**Tags:** `<entry[saveName].activemob>` returns the dActiveMob of the transformed entity. <br>
+**Example:** <br>
 *In Denizen:*
 ```yaml
 example_script:
@@ -40,44 +40,49 @@ MythicEntity:
   Skills:
   - message{msg="Me a MythicMobs mob now!"} @world ~onSpawn
 ```
-
+<br>
 <br>
 
-**Command:** `mmremovemythic [activemob:<ActiveMob>]`
-**Description:** Transforms an active MythicMob into its vanilla counterpart.
-**Tags:** `<entry[saveName].entity>` returns the dEntity of the transformed ActiveMob.
+**Command:** `mmremovemythic [activemob:<ActiveMob>]` <br>
+**Description:** Transforms an active MythicMob into its vanilla counterpart. <br>
+**Tags:** `<entry[saveName].entity>` returns the dEntity of the transformed ActiveMob. <br>
+<br>
 <br>
 
-**Command:** `mmspawnmob [mobtype:<element>] [<location>] (world:<string>) (level:<#>)`
-**Description:** Spawns a MythicMob at a location.
-"`mobtype`" specifies the internal name of the MythicMob to be spawned.
-**Tags:** `<entry[saveName].activemob>` returns a dActiveMob of the spawned MythicMob.
+**Command:** `mmspawnmob [mobtype:<element>] [<location>] (world:<string>) (level:<#>)` <br>
+**Description:** Spawns a MythicMob at a location. <br>
+"`mobtype`" specifies the internal name of the MythicMob to be spawned. <br>
+**Tags:** `<entry[saveName].activemob>` returns a dActiveMob of the spawned MythicMob. <br>
+<br>
 <br>
 
-**Command:** `mmcastmob [caster:<ActiveMob>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>)`
-**Description:** Forces an ActiveMob to cast a skill onto a target entity or location.
-"`skill`" should be a valid MythicMobs skill.
-Optionally specify a trigger entity and power level of the skill. The trigger entity defaults to the caster. The power defaults to "1".
-**Tags:** none
+**Command:** `mmcastmob [caster:<ActiveMob>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>)` <br>
+**Description:** Forces an ActiveMob to cast a skill onto a target entity or location. <br>
+"`skill`" should be a valid MythicMobs skill. <br>
+Optionally specify a trigger entity and power level of the skill. The trigger entity defaults to the caster. The power defaults to "1". <br>
+**Tags:** none <br>
+<br>
 <br>
 
-**Command:** `mmskillcast [caster:<ActiveMob>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>) (repeat:<#>) (delay:<#>)`
-**Description:** Forces an ActiveMob to cast a skill onto a target entity or location.
-"`skill`" should be a valid MythicMobs skill.
-Optionally specify a trigger entity and power level of the skill. The trigger entity defaults to the caster. The power defaults to "1".
-Optionally specify the amount of times the skill should repeat, with an optional delay between each iteration. The delay is in ticks.
-**Tags:** none
+**Command:** `mmskillcast [caster:<ActiveMob>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>) (repeat:<#>) (delay:<#>)` <br>
+**Description:** Forces an ActiveMob to cast a skill onto a target entity or location. <br>
+"`skill`" should be a valid MythicMobs skill. <br>
+Optionally specify a trigger entity and power level of the skill. The trigger entity defaults to the caster. The power defaults to "1". <br>
+Optionally specify the amount of times the skill should repeat, with an optional delay between each iteration. The delay is in ticks. <br>
+**Tags:** none <br>
+<br>
 <br>
 
-**Command:** `mmsignal [activemob:<ActiveMob>] [singal:<element>] (trigger:<entity>)`
-**Description:** Sends a signal to an active MythicMob.
-Optionally specify a trigger entity. The trigger entity defaults to the MythicMob receiving the signal.
-**Tags:** none
+**Command:** `mmsignal [activemob:<ActiveMob>] [singal:<element>] (trigger:<entity>)` <br>
+**Description:** Sends a signal to an active MythicMob. <br>
+Optionally specify a trigger entity. The trigger entity defaults to the MythicMob receiving the signal. <br>
+**Tags:** none <br>
+<br>
 <br>
 
-**Command:** `mmtrigger [activemob:<ActiveMob>] [trigger:<element>] [entity:<entity>]`
-**Description:** Triggers an active MythicMob's trigger, where "entity" is the entity triggering the active MythicMob.
-Valid triggers are:
+**Command:** `mmtrigger [activemob:<ActiveMob>] [trigger:<element>] [entity:<entity>]` <br>
+**Description:** Triggers an active MythicMob's trigger, where "entity" is the entity triggering the active MythicMob. <br>
+Valid triggers are: <br>
 ```
 DEFAULT, ATTACK, BOW_HIT, BLOCK, COMBAT,
 CROUCH, UNCROUCH, DAMAGED, DROPCOMBAT,
@@ -86,8 +91,8 @@ KILLPLAYER, PLAYERDEATH, SHOOT, SIGNAL,
 SPAWN, SPLASH_POTION, SWING, TARGETCHANGE,
 TELEPORT, TIMER, USE, READY
 ```
-**Tags:** none
-**Example:**
+**Tags:** none <br>
+**Example:** <br>
 *In Denizen:*
 ```yaml
 example_script:
@@ -110,13 +115,13 @@ Monkey:
 ```
 
 ----
-#### Players
-**Command:** `mmcastplayer [caster:<entity>] [skill:<element>] [target:<entity>/<location>] (trigger:<entity>) (repeat:<#>) (delay:<#>)`
-**Description:** Forces a player to use a MythicMobs skill.
-Optionally specify a trigger entity. The trigger entity defaults to the caster.
-Optionally specify the amount of times the skill should repeat, with an optional delay between each iteration. The delay is in ticks.
-**Tags:** none
-**Example:**
+### Players
+**Command:** `mmcastplayer [caster:<entity>] [skill:<element>] [target:<entity>/<location>] (trigger:<entity>) (repeat:<#>) (delay:<#>)` <br>
+**Description:** Forces a player to use a MythicMobs skill. <br>
+Optionally specify a trigger entity. The trigger entity defaults to the caster. <br>
+Optionally specify the amount of times the skill should repeat, with an optional delay between each iteration. The delay is in ticks. <br>
+**Tags:** none <br>
+**Example:** <br>
 *In Denizen:*
 ```yaml
 example_script:

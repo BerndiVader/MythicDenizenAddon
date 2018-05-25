@@ -1,13 +1,13 @@
 # Events:
-[MythicMobsDeathEvent](#mythicmobsdeathevent)
-[MythicMobsSpawnEvent](#mythicmobsspawnevent)
-[CustomMechanic](#custommechanic)
-[CustomCondition](#customcondition)
+[MythicMobsDeathEvent](#mythicmobsdeathevent) <br>
+[MythicMobsSpawnEvent](#mythicmobsspawnevent) <br>
+[CustomMechanic](#custommechanic) <br>
+[CustomCondition](#customcondition) <br>
 
 ----
-#### MythicMobsDeathEvent:
-**Names:**
-*mm denizen death*
+### MythicMobsDeathEvent
+**Names:** <br>
+*mm denizen death* <br>
 *mythicmobs death*
 
 |Contexts|Descriptions|
@@ -19,10 +19,10 @@
 |`<context.money>`|Returns an Element(Decimal) of the money dropped.|
 |`<context.exp>`|Returns an Element(Number) of the XP dropped by the mob.|
 
-**Determinations:**
-`DROPS:dList(dItem)` to specify new items to be dropped.
-`MONEY:Element(Decimal)` to specify the new amount of money to drop. Requires Vault and an economy plugin.
-`EXP:Element(Number)` to specify the new amount of XP to drop.
+**Determinations:** <br>
+`DROPS:dList(dItem)` to specify new items to be dropped. <br>
+`MONEY:Element(Decimal)` to specify the new amount of money to drop. Requires Vault and an economy plugin. <br>
+`EXP:Element(Number)` to specify the new amount of XP to drop. <br>
 
 **Determination Examples:**
 ```yaml
@@ -41,10 +41,10 @@
     - determine drops:@li
 ```
 ----
-#### MythicMobsSpawnEvent:
-**Names**
-*mm denizen spawn*
-*mythicmobs spawn*
+### MythicMobsSpawnEvent
+**Names** <br>
+*mm denizen spawn* <br>
+*mythicmobs spawn* <br>
 
 |Contexts|Descriptions|
 |--|--|
@@ -54,15 +54,15 @@
 |<context.mobtype>|Returns the mob type of the MythicMob being spawned.<br>NOTE: You can use <context.entity.entity_type> instead.|
 |<context.cancelled><br><context.iscancelled>|Returns an Element(Boolean) if the event is cancelled.|
 
-**Determinations:**
+**Determinations:** <br>
 "`TRUE`" to cancel the event. (This allows use of the tag `<context.cancelled>`).
 
 ----
-#### CustomMechanic:
-**Names:**
-*on mm denizen mechanic*
+### CustomMechanic
+**Names:** <br>
+*on mm denizen mechanic* <br>
 
-**Note:**
+**Note:** <br>
 The event fires only when a MythicMob uses the `dskill` skill.
 
 |Contexts|Descriptions|
@@ -75,7 +75,7 @@ The event fires only when a MythicMob uses the `dskill` skill.
 |`<context.targettype>`|Returns "NONE" if there is no target, "ENTITY" if the target is an entity, or "LOCATION" if the target is a location.|
 |`<context.trigger>`|Returns the dEntity of the entity who triggered the skill.|
 
-**MythicMob and Denizen Examples:**
+**MythicMob and Denizen Examples:** <br>
 *In MythicMobs:*
 ```yaml
 denizenmob:
@@ -97,12 +97,12 @@ denizenmob:
 ```
 
 ----
-#### CustomCondition:
-**Names:**
-*on mm denizen condition*
-*mm denizen targetcondition*
+### CustomCondition
+**Names:** <br>
+*on mm denizen condition* <br>
+*mm denizen targetcondition* <br>
 
-**Note:**
+**Note:** <br>
 This event is fired a MythicMobs skill uses a dcondition.
 
 |Contexts|Descriptions|
@@ -146,27 +146,27 @@ niceweather:
     - if <context.condition> == "time" {
       - if <context.type> == "e" {
         - if <context.args> != <context.entity.world.time.period> {
-        - determine false
-      }
-    }
-    if <context.type> == "l" {
-        - if <context.args> != <context.location.world.time.period> {
-        - determine false
-      }
-    }
-    }
-    - if <context.condition> == "weather" {
-      - if <context.args> == "sunny" {
-      - if <context.type> == "e" {
-        - if <context.entity.world.has_storm> == true {
           - determine false
         }
       }
       - if <context.type> == "l" {
-        - if <context.location.world.has_storm> == true {
+        - if <context.args> != <context.location.world.time.period> {
           - determine false
         }
       }
     }
+    else if <context.condition> == "weather" {
+      - if <context.args> == "sunny" {
+        - if <context.type> == "e" {
+          - if <context.entity.world.has_storm> == true {
+            - determine false
+          }
+        }
+      }
+      else if <context.type> == "l" {
+        - if <context.location.world.has_storm> == true {
+          - determine false
+        }
+      }
     }
 ```

@@ -1,22 +1,21 @@
 # Tags/Attributes
-[World tags](#dworld_tags)
-[Entity tags](#dentity_tags)
-[ActiveMob tags](#dactivemob_tags)
-[MythicItem tags](#dmythicitem_tags)
-[MythicSpawner tags](#dmythicspawner_tags)
-[Team tags](#dteam_tags)
-
-[Tag examples](#tag_examples)
+[World tags](#dworld-tags) <br>
+[Entity tags](#dentity-tags) <br>
+[ActiveMob tags](#dactivemob-tags) <br>
+[MythicItem tags](#dmythicitem-tags) <br>
+[MythicSpawner tags](#dmythicspawner-tags) <br>
+[Team tags](#dteam-tags) <br>
+[Tag examples](#tag-examples)
 
 ----
-#### dWorld Tags
+### dWorld Tags
 |Tag Names|Descriptions|
 |---|---|
 |`<w@world.allactivemobs>`<br>Returns: dList(dActiveMob)|Returns a list of all ActiveMobs in this world.|
 |`<w@world.allmythicspawners>`<br>Returns: dList(dMythicSpawner)|Returns a list of all MythicSpawners in this world.|
 
 ----
-#### dEntity Tags
+### dEntity Tags
 |Tag Names|Descriptions|
 |---|---|
 |`<e@entity.isactivemob>`<br>Returns: Element(Boolean)|Returns whether this entity is an ActiveMob.|
@@ -34,7 +33,7 @@
 |`<e@entity.team>`<br>Returns: dTeam|Returns the scoreboard team this entity is in, if any.|
 
 ----
-#### dActiveMob Tags
+### dActiveMob Tags
 |Tag Names|Descriptions|
 |---|---|
 |`<activemob@activemob.isdead>`<br>Returns: Element(Boolean)|Returns whether this ActiveMob is dead.|
@@ -66,7 +65,7 @@
 |`<activemob@activemob.isonimmunitycooldown[<entity>]>`<br>Returns: Element(Boolean)|Returns whether the specified entity is on this ActiveMob's ImmunityTable.|
 
 ----
-#### dMythicItem Tags
+### dMythicItem Tags
 |Tag Names|Descriptions|
 |---|---|
 |`<mythicitem@mythicitem.internalname>`<br>Returns: Element(String)|Returns the internal name for this MythicItem.|
@@ -78,7 +77,7 @@
 |`<mythicitem@mythicitem.itemstack>`<br>Returns: dItem|Returns this MythicItem as a dItem.|
 
 ----
-#### dMythicSpawner Tags
+### dMythicSpawner Tags
 |Tag Names|Descriptions|
 |---|---|
 |`<mythicspawner@mythicspawner.location>`<br>Returns: dLocation|Returns the location of this MythicSpawner.|
@@ -94,7 +93,7 @@
 |`<mythicspawner@mythicspawner.maxmobamount>`<br>Returns: Element(Number)|Returns the maximum amount of entities this MythicSpawner can spawn.|
 
 ----
-#### dTeam Tags
+### dTeam Tags
 |Tag Names|Descriptions|
 |---|---|
 |`<team@team.name>`<br>Returns: Element(String)|Returns the internal name of this team.|

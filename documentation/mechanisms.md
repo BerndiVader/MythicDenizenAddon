@@ -1,10 +1,10 @@
 # Mechanisms
-[ActiveMob mechanisms](#dactivemob_mechanisms)
-[Entity mechanisms](#dentity_mechanisms)
-[MythicSpawner mechanisms](#dmythicspawner_mechanisms)
-[Team mechanisms](#dteam_mechanisms)
+[ActiveMob mechanisms](#dactivemob-mechanisms) <br>
+[Entity mechanisms](#dentity-mechanisms) <br>
+[MythicSpawner mechanisms](#dmythicspawner-mechanisms) <br>
+[Team mechanisms](#dteam-mechanisms)
 
-#### dActiveMob Mechanisms
+### dActiveMob Mechanisms
 |Mechanisms|Descriptions|
 |---|---|
 |Name: `remove`<br>Input: `None`|Removes and unregisters the ActiveMob from MythicMobs.<br>**Related tags:** `none`|
@@ -27,7 +27,7 @@
 |Name: `setimmunitycooldown`<br>Input: `dEntity`|Sets the immunity cooldown for the specified entity.<br>**Related tags:** `<activemob@activemob.hasimmunitytable>`, `<activemob@activemob.isonimmunitycooldown[<entity>]>`|
 
 ----
-#### dEntity Mechanisms
+### dEntity Mechanisms
 |Mechanisms|Descriptions|
 |---|---|
 |Name: `followrange`<br>Input: `Element(Decimal)`|Sets the base following range of this entity.<br>**Related tags:** `<e@entity.followrange>`|
@@ -39,7 +39,7 @@
 |Name: `leaveteam`<br>Input: `none`|Makes this entity leave the team they are in, if any.<br>**Related tags:** `<e@entity.hasteam>`, `<e@entity.team>`|
   
 ----
-#### dMythicSpawner Mechanisms
+### dMythicSpawner Mechanisms
 |Mechanisms|Descriptions|
 |---|---|
 |Name: `activate`<br>Input: `Element(Boolean)`|Sets whether this MythicSpawner is active.<br>**Related tags:** `none`|
@@ -53,7 +53,7 @@
 |Name: `attach`<br>Input: `dActiveMob`|Attach the specified ActiveMob to this MythicSpawner, if this ActiveMob is not already attached to this MythicSpawner.<br>**Related tags:** `none`|
 
 ----
-#### dTeam Mechanisms
+### dTeam Mechanisms
 |Mechanisms|Descriptions|
 |---|---|
 |Name: `addmember`<br>Input: `dEntity`|Adds the specified entity to the team.<br>**Related tags:** `<team@team.members>`, `<e@entity.hasteam>`, `<e@entity.team>`|
