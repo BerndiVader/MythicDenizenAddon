@@ -1,4 +1,3 @@
-
 # Denizen Support for MythicMobs 4.0.1 or higher
 
 - Update 0.499a - added MythicItem dObject, added getmythicitems command

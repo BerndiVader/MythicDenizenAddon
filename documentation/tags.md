@@ -120,4 +120,3 @@
 # (dList(dLocation))
 - announce <player.entity.mmtargets[@Ring{r=10;p=5}]>
 ```
-	

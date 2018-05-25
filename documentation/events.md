@@ -26,19 +26,19 @@
 
 **Determination Examples:**
 ```yaml
-	on mythicmobs death:
-	  - determine passively drops:li@
-	  - determine money:0;exp:0
-	  
-	on mm denizen death:
-	on mythicmobs death:
-	  - determine drops:@li;money:0;exp:0
-	  
-	on mm denizen death:
-	on mythicmobs death:
-	  - determine passively money:0
-	  - determine exp:0
-	  - determine drops:@li
+  on mythicmobs death:
+    - determine passively drops:li@
+    - determine money:0;exp:0
+    
+  on mm denizen death:
+  on mythicmobs death:
+    - determine drops:@li;money:0;exp:0
+    
+  on mm denizen death:
+  on mythicmobs death:
+    - determine passively money:0
+    - determine exp:0
+    - determine drops:@li
 ```
 ----
 #### MythicMobsSpawnEvent:
@@ -86,14 +86,14 @@ denizenmob:
 ```
 *In Denizen:*
 ```yaml
-	on mm denizen mechanic:
-	  - narrate <context.skill>
-	  - narrate <context.args>
-	  - narrate <context.caster>
-	  - narrate <context.target>
-	  - narrate <context.targetlocation>
-	  - narrate <context.trigger>
-	  - narrate <context.targettype>
+  on mm denizen mechanic:
+    - narrate <context.skill>
+    - narrate <context.args>
+    - narrate <context.caster>
+    - narrate <context.target>
+    - narrate <context.targetlocation>
+    - narrate <context.trigger>
+    - narrate <context.targettype>
 ```
 
 ----
@@ -143,30 +143,30 @@ niceweather:
 *In Denizen:*
 ```yaml
     on mm denizen condition:
-	  - if <context.condition> == "time" {
-	    - if <context.type> == "e" {
-	      - if <context.args> != <context.entity.world.time.period> {
-		    - determine false
-		  }
-		}
-		if <context.type> == "l" {
-	      - if <context.args> != <context.location.world.time.period> {
-		    - determine false
-		  }
-		}
-	  }
-	  - if <context.condition> == "weather" {
-	    - if <context.args> == "sunny" {
-		  - if <context.type> == "e" {
-		    - if <context.entity.world.has_storm> == true {
-		      - determine false
-		    }
-		  }
-		  - if <context.type> == "l" {
-		    - if <context.location.world.has_storm> == true {
-		      - determine false
-		    }
-		  }
-		}
-	  }
+    - if <context.condition> == "time" {
+      - if <context.type> == "e" {
+        - if <context.args> != <context.entity.world.time.period> {
+        - determine false
+      }
+    }
+    if <context.type> == "l" {
+        - if <context.args> != <context.location.world.time.period> {
+        - determine false
+      }
+    }
+    }
+    - if <context.condition> == "weather" {
+      - if <context.args> == "sunny" {
+      - if <context.type> == "e" {
+        - if <context.entity.world.has_storm> == true {
+          - determine false
+        }
+      }
+      - if <context.type> == "l" {
+        - if <context.location.world.has_storm> == true {
+          - determine false
+        }
+      }
+    }
+    }
 ```

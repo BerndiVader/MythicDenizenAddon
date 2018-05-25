@@ -23,15 +23,15 @@ example_script:
     type: world
     events:
         on player right clicks entity:
-		- if !<context.entity.isactivemob> {
-			- mmapplymythic entity:<context.entity> mobtype:MythicEntity level:1 save:result
-			- mmtrigger activemob:<entry[result].activemob> trigger:SPAWN entity:<context.entity>
-			- narrate "Applied MythicMob of MythicEntity to <context.entity>!"
-		  }
-		  else {
-			- mmremovemythic activemob:<context.entity.activemob>
-			- narrate "Removed MythicMob of MythicEntity from <context.entity>!"
-		  }
+        - if !<context.entity.isactivemob> {
+            - mmapplymythic entity:<context.entity> mobtype:MythicEntity level:1 save:result
+            - mmtrigger activemob:<entry[result].activemob> trigger:SPAWN entity:<context.entity>
+            - narrate "Applied MythicMob of MythicEntity to <context.entity>!"
+        }
+        else {
+            - mmremovemythic activemob:<context.entity.activemob>
+            - narrate "Removed MythicMob of MythicEntity from <context.entity>!"
+        }
 ```
 *In MythicMobs:*
 ```yaml
@@ -93,10 +93,10 @@ TELEPORT, TIMER, USE, READY
 example_script:
     type: world
     events:
-	    on entity damaged by projectile:
-	    - if <context.entity.isactivemob> && <context.projectile.name> == "arrow" {
-	        - mmtrigger activemob:<context.entity.activemob> trigger:boghit entity:<context.damager>
-	    }
+      on entity damaged by projectile:
+      - if <context.entity.isactivemob> && <context.projectile.name> == "arrow" {
+          - mmtrigger activemob:<context.entity.activemob> trigger:boghit entity:<context.damager>
+      }
 ```
 *In MythicMobs:*
 ```yaml
