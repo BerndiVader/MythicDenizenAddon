@@ -19,7 +19,8 @@ import net.aufdemrand.denizencore.tags.TagContext;
 
 public class dTeam implements dObject, Adjustable {
 
-	private String prefix;
+	private static String id="team@";
+	private String prefix=id;
 	private Team team;
 	
 	public dTeam(Team scoreboardTeam) {
@@ -131,7 +132,9 @@ public class dTeam implements dObject, Adjustable {
 
 	@Override
 	public String identify() {
-		return "team@" + this.team.getName();
+		String s1=null;
+		if(this.team!=null) s1=id+this.team.getName();
+		return s1;
 	}
 
 	@Override
@@ -152,7 +155,9 @@ public class dTeam implements dObject, Adjustable {
 
     @Fetchable("team")
     public static dTeam valueOf(String string, TagContext context) {
-        if (string == null) return null;
-        return new dTeam(ScoreBoardsAddon.scoreboard.getTeam(string.replace("team@", "")));
+        if (string!=null) {
+            return new dTeam(ScoreBoardsAddon.scoreboard.getTeam(string.substring(id.length())));
+        }
+        return null;
     }
 }

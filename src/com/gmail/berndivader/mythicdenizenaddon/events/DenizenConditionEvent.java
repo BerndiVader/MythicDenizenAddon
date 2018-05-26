@@ -12,7 +12,6 @@ import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.aH;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
-import net.aufdemrand.denizencore.utilities.CoreUtilities;
 
 public class DenizenConditionEvent 
 extends
@@ -37,7 +36,8 @@ Listener {
 	
 	@Override
 	public boolean couldMatch(ScriptContainer container, String s) {
-		return CoreUtilities.toLowerCase(s).startsWith("mm denizen condition");
+		String s1=s.toLowerCase();
+		return s1.startsWith("mm denizen condition")||s1.startsWith("mythicmobs condition");
 	}
 	@Override
 	public boolean matches(ScriptContainer container, String a) {

@@ -17,7 +17,7 @@ IEntitySelector {
 
 	public DEntityTargeter(MythicLineConfig mlc) {
 		super(mlc);
-		this.targeter=mlc.getString(new String[] {"targeter","name","tpye","t","n"},"");
+		this.targeter=mlc.getString(new String[] {"targeter","name","type","t","n"},"");
 		this.args=mlc.getString(new String[] {"args","a"},"").split(",");
 	}
 

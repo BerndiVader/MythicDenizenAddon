@@ -15,6 +15,7 @@ public class dMythicMob
 implements 
 dObject, 
 Adjustable {
+	static String id="mythicmob@";
 
 	private String prefix;
 	MythicMob mm;
@@ -63,7 +64,7 @@ Adjustable {
 
 	@Override
 	public String identify() {
-		return "mythicmob@" + this.mm.getInternalName();
+		return id+this.mm.getInternalName();
 	}
 
 	@Override
@@ -86,7 +87,7 @@ Adjustable {
     public static dMythicMob valueOf(String uniqueName, TagContext context) {
         if (uniqueName==null) return null;
         try {
-            uniqueName=uniqueName.replace("mythicmob@", "");
+            uniqueName=uniqueName.replace(id,"");
             if (!MythicMobsAddon.isMythicMob(uniqueName)) {
                 return null;
             }

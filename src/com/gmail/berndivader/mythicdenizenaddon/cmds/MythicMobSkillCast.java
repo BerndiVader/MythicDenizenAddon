@@ -93,7 +93,7 @@ public class MythicMobSkillCast extends AbstractCommand {
     	new BukkitRunnable() {
     		int timer = ttimer;
     		public void run() {
-    			if (timer==-1) {
+    			if (timer==-1||caster==null) {
     				this.cancel();
     			} else {
     				mmapi.castSkill(caster,skill,trigger,caster.getLocation(),etargets,ltargets,power);

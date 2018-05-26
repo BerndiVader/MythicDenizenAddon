@@ -16,6 +16,7 @@ import net.aufdemrand.denizencore.tags.Attribute;
 import net.aufdemrand.denizencore.tags.TagContext;
 
 public class dMythicSpawner implements dObject, Adjustable {
+	static String id="mythicspawner@";
 	private String prefix;
 	MythicSpawner ms;
 
@@ -120,7 +121,7 @@ public class dMythicSpawner implements dObject, Adjustable {
 
 	@Override
 	public String identify() {
-		return "mythicspawner@" + this.ms.getName();
+		return id+this.ms.getName();
 	}
 
 	@Override
@@ -145,7 +146,7 @@ public class dMythicSpawner implements dObject, Adjustable {
             return null;
         }
         try {
-            uniqueName = uniqueName.replace("mythicspawner@", "");
+            uniqueName = uniqueName.replace(id,"");
             if (!MythicMobsAddon.isMythicSpawner(uniqueName)) {
                 return null;
             }

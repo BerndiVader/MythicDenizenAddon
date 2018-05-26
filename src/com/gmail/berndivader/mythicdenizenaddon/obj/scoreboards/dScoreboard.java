@@ -12,7 +12,6 @@ import net.aufdemrand.denizencore.tags.Attribute;
 import net.aufdemrand.denizencore.tags.TagContext;
 
 public class dScoreboard implements dObject, Adjustable {
-	
 	private String prefix;
 	private String id;
 	@SuppressWarnings("unused")

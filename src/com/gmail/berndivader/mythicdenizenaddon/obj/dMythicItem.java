@@ -17,6 +17,7 @@ public class dMythicItem
 implements
 dObject,
 Adjustable {
+	static String id="mythicitem@";
 	private String prefix;
 	MythicItem mi;
 	static MythicMobs mythicmobs=MythicMobs.inst();
@@ -76,7 +77,7 @@ Adjustable {
 
 	@Override
 	public String identify() {
-		return "mythicitem@" + this.mi.getInternalName();
+		return id+this.mi.getInternalName();
 	}
 
 	@Override
@@ -99,9 +100,7 @@ Adjustable {
     public static dMythicItem valueOf(String name,TagContext context) {
         if (name==null||name.isEmpty()) return null;
         try {
-        	name=name.substring(11);
-            name=name.replace("mythicitem@", "");
-            return new dMythicItem(name);
+            return new dMythicItem(name.replace(id,""));
         }
         catch (Exception e) {
         	System.err.println(e.getMessage());

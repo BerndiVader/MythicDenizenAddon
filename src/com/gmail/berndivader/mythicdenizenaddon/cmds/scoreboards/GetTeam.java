@@ -29,9 +29,8 @@ public class GetTeam extends AbstractCommand {
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
 		String teamName = entry.getElement(str_name).asString();
-		if (ScoreBoardsAddon.scoreBoardHasTeam(teamName)) {
-			dTeam team = ScoreBoardsAddon.getTeam(teamName);
-			entry.addObject("team", team);
-		}
+		dTeam team=new dTeam(null);
+		if (ScoreBoardsAddon.scoreBoardHasTeam(teamName)) team = ScoreBoardsAddon.getTeam(teamName);
+		entry.addObject("team", team);
 	}
 }

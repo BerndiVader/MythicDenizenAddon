@@ -30,8 +30,10 @@ import com.gmail.berndivader.mythicdenizenaddon.events.DenizenTargetConditionEve
 import com.gmail.berndivader.mythicdenizenaddon.obj.ActivePlayer;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dEntityExt;
+import com.gmail.berndivader.mythicdenizenaddon.obj.dLocationExt;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicItem;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMob;
+import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicSkill;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicSpawner;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dWorldExt;
 
@@ -64,9 +66,10 @@ public class MythicMobsAddon extends Support {
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
 		
-		registerObjects(dMythicSpawner.class, dActiveMob.class, dMythicMob.class,dMythicItem.class);
+		registerObjects(dMythicSpawner.class, dActiveMob.class, dMythicMob.class,dMythicItem.class,dMythicSkill.class);
 		registerProperty(dEntityExt.class, dEntity.class);
 		registerProperty(dWorldExt.class, dWorld.class);
+		registerProperty(dLocationExt.class, dLocation.class);
 		
 		registerScriptEvents(new DenizenConditionEvent());
 		registerScriptEvents(new DenizenSkillEvent());
@@ -272,7 +275,12 @@ public class MythicMobsAddon extends Support {
 
 	public static dList getTargetsFor(Entity bukkitEntity, String targeter) {
 		SkillTargeter st = getSkillTargeter(targeter);
-		return getTargetsForTargeter(bukkitEntity, st);
+		return getTargetsForTargeter(bukkitEntity,null,st);
+	}
+	
+	public static dList getTargetsFor(Location bukkitLocation, String targeter) {
+		SkillTargeter st = getSkillTargeter(targeter);
+		return getTargetsForTargeter(null,bukkitLocation,st);
 	}
 	
 	private static SkillTargeter getSkillTargeter(String targeterName) {
@@ -283,23 +291,29 @@ public class MythicMobsAddon extends Support {
         SkillTargeter targeter = maybeTargeter.get();
         return targeter;
 	}
-	private static dList getTargetsForTargeter(Entity entity, SkillTargeter targeter) {
+	
+	private static dList getTargetsForTargeter(Entity entity,Location l1,SkillTargeter targeter) {
 		dList targetList = new dList();
-		SkillCaster caster = MythicMobs.inst().getAPIHelper().isMythicMob(entity)
-				?MythicMobs.inst().getAPIHelper().getMythicMobInstance(entity)
-				:new ActivePlayer(entity);
-		SkillMetadata data = new SkillMetadata(SkillTrigger.API, caster, caster.getEntity(), caster.getLocation(), null, null, 1.0f);
+		SkillCaster caster=null;
+		AbstractEntity trigger=null;
+		AbstractLocation location=BukkitAdapter.adapt(l1);
+		if (entity!=null) {
+			caster=MythicMobs.inst().getAPIHelper().isMythicMob(entity)?MythicMobs.inst().getAPIHelper().getMythicMobInstance(entity):new ActivePlayer(entity);
+			trigger=caster.getEntity();
+			location=caster.getLocation();
+		}
+		SkillMetadata data = new SkillMetadata(SkillTrigger.API,caster,trigger,location,null,null,1.0f);
         if (targeter instanceof IEntitySelector) {
             data.setEntityTargets(((IEntitySelector)targeter).getEntities(data));
             ((IEntitySelector)targeter).filter(data, false);
-            for (AbstractEntity ae : data.getEntityTargets()) {
+            for (AbstractEntity ae:data.getEntityTargets()) {
             	targetList.add(new dEntity(ae.getBukkitEntity()).identify());
             }
         }
         if (targeter instanceof ILocationSelector) {
             data.setLocationTargets(((ILocationSelector)targeter).getLocations(data));
             ((ILocationSelector)targeter).filter(data);
-            for (AbstractLocation al : data.getLocationTargets()) {
+            for (AbstractLocation al:data.getLocationTargets()) {
             	Location l = BukkitAdapter.adapt(al);
             	targetList.add(new dLocation(l).identify());
             }
