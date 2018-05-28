@@ -22,6 +22,7 @@ import net.aufdemrand.denizencore.tags.TagContext;
 
 public class dActiveMob implements dObject, Adjustable {
 	
+	static String id="activemob@";
 	private String prefix;
 	private ActiveMob am;
 	private Entity entity;
@@ -176,7 +177,7 @@ public class dActiveMob implements dObject, Adjustable {
 			AbstractEntity ae = BukkitAdapter.adapt(dEntity.valueOf(a.getContext(1)).getBukkitEntity());
 			return new Element(am.getImmunityTable().onCooldown(ae)).getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new Element(identify()).getAttribute(a.fulfill(0));
 	}
 
 	@Override
@@ -200,7 +201,7 @@ public class dActiveMob implements dObject, Adjustable {
 
 	@Override
 	public String identify() {
-		return "activemob@" + this.am.getUniqueId();
+		return this.am!=null?id+this.am.getUniqueId():null;
 	}
 
 	@Override
@@ -223,7 +224,7 @@ public class dActiveMob implements dObject, Adjustable {
     public static dActiveMob valueOf(String string, TagContext context) {
         if (string==null) return null;
         try {
-            string = string.replace("activemob@", "");
+            string = string.replace(id, "");
             UUID uuid = UUID.fromString(string);
             if (!MythicMobsAddon.isActiveMob(uuid)) {
                 return null;

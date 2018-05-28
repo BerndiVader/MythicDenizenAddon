@@ -4,6 +4,7 @@ import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.items.MythicItem;
 import net.aufdemrand.denizen.objects.dItem;
+import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.objects.Adjustable;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Fetchable;
@@ -17,7 +18,7 @@ public class dMythicItem
 implements
 dObject,
 Adjustable {
-	static String id="mythicitem@";
+	public static String id="mythicitem@";
 	private String prefix;
 	MythicItem mi;
 	static MythicMobs mythicmobs=MythicMobs.inst();
@@ -53,7 +54,7 @@ Adjustable {
 		} else if(a.startsWith("itemstack")) {
 			return getItemstack().getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new Element(this.identify()).getAttribute(a.fulfill(0));
 	}
 	
 	private dItem getItemstack() {
@@ -77,7 +78,7 @@ Adjustable {
 
 	@Override
 	public String identify() {
-		return id+this.mi.getInternalName();
+		return this.mi!=null?id+this.mi.getInternalName():null;
 	}
 
 	@Override
@@ -87,7 +88,7 @@ Adjustable {
 
 	@Override
 	public boolean isUnique() {
-		return true;
+		return false;
 	}
 	
 	@Override
@@ -103,7 +104,7 @@ Adjustable {
             return new dMythicItem(name.replace(id,""));
         }
         catch (Exception e) {
-        	System.err.println(e.getMessage());
+        	dB.log(e.getMessage());
         }
         return null;
     }

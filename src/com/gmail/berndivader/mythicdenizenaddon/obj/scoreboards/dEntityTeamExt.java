@@ -53,6 +53,6 @@ dObjectExtension {
     				:ScoreBoardsAddon.scoreboard.getEntryTeam(this.entity.getUUID().toString());
     		return new dTeam(team).getAttribute(a.fulfill(1));
     	}
-        return new Element(this.entity.identify()).getAttribute(a);
+		return new Element(this.entity!=null?this.entity.identify():null).getAttribute(a.fulfill(0));
     }
 }

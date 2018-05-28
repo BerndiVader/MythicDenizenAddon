@@ -1,7 +1,8 @@
 # Commands
 [Items](#items) <br>
 [ActiveMobs](#activemobs) <br>
-[Players](#players)
+[Players](#players) <br>
+[Skills](#skills)
 
 ----
 ### Items
@@ -151,3 +152,12 @@ Damage:
   - effect:particleline{particle=lava;amount=20;vSpread=0.10;hSpread=0.10;Speed=0.2;yoffset=1;ystartoffset=0;distancebetween=1} @target
   - damage @target
 ```
+
+---
+### Skills
+**Command:** `getmythicskills (filter:<regex>) (strict:<boolean>)` <br>
+**Description:** Returns a list of all registered MythicMobs skills. <br>
+Optionally specify a filter to limit the output. <br>
+Optionally specify strict true to get a single skill. This requires filter to be set to the skillname! <br>
+**Tags:** `<entry.[saveName].skills>` A list of skills (if strict=false) <br>
+`<entry.[saveName].skill>` a dMythicSkill object (if strict=true)

@@ -108,7 +108,7 @@ public class dTeam implements dObject, Adjustable {
 		} else if (a.startsWith("suffix")) {
 			return new Element(this.team.getSuffix()).getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new Element(identify()).getAttribute(a.fulfill(0));
 	}
 
 	@Override
@@ -132,9 +132,7 @@ public class dTeam implements dObject, Adjustable {
 
 	@Override
 	public String identify() {
-		String s1=null;
-		if(this.team!=null) s1=id+this.team.getName();
-		return s1;
+		return this.team!=null?this.team.getName():null;
 	}
 
 	@Override
@@ -156,7 +154,7 @@ public class dTeam implements dObject, Adjustable {
     @Fetchable("team")
     public static dTeam valueOf(String string, TagContext context) {
         if (string!=null) {
-            return new dTeam(ScoreBoardsAddon.scoreboard.getTeam(string.substring(id.length())));
+            return new dTeam(ScoreBoardsAddon.scoreboard.getTeam(string.replace(id,"")));
         }
         return null;
     }

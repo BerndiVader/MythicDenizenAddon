@@ -4,8 +4,9 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
-import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicItem;
+import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicSkill;
 
+import io.lumine.xikage.mythicmobs.skills.Skill;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
 import net.aufdemrand.denizencore.objects.Element;
@@ -14,7 +15,7 @@ import net.aufdemrand.denizencore.objects.dList;
 import net.aufdemrand.denizencore.scripts.ScriptEntry;
 import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
-public class GetMythicItems
+public class GetMythicSkills
 extends
 AbstractCommand {
 	
@@ -35,16 +36,15 @@ AbstractCommand {
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
 		Pattern p=Pattern.compile(entry.getElement("filter").asString());
 		if (!entry.getElement("strict").asBoolean()) {
-			Iterator<String>it=MythicMobsAddon.mythicmobs.getItemManager().getItemNames().iterator();
+			Iterator<Skill>it=MythicMobsAddon.mythicmobs.getSkillManager().getSkills().iterator();
 			dList list=new dList();
 			while(it.hasNext()) {
-				String s1=it.next();
-				if (p.matcher(s1).find()) list.add(new dMythicItem(s1).identify());
+				String s1=it.next().getInternalName();
+				if (p.matcher(s1).find()) list.add(new dMythicSkill(s1).identify());
 			}
-			entry.addObject("mythicitems",list.size()==1?new dMythicItem(list.get(0).substring(dMythicItem.id.length())):list);
+			entry.addObject("skills",list);
 		} else {
-			dMythicItem mi=new dMythicItem(p.pattern());
-			entry.addObject("mythicitems",mi);
+			entry.addObject("skill",new dMythicSkill(p.pattern()));
 		}
 	}
 }

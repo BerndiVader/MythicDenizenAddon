@@ -97,7 +97,7 @@ public class dMythicSpawner implements dObject, Adjustable {
 		} else if (a.startsWith("maxmobamount")) {
 			return new Element(ms.getMaxMobs()).getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new Element(this.identify()).getAttribute(a.fulfill(0));
 	}
 	
 	@Override
@@ -121,7 +121,7 @@ public class dMythicSpawner implements dObject, Adjustable {
 
 	@Override
 	public String identify() {
-		return id+this.ms.getName();
+		return this.ms!=null?id+this.ms.getName():null;
 	}
 
 	@Override

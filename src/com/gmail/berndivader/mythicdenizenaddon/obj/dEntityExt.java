@@ -145,6 +145,6 @@ public class dEntityExt extends dObjectExtension {
     	if (a.startsWith("mmtargets") && a.hasContext(1)) {
 			return MythicMobsAddon.getTargetsFor(this.entity.getBukkitEntity(), a.getContext(1)).getAttribute(a.fulfill(1));
     	}
-        return new Element(this.entity.identify()).getAttribute(a);
+		return new Element(this.entity!=null?this.entity.identify():null).getAttribute(a.fulfill(0));
     }
 }

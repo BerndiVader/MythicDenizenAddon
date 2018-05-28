@@ -64,7 +64,7 @@ Adjustable {
 
 	@Override
 	public String identify() {
-		return id+this.mm.getInternalName();
+		return this.mm!=null?id+this.mm.getInternalName():null;
 	}
 
 	@Override

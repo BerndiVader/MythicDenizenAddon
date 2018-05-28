@@ -29,7 +29,7 @@ public class dLocationExt extends dObjectExtension {
     	if (a.startsWith("mmtargets") && a.hasContext(1)) {
     		return MythicMobsAddon.getTargetsFor(location.clone(), a.getContext(1)).getAttribute(a.fulfill(1));
     	}
-        return new Element(this.location.identify()).getAttribute(a);
+		return new Element(this.location!=null?this.location.identify():null).getAttribute(a.fulfill(0));
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.ActiveMobSkillCast;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.CreateMythicSpawner;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.GetMythicItems;
+import com.gmail.berndivader.mythicdenizenaddon.cmds.GetMythicSkills;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.MythicMobSkillCast;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.MythicMobsSpawn;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.PlayerSkillCast;
@@ -66,7 +67,7 @@ public class MythicMobsAddon extends Support {
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
 		
-		registerObjects(dMythicSpawner.class, dActiveMob.class, dMythicMob.class,dMythicItem.class,dMythicSkill.class);
+		registerObjects(dMythicSpawner.class, dActiveMob.class, dMythicMob.class, dMythicItem.class, dMythicSkill.class);
 		registerProperty(dEntityExt.class, dEntity.class);
 		registerProperty(dWorldExt.class, dWorld.class);
 		registerProperty(dLocationExt.class, dLocation.class);
@@ -88,7 +89,8 @@ public class MythicMobsAddon extends Support {
 		new CreateMythicSpawner().activate().as("mmcreatespawner").withOptions("- mmcreatespawner [string:uniquename] [location:dLocation] [string:mobtype]", 3);
 		new TransformToMythicMob().activate().as("mmapplymythic").withOptions("- mmapplymythic [entity:dEntity] [mobtype:string] [level:integer]", 2);
 		new TransformMythicMob().activate().as("mmremovemythic").withOptions("- mmremovemythic [activemob:dActiveMob]", 1);
-		new GetMythicItems().activate().as("getmythicitems").withOptions("- getmythicitems [filter:regex]",0);
+		new GetMythicItems().activate().as("getmythicitems").withOptions("- getmythicitems (filter:regex) (strict:boolean)",0);
+		new GetMythicSkills().activate().as("getmythicskills").withOptions("- getmythicskills (filter:regex) (strict:boolean>",0);
 	}
 
 	public static boolean isActiveMob(UUID uuid) {
