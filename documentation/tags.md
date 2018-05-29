@@ -3,6 +3,7 @@
 [Entity tags](#dentity-tags) <br>
 [ActiveMob tags](#dactivemob-tags) <br>
 [MythicItem tags](#dmythicitem-tags) <br>
+[MythicSkill tags](#dmythicskill-tags) <br>
 [MythicSpawner tags](#dmythicspawner-tags) <br>
 [Team tags](#dteam-tags) <br>
 [Tag examples](#tag-examples)
@@ -68,13 +69,29 @@
 ### dMythicItem Tags
 |Tag Names|Descriptions|
 |---|---|
-|`<mythicitem@mythicitem.internalname>`<br>Returns: Element(String)|Returns the internal name for this MythicItem.|
+|`<mythicitem@mythicitem.type>`<br>Returns: Element(String)|Returns the internal, unique, name for this MythicItem.|
 |`<mythicitem@mythicitem.amount>`<br>Returns: Element(Number)|Returns the amount of this MythicItem.|
 |`<mythicitem@mythicitem.displayname>`<br>Returns: Element(String)|Returns the display name of this MythicItem.|
 |`<mythicitem@mythicitem.lore>`<br>Returns: dList(Element(String))|Returns this MythicItem's lore as a list.|
 |`<mythicitem@mythicitem.materialname>`<br>Returns: Element(String)|Returns the name of this MythicItem's material.|
 |`<mythicitem@mythicitem.materialdata>`<br>Returns: Element(Number)|Returns the data value of this MythicItem's material.|
-|`<mythicitem@mythicitem.itemstack>`<br>Returns: dItem|Returns this MythicItem as a dItem.|
+|`<mythicitem@mythicitem.get_item>`<br>Returns: dItem|Returns this MythicItem as a dItem.|
+
+----
+### dMythicSkill Tags
+|Tag Names|Descriptions|
+|---|---|
+|`<mythicskill@mythicskill.type>`<br>Returns: Element(String)|Returns the internal, unique, name for this MythicSkill.|
+|`<mythicskill@mythicskill.entities>`<br>Returns: dList(dEntity)|The entity targets.|
+|`<mythicskill@mythicskill.locations>`<br>Returns: dList(dLocation)The location targets.|
+|`<mythicskill@mythicskill.power>`<br>Returns: Element(Number)|The skill power.|
+|`<mythicskill@mythicskill.origin>`<br>Returns: Element(dLocation)|Origin location.|
+|`<mythicskill@mythicskill.trigger>`<br>Returns: Element(dEntity)|The skill trigger.|
+|`<mythicskill@mythicskill.caster>`<br>Returns: Element(dEntity)|The caster.|
+|`<mythicskill@mythicskill.useable(.for[<entity>])(.with_trigger[<entity])>`
+<br>Returns: Element(Boolean)|If the skill is useable for the stored data or define another caster with .for and another trigger .with_trigger. Both is optional|
+|`<mythicskill@mythicskill.cast(.for[<entity>||<list>])(.with_trigger[<entity>])(.with_origin[<location>])(.with_power[<Number>])(.at_targets[dlist<entity>||<location>])>`
+<br>Returns: Element(Boolean)|cast the skill with the stored data or, optional supply new data on the fly by using some or all of the optinal tags.|
 
 ----
 ### dMythicSpawner Tags

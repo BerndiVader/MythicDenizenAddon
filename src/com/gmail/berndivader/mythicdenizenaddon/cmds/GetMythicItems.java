@@ -44,7 +44,7 @@ AbstractCommand {
 			entry.addObject("mythicitems",list.size()==1?new dMythicItem(list.get(0).substring(dMythicItem.id.length())):list);
 		} else {
 			dMythicItem mi=new dMythicItem(p.pattern());
-			entry.addObject("mythicitems",mi);
+			entry.addObject("mythicitem",mi);
 		}
 	}
 }

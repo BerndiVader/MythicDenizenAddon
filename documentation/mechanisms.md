@@ -2,7 +2,8 @@
 [ActiveMob mechanisms](#dactivemob-mechanisms) <br>
 [Entity mechanisms](#dentity-mechanisms) <br>
 [MythicSpawner mechanisms](#dmythicspawner-mechanisms) <br>
-[Team mechanisms](#dteam-mechanisms)
+[Team mechanisms](#dteam-mechanisms) <br>
+[MythicSkill mechanisms](#dmythicskill-mechanisms) <br>
 
 ### dActiveMob Mechanisms
 |Mechanisms|Descriptions|
@@ -66,3 +67,14 @@
 |Name: `friendlyfire`<br>Input: `Element(Boolean)`|Sets whether teammates can hit each other.<br>**Related tags:** `<team@team.friendlyfire>`|
 |Name: `prefix`<br>Input: `Element(String)`|Sets the prefix for this team. Put no input to clear prefix.<br>**Related tags:** `<team@team.prefix>`|
 |Name: `suffix`<br>Input: `Element(String)`|Sets the suffix for this team. Put no input to clear suffix.<br>**Related tags:** `<team@team.suffix>`|
+
+---
+### dMythicSkill Mechanisms
+|Mechanisms|Descriptions|
+|---|---|
+|Name: `cause`<br>Input: `String`|Set the skilltrigger cause <br>**Valid Triggers:** `DEFAULT`, `ATTACK`, `BOW_HIT`, `BLOCK`, `COMBAT`, `CROUCH`, `UNCROUCH`, `DAMAGED`, `DROPCOMBAT`, `DEATH`, `ENTERCOMBAT`, `EXPLODE`, `INTERACT`, `KILL`, `KILLPLAYER`, `PLAYERDEATH`, `SHOOT`, `SIGNAL`, `SPAWN`, `SPLASH_POTION`, `SWING`, `TARGETCHANGE`, `TELEPORT`, `TIMER`, `USE`, `READY` <br>**Related tags:** `<mythicskill@mythicskill.cause>` |
+|Name: `caster`<br>Input: `dEntity`|Set the caster.<br>**Related tags:** `<mythicskill@mythicskill.caster>`|
+|Name: `trigger`<br>Input: `dEntity`|Set the trigger.<br>**Related tags:** `<mythicskill@mythicskill.trigger>`|
+|Name: `origin`<br>Input: `dLocation`|Set the origin location.<br>**Related tags:** `<mythicskill@mythicskill.origin>`|
+|Name: `targets`<br>Input: `dEntity||dLocation||dList(dEntity||dLocation)`|Set the target as list or object<br>**Related tags:** `<mythicskill@mythicskill.targets>`|
+|Name: `power`<br>Input: `Number`|Set the power.<br>**Related tags:** `<mythicskill@mythicskill.power>`|

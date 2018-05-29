@@ -2,14 +2,18 @@
 [Items](#items) <br>
 [ActiveMobs](#activemobs) <br>
 [Players](#players) <br>
-[Skills](#skills)
+[Skills](#skills)<br> <br>
 
 ----
 ### Items
-**Command:** ```getmythicitems (filter:<filter>)``` <br>
+**Command:** `getmythicitems (filter:<filter>) (strict:<boolean>` <br>
 **Description:** Grabs a list of MythicItems. <br>
 Optionally specify a filter. <br>
-**Tags:** `<entry[saveName].mythicitems> `returns a dList of all returned MythicItems. <br>
+Optionally set strict to true to return the item defined in filter. <br>
+**Tags:** 
+`<entry[saveName].mythicitems> `returns a dList of all returned MythicItems. If strict is not used. <br>
+`<entry[saveName].mythicitem> `returns the dMythicItem object if strict is true. <br>
+
 
 ----
 ### ActiveMobs
@@ -57,6 +61,7 @@ MythicEntity:
 <br>
 <br>
 
+**DEPRECATED use mmskillcast instead**
 **Command:** `mmcastmob [caster:<ActiveMob>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>)` <br>
 **Description:** Forces an ActiveMob to cast a skill onto a target entity or location. <br>
 "`skill`" should be a valid MythicMobs skill. <br>
@@ -65,8 +70,8 @@ Optionally specify a trigger entity and power level of the skill. The trigger en
 <br>
 <br>
 
-**Command:** `mmskillcast [caster:<ActiveMob>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>) (repeat:<#>) (delay:<#>)` <br>
-**Description:** Forces an ActiveMob to cast a skill onto a target entity or location. <br>
+**Command:** `mmskillcast [caster:<entity>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>) (repeat:<#>) (delay:<#>)` <br>
+**Description:** Forces an entity (caster) to cast a skill onto a target entity or location. <br>
 "`skill`" should be a valid MythicMobs skill. <br>
 Optionally specify a trigger entity and power level of the skill. The trigger entity defaults to the caster. The power defaults to "1". <br>
 Optionally specify the amount of times the skill should repeat, with an optional delay between each iteration. The delay is in ticks. <br>
@@ -101,7 +106,7 @@ example_script:
     events:
       on entity damaged by projectile:
       - if <context.entity.isactivemob> && <context.projectile.name> == "arrow" {
-          - mmtrigger activemob:<context.entity.activemob> trigger:boghit entity:<context.damager>
+          - mmtrigger activemob:<context.entity.activemob> trigger:BOW_HIT entity:<context.damager>
       }
 ```
 *In MythicMobs:*
@@ -117,6 +122,7 @@ Monkey:
 
 ----
 ### Players
+**DEPRECATED use mmskillcast instead**
 **Command:** `mmcastplayer [caster:<entity>] [skill:<element>] [target:<entity>/<location>] (trigger:<entity>) (repeat:<#>) (delay:<#>)` <br>
 **Description:** Forces a player to use a MythicMobs skill. <br>
 Optionally specify a trigger entity. The trigger entity defaults to the caster. <br>

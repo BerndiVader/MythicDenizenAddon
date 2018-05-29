@@ -12,9 +12,9 @@
 
 |Contexts|Descriptions|
 |--|--|
-|`<context.victim>`|Returns the dEntity of the MythicMob being killed.|
+|`<context.victim>`<br>`<context.entity>`|Returns the dEntity of the MythicMob being killed.|
 |`<context.activemob>`|Returns the dActiveMob of the MythicMob being killed.<br>NOTE: You can use <context.victim.activemob> instead.|
-|`<context.killer>`|Returns the dEntity of the killer.|
+|`<context.killer>`<br>`<context.attacker>`|Returns the dEntity of the killer.|
 |`<context.drops>`|Returns a dList of the drops for this MythicMob.|
 |`<context.money>`|Returns an Element(Decimal) of the money dropped.|
 |`<context.exp>`|Returns an Element(Number) of the XP dropped by the mob.|
@@ -37,7 +37,7 @@
   on mm denizen death:
   on mythicmobs death:
     - determine passively money:0
-    - determine exp:0
+    - determine passively exp:0
     - determine drops:@li
 ```
 ----
@@ -61,6 +61,7 @@
 ### CustomMechanic
 **Names:** <br>
 *on mm denizen mechanic* <br>
+*on mythicmobs skill* <br>
 
 **Note:** <br>
 The event fires only when a MythicMob uses the `dskill` skill.
@@ -69,7 +70,7 @@ The event fires only when a MythicMob uses the `dskill` skill.
 |---|---|
 |`<context.skill>`|Returns an Element(String) of the skill name specified by the `dskill` MythicMobs skill.|
 |`<context.args>`|Returns the parameters for the skill as specified by the `dskill` MythicMobs skill.|
-|`<context.caster>`|Returns a dEntity of the entity who cast this skill.|
+|`<context.caster>`<br>`<context.entity>`|Returns a dEntity of the entity who cast this skill.|
 |`<context.target>`|Returns the dEntity of the target entity, if any.|
 |`<context.targetlocation>`|Returns the dLocation of the target location, if any.|
 |`<context.targettype>`|Returns "NONE" if there is no target, "ENTITY" if the target is an entity, or "LOCATION" if the target is a location.|

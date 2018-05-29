@@ -30,7 +30,8 @@ public class DenizenTargetConditionEvent extends BukkitScriptEvent implements Li
 	
 	@Override
 	public boolean couldMatch(ScriptContainer container, String s) {
-		return CoreUtilities.toLowerCase(s).startsWith("mm denizen targetcondition");
+		String s1=CoreUtilities.toLowerCase(s);
+		return s1.startsWith("mm denizen targetcondition")||s1.startsWith("mythicmobs targetcondition");
 	}
 	@Override
 	public boolean matches(ScriptContainer container, String a) {

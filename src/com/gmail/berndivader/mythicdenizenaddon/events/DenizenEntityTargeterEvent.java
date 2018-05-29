@@ -35,7 +35,7 @@ Listener {
 	}
 	@Override
 	public boolean couldMatch(ScriptContainer container, String s) {
-		return CoreUtilities.toLowerCase(s).startsWith("mm denizen entitytargeter");
+		return CoreUtilities.toLowerCase(s).startsWith("mythicmobs entitytargeter");
 	}
 	@Override
 	public boolean matches(ScriptContainer container, String s) {
@@ -54,6 +54,7 @@ Listener {
     public dObject getContext(String name) {
     	switch(name.toLowerCase()) {
     	case "caster":
+    	case "entity":
     		return caster;
     	case "trigger":
     		return trigger;

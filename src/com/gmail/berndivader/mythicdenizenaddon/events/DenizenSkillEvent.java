@@ -28,7 +28,8 @@ public class DenizenSkillEvent extends BukkitScriptEvent implements Listener {
 
 	@Override
 	public boolean couldMatch(ScriptContainer container, String s) {
-		return CoreUtilities.toLowerCase(s).startsWith("mm denizen mechanic");
+		String s1=CoreUtilities.toLowerCase(s);
+		return s1.startsWith("mm denizen mechanic")||s1.startsWith("mythicmobs skill");
 	}
 	@Override
 	public boolean matches(ScriptContainer container, String a) {
@@ -62,6 +63,7 @@ public class DenizenSkillEvent extends BukkitScriptEvent implements Listener {
 		case "args":
 			return args;
 		case "caster":
+		case "entity":
 			return caster;
 		case "target":
 			return target;

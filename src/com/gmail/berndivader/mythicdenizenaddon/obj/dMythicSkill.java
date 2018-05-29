@@ -34,6 +34,7 @@ Adjustable {
 	SkillMetadata meta;
 	HashSet<AbstractEntity>eTargets;
 	HashSet<AbstractLocation>lTargets;
+	HashSet<GenericCaster>casters;
 	float power;
 	AbstractLocation origin;
 	AbstractEntity trigger;
@@ -47,11 +48,13 @@ Adjustable {
 		}
 		this.eTargets=new HashSet<>();
 		this.lTargets=new HashSet<>();
+		this.casters=new HashSet<>();
 		this.cause=SkillTrigger.API;
 		this.power=1F;
 		this.origin=null;
 		this.trigger=null;
 		this.caster=null;
+		meta();
 	}
 	
     public static boolean matches(String string) {
@@ -122,14 +125,14 @@ Adjustable {
 					SkillMetadata data=new SkillMetadata(SkillTrigger.API,caster,trigger);
 					return new Element(caster!=null&&skill.isUsable(data)).getAttribute(a.fulfill(i1));
 				case "cast":
-					HashSet<GenericCaster>casters=new HashSet<>();
-					if (this.caster!=null) casters.add(this.caster);
 					trigger=this.trigger;
 					origin=this.origin;
 					power=this.power;
 					HashSet<AbstractEntity>eTargets=new HashSet<>();
 					HashSet<AbstractLocation>lTargets=new HashSet<>();
-					boolean bl1;
+					HashSet<GenericCaster>casters=new HashSet<>();
+					if (this.caster!=null) casters.add(this.caster);
+					boolean bl1=false;
 					if(i1>1) {
 						for(int i2=2;i2<=i1;i2++) {
 							if(a.getAttribute(i2).startsWith("for")&&a.hasContext(i2)) {
@@ -168,14 +171,22 @@ Adjustable {
 						for(GenericCaster gc:casters) {
 							try {
 								this.skill.execute(this.cause,gc,trigger,origin,eTargets,lTargets,power);
+								bl1=true;
 							} catch (Exception ex) {
 								dB.log(ex.getMessage());
-								return new Element(false).getAttribute(a.fulfill(i1));
+								bl1=false;
 							}
 						}
-						return new Element(true).getAttribute(a.fulfill(i1));
+						return new Element(bl1).getAttribute(a.fulfill(i1));
 					}
-					if(bl1=this.meta()) skill.execute(this.meta);
+					if(bl1=(this.meta.getCaster()!=null)) {
+						try {
+							skill.execute(this.meta);
+						} catch (Exception ex) {
+							dB.log(ex.getMessage());
+							bl1=false;
+						}
+					}
 					return new Element(bl1).getAttribute(a.fulfill(i1));
 			}
 		}
@@ -188,6 +199,46 @@ Adjustable {
 	
 	@Override
 	public void adjust(Mechanism m) {
+		Element e1=m.getValue();
+		switch (m.getName().toLowerCase()) {
+			case "cause":
+				try {
+					this.cause=SkillTrigger.valueOf(e1.asString().toUpperCase());
+				} catch (Exception ex) {
+					dB.log(ex.getMessage());
+					this.cause=SkillTrigger.API;
+				}
+				break;
+			case "caster":
+				if (e1.matchesType(dEntity.class)) this.caster=new GenericCaster(BukkitAdapter.adapt(e1.asType(dEntity.class).getBukkitEntity()));
+				break;
+			case "trigger":
+				if (e1.matchesType(dEntity.class)) this.trigger=BukkitAdapter.adapt(e1.asType(dEntity.class).getBukkitEntity());
+				break;
+			case "origin":
+				if (e1.matchesType(dLocation.class)) this.origin=BukkitAdapter.adapt(e1.asType(dLocation.class).clone());
+				break;
+			case "targets":
+				dList targets = new dList();
+				if (e1.matchesType(dList.class)) {
+					targets=e1.asType(dList.class);
+				} else {
+					targets.add(e1.matchesType(dEntity.class)?e1.asType(dEntity.class).identify():e1.matchesType(dLocation.class)?e1.asType(dLocation.class).identify():null);
+				}
+				this.eTargets.clear();
+				this.lTargets.clear();
+				for(String s4:targets) {
+					if (dEntity.matches(s4)) {
+						eTargets.add(BukkitAdapter.adapt(new Element(s4).asType(dEntity.class).getBukkitEntity()));
+					} else if (dLocation.matches(s4)) {
+						lTargets.add(BukkitAdapter.adapt(new Element(s4).asType(dLocation.class).clone()));
+					}
+				}
+				break;
+			case "power":
+				this.power=e1.isFloat()?e1.asFloat():power;
+				break;
+		}
 	}
 	
 	@Override

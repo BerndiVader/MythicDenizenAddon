@@ -37,7 +37,7 @@ Adjustable {
 
 	@Override
 	public String getAttribute(Attribute a) {
-		if(a.startsWith("internalname")) {
+		if(a.startsWith("internalname")||a.startsWith("type")) {
 			return new Element(mi.getInternalName()).getAttribute(a.fulfill(1));
 		} else if(a.startsWith("amount")) {
 			return new Element(mi.getAmount()).getAttribute(a.fulfill(1));
@@ -51,7 +51,7 @@ Adjustable {
 			return new Element(mi.getMaterialName()).getAttribute(a.fulfill(1));
 		} else if(a.startsWith("materialdata")) {
 			return new Element(mi.getMaterialData()).getAttribute(a.fulfill(1));
-		} else if(a.startsWith("itemstack")) {
+		} else if(a.startsWith("itemstack")||a.startsWith("get_item")) {
 			return getItemstack().getAttribute(a.fulfill(1));
 		}
 		return new Element(this.identify()).getAttribute(a.fulfill(0));

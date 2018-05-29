@@ -106,8 +106,10 @@ Listener {
 			}
 			return dl;
 		case "killer":
+		case "attacker":
 			return new dEntity(e.getKiller());
 		case "victim":
+		case "entity":
 			return new dEntity(e.getEntity());
 		case "activemob":
 			return new dActiveMob(e.getMob());
