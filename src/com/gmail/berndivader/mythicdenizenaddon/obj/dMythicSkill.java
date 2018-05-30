@@ -42,8 +42,10 @@ Adjustable {
 	SkillTrigger cause;
 
 	public dMythicSkill(String name) {
-		if ((this.skill=mythicmobs.getSkillManager().getSkill(name).get())==null) {
-			dB.log("MythicSkill "+name+" not present!");
+		if (mythicmobs.getSkillManager().getSkill(name).isPresent()) {
+			this.skill=mythicmobs.getSkillManager().getSkill(name).get();
+		} else {
+			dB.echoError("MythicSkill "+name+" not present!");
 		}
 		this.eTargets=new HashSet<>();
 		this.lTargets=new HashSet<>();

@@ -87,9 +87,9 @@ public class dEntityExt extends dObjectExtension {
 	
     @Override
     public String getAttribute(Attribute a) {
-    	if (a.startsWith("isactivemob")) {
+    	if (a.startsWith("is_activemob")||a.startsWith("isactivemob")) {
     		return new Element(MythicMobsAddon.isActiveMob(entity.getUUID())).getAttribute(a.fulfill(1));
-    	} else if (a.startsWith("activemob") && MythicMobsAddon.isActiveMob(entity.getUUID())) {
+    	} else if ((a.startsWith("activemob")||a.startsWith("get_activemob"))&&MythicMobsAddon.isActiveMob(entity.getUUID())) {
     		return new dActiveMob(MythicMobsAddon.getActiveMob(entity.getBukkitEntity())).getAttribute(a.fulfill(1));
     	}
     	if (this.entity.isLivingEntity()) {
@@ -142,7 +142,7 @@ public class dEntityExt extends dObjectExtension {
        			return new Element(le.getNoDamageTicks()).getAttribute(a.fulfill(1));
         	}
     	}
-    	if (a.startsWith("mmtargets") && a.hasContext(1)) {
+    	if (a.startsWith("mmtargets")||a.startsWith("mm_targeter") && a.hasContext(1)) {
 			return MythicMobsAddon.getTargetsFor(this.entity.getBukkitEntity(), a.getContext(1)).getAttribute(a.fulfill(1));
     	}
 		return new Element(this.entity!=null?this.entity.identify():null).getAttribute(a.fulfill(0));
