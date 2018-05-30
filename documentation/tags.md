@@ -89,10 +89,8 @@
 |`<mythicskill@mythicskill.origin>`<br>Returns: Element(dLocation)|Origin location.|
 |`<mythicskill@mythicskill.trigger>`<br>Returns: Element(dEntity)|The skill trigger.|
 |`<mythicskill@mythicskill.caster>`<br>Returns: Element(dEntity)|The caster.|
-|`<mythicskill@mythicskill.useable(.for[<entity>])(.with_trigger[<entity])>`
-<br>Returns: Element(Boolean)|If the skill is useable for the stored data or define another caster with .for and another trigger .with_trigger. Both is optional|
-|`<mythicskill@mythicskill.cast(.for[<entity>||<list>])(.with_trigger[<entity>])(.with_origin[<location>])(.with_power[<Number>])(.at_targets[dlist<entity>||<location>])>`
-<br>Returns: Element(Boolean)|cast the skill with the stored data or, optional supply new data on the fly by using some or all of the optinal tags.|
+|`<mythicskill@mythicskill.useable(.for[<entity>])(.with_trigger[<entity])>`<br>Returns: Element(Boolean)|If the skill is useable for the stored data or define another caster with .for and another trigger .with_trigger. Both is optional|
+|`<mythicskill@mythicskill.cast(.for[(<entity>)(<list>)])(.with_trigger[<entity>])(.with_origin[<location>])(.with_power[<Number>])(.at_targets[dlist(<entity>)(<location>)])>`<br>Returns: Element(Boolean)|cast the skill with the stored data or, optional supply new data on the fly by using some or all of the optinal tags.|
 
 ----
 ### dMythicSpawner Tags
@@ -129,7 +127,7 @@
 ### dList Tags
 |Tag Names|Descriptions|
 |---|---|
-|`<li@dentity||dlocation.sort_by_distance[dEntity||dLocation]>`<br>Returns: Element(dList)|Returns sorted list.|
+|`<li@(dentity)(dlocation).sort_by_distance[(dEntity)(dLocation)]>`<br>Returns: Element(dList)|Returns sorted list.|
 
 ----
 ## Tag Examples
