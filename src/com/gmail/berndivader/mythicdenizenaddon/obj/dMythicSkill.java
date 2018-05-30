@@ -44,7 +44,6 @@ Adjustable {
 	public dMythicSkill(String name) {
 		if ((this.skill=mythicmobs.getSkillManager().getSkill(name).get())==null) {
 			dB.log("MythicSkill "+name+" not present!");
-			return;
 		}
 		this.eTargets=new HashSet<>();
 		this.lTargets=new HashSet<>();
@@ -81,6 +80,10 @@ Adjustable {
 		return list;
 	}
 	
+	public boolean isPresent() {
+		return this.skill!=null;
+	}
+	
 	@Override
 	public String getAttribute(Attribute a) {
 		if(a==null) return null;
@@ -92,9 +95,10 @@ Adjustable {
 		if(a.attributes.size()>0) {
 			String s1=a.attributes.get(0).toLowerCase();
 			switch(s1) {
+				case "present":
+					return new Element(isPresent()).getAttribute(a.fulfill(i1));
 				case "type":
-					if (skill!=null) return new Element(skill.getInternalName()).asString();
-					break;
+					return new Element(isPresent()?skill.getInternalName():null).getAttribute(a.fulfill(i1));
 				case "entities":
 					return getEntityTargets(this.eTargets).getAttribute(a.fulfill(i1));
 				case "locations":

@@ -44,7 +44,8 @@ AbstractCommand {
 			}
 			entry.addObject("skills",list);
 		} else {
-			entry.addObject("skill",new dMythicSkill(p.pattern()));
+			dMythicSkill skill=new dMythicSkill(p.pattern());
+			entry.addObject("skill",skill.isPresent()?skill:new Element(null));
 		}
 	}
 }

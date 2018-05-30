@@ -53,8 +53,14 @@ Adjustable {
 			return new Element(mi.getMaterialData()).getAttribute(a.fulfill(1));
 		} else if(a.startsWith("itemstack")||a.startsWith("get_item")) {
 			return getItemstack().getAttribute(a.fulfill(1));
+		} else if(a.startsWith("ispresent")) {
+			return new Element(isPresent()).getAttribute(a.fulfill(1));
 		}
 		return new Element(this.identify()).getAttribute(a.fulfill(0));
+	}
+	
+	public boolean isPresent() {
+		return this.mi!=null;
 	}
 	
 	private dItem getItemstack() {

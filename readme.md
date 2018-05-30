@@ -1,5 +1,6 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
+- Update 0.499d - added sort_by_distance to dList
 - Update 0.499b - added dMythicSkill object, added getmythicskills command
 - Update 0.499a - added MythicItem dObject, added getmythicitems command
 - Update 0.499  - even more rework
@@ -25,3 +26,4 @@
 \- dMythicMob<br>
 \- dMythicItem<br>
 \- dTeam
+\- dListExt

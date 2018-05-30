@@ -9,6 +9,7 @@ import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.skills.SkillTrigger;
 import net.aufdemrand.denizen.objects.dEntity;
+import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
 import net.aufdemrand.denizencore.objects.aH;
@@ -37,6 +38,7 @@ public class TriggerSkill extends AbstractCommand {
 		try {
 			trigger = SkillTrigger.valueOf(entry.getElement(Types.trigger.a()).asString().toUpperCase());
 		} catch (Exception ex) {
+			dB.log(ex.getMessage());
 			return;
 		}
 		ActiveMob am = ((dActiveMob)entry.getObject(Types.activemob.a())).getActiveMob();

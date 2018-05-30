@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
+import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 import com.gmail.berndivader.mythicdenizenaddon.Types;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
@@ -16,12 +17,15 @@ import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
+import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.aH;
 import net.aufdemrand.denizencore.scripts.ScriptEntry;
 import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
 public class TransformMythicMob extends AbstractCommand {
-
+	
+	
+	
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
 		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
@@ -41,16 +45,16 @@ public class TransformMythicMob extends AbstractCommand {
 				dEntity dentity = new dEntity(entity);
 				entry.addObject(Types.entity.a(),dentity);
 			} else {
-				entry.addObject(Types.entity.a(),"e@");
+				entry.addObject(Types.entity.a(),new Element(null));
 			}
 		} else {
-			entry.addObject(Types.entity.a(),"e@");
+			entry.addObject(Types.entity.a(),new Element(null));
 		}
 	}
 	
 	private static Entity transformToNormalEntity(ActiveMob am) {
 		Entity entity=am.getEntity().getBukkitEntity();
-		entity.removeMetadata("Faction", MythicMobs.inst());
+		entity.removeMetadata("Faction", MythicMobsAddon.mythicmobs);
 		Location l=am.getEntity().getBukkitEntity().getLocation().clone();
 		am.setDead();
 		ureg(am.getUniqueId());
@@ -64,10 +68,10 @@ public class TransformMythicMob extends AbstractCommand {
 	}
 	
     private static void ureg(ActiveMob o) {
-    	if (o!=null) MythicMobs.inst().getMobManager().unregisterActiveMob(((ActiveMob)o));
+    	if (o!=null) MythicMobsAddon.mythicmobs.getMobManager().unregisterActiveMob(((ActiveMob)o));
     }
     private static void ureg(UUID o) {
-    	if (o!=null) MythicMobs.inst().getMobManager().unregisterActiveMob(((UUID)o));
+    	if (o!=null) MythicMobsAddon.mythicmobs.getMobManager().unregisterActiveMob(((UUID)o));
     }
 	
 	

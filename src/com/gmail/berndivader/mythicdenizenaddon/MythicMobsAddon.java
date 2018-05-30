@@ -31,6 +31,7 @@ import com.gmail.berndivader.mythicdenizenaddon.events.DenizenTargetConditionEve
 import com.gmail.berndivader.mythicdenizenaddon.obj.ActivePlayer;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dEntityExt;
+import com.gmail.berndivader.mythicdenizenaddon.obj.dListExt;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dLocationExt;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicItem;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMob;
@@ -71,6 +72,7 @@ public class MythicMobsAddon extends Support {
 		registerProperty(dEntityExt.class, dEntity.class);
 		registerProperty(dWorldExt.class, dWorld.class);
 		registerProperty(dLocationExt.class, dLocation.class);
+		registerProperty(dListExt.class,dList.class);
 		
 		registerScriptEvents(new DenizenConditionEvent());
 		registerScriptEvents(new DenizenSkillEvent());

@@ -41,10 +41,10 @@ AbstractCommand {
 				String s1=it.next();
 				if (p.matcher(s1).find()) list.add(new dMythicItem(s1).identify());
 			}
-			entry.addObject("mythicitems",list.size()==1?new dMythicItem(list.get(0).substring(dMythicItem.id.length())):list);
+			entry.addObject("mythicitems",list);
 		} else {
 			dMythicItem mi=new dMythicItem(p.pattern());
-			entry.addObject("mythicitem",mi);
+			entry.addObject("mythicitem",mi.isPresent()?mi:new Element(null));
 		}
 	}
 }

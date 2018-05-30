@@ -6,6 +6,7 @@
 [MythicSkill tags](#dmythicskill-tags) <br>
 [MythicSpawner tags](#dmythicspawner-tags) <br>
 [Team tags](#dteam-tags) <br>
+[List tags](#dlist-tags) <br>
 [Tag examples](#tag-examples)
 
 ----
@@ -123,6 +124,12 @@
 |`<team@team.friendlyinvisibles>`<br>Returns: Element(Boolean)|Returns whether members of this team can see other invisible members of this team.|
 |`<team@team.prefix>`<br>Returns: Element(String)|Returns the prefix of this team.|
 |`<team@team.suffix>`<br>Returns: Element(String)|Returns the suffix of this team.|
+
+---
+### dList Tags
+|Tag Names|Descriptions|
+|---|---|
+|`<li@dentity||dlocation.sort_by_distance[dEntity||dLocation]>`<br>Returns: Element(dList)|Returns sorted list.|
 
 ----
 ## Tag Examples

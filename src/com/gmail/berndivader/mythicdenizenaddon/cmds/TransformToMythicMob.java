@@ -3,16 +3,17 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 import com.gmail.berndivader.mythicdenizenaddon.Types;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
-import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
+import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.aH;
 import net.aufdemrand.denizencore.scripts.ScriptEntry;
 import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
@@ -37,11 +38,11 @@ public class TransformToMythicMob extends AbstractCommand {
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
 		Entity entity = ((dEntity)entry.getdObject(Types.entity.a())).getBukkitEntity();
 		String mmName = entry.getElement(Types.mobtype.a()).asString();
-		MythicMob mm = MythicMobs.inst().getMobManager().getMythicMob(mmName);
+		MythicMob mm = MythicMobsAddon.mythicmobs.getMobManager().getMythicMob(mmName);
 		int level = entry.getElement(Types.level.a()).asInt();
 		ActiveMob am=null;
 		if (mm!=null) am=TransformToMythicMob.transformEntityToMythicMob(entity,mm,level);
-		entry.addObject(Types.activemob.a(),am!=null?new dActiveMob(am):Types.activemob.a()+"@");
+		entry.addObject(Types.activemob.a(),am!=null?new dActiveMob(am):new Element(null));
 	}
 	
 	private static ActiveMob transformEntityToMythicMob(Entity l, MythicMob mm, int level) {
@@ -54,12 +55,12 @@ public class TransformToMythicMob extends AbstractCommand {
 	public static void addActiveMobToFaction(MythicMob mm, ActiveMob am) {
         if (mm.hasFaction()) {
             am.setFaction(mm.getFaction());
-            am.getLivingEntity().setMetadata("Faction", new FixedMetadataValue(MythicMobs.inst(),mm.getFaction()));
+            am.getLivingEntity().setMetadata("Faction", new FixedMetadataValue(MythicMobsAddon.mythicmobs,mm.getFaction()));
         }
 	}	
 	
     public static void registerActiveMob(ActiveMob am) {
-        MythicMobs.inst().getMobManager().registerActiveMob(am);
+    	MythicMobsAddon.mythicmobs.getMobManager().registerActiveMob(am);
     }
 
 }
