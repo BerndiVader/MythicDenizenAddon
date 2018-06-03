@@ -41,7 +41,7 @@ public class dListExt extends dObjectExtension {
     	    	return new Element(s4).getAttribute(a.fulfill(1));
     		}
     	}
-    	return new Element(this.list!=null?this.list.identify():null).getAttribute(a.fulfill(a.attributes.size()));
+    	return null;
     }
     
     @Override

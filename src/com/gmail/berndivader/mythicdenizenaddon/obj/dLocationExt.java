@@ -26,10 +26,10 @@ public class dLocationExt extends dObjectExtension {
     
     @Override
     public String getAttribute(Attribute a) {
-    	if (a.startsWith("mmtargets") && a.hasContext(1)) {
+    	if (a.startsWith("mmtargets")||a.startsWith("mm_targeter") && a.hasContext(1)) {
     		return MythicMobsAddon.getTargetsFor(location.clone(), a.getContext(1)).getAttribute(a.fulfill(1));
     	}
-		return new Element(this.location!=null?this.location.identify():null).getAttribute(a.fulfill(0));
+    	return null;
     }
 
     @Override

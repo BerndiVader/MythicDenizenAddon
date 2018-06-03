@@ -177,7 +177,8 @@ public class dActiveMob implements dObject, Adjustable {
 			AbstractEntity ae = BukkitAdapter.adapt(dEntity.valueOf(a.getContext(1)).getBukkitEntity());
 			return new Element(am.getImmunityTable().onCooldown(ae)).getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a.fulfill(0));
+    	System.err.println("activemob");
+		return new Element(identify()).getAttribute(a);
 	}
 
 	@Override

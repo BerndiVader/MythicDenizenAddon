@@ -31,7 +31,7 @@ public class dWorldExt extends dObjectExtension {
     	} else if (a.startsWith("allmythicspawners")) {
     		return MythicMobsAddon.allMythicSpawners(world.getWorld()).getAttribute(a.fulfill(1));
     	}
-		return new Element(this.world!=null?this.world.identify():null).getAttribute(a.fulfill(0));
+    	return null;
     }
 
     @Override

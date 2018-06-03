@@ -56,7 +56,7 @@ Adjustable {
 		} else if(a.startsWith("ispresent")) {
 			return new Element(isPresent()).getAttribute(a.fulfill(1));
 		}
-		return new Element(this.identify()).getAttribute(a.fulfill(0));
+		return new Element(identify()).getAttribute(a);
 	}
 	
 	public boolean isPresent() {
@@ -110,7 +110,7 @@ Adjustable {
             return new dMythicItem(name.replace(id,""));
         }
         catch (Exception e) {
-        	dB.log(e.getMessage());
+        	dB.echoError(e.getMessage());
         }
         return null;
     }

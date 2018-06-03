@@ -108,7 +108,8 @@ public class dTeam implements dObject, Adjustable {
 		} else if (a.startsWith("suffix")) {
 			return new Element(this.team.getSuffix()).getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a.fulfill(0));
+    	System.err.println("dteamext");
+		return new Element(identify()).getAttribute(a);
 	}
 
 	@Override

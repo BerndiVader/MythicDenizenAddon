@@ -97,7 +97,7 @@ public class dMythicSpawner implements dObject, Adjustable {
 		} else if (a.startsWith("maxmobamount")) {
 			return new Element(ms.getMaxMobs()).getAttribute(a.fulfill(1));
 		}
-		return new Element(this.identify()).getAttribute(a.fulfill(0));
+		return new Element(identify()).getAttribute(a);
 	}
 	
 	@Override

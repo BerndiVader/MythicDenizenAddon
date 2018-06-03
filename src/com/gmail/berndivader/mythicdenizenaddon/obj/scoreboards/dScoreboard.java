@@ -43,7 +43,8 @@ public class dScoreboard implements dObject, Adjustable {
 		if (a.matches("id")) {
 			return new Element(this.id).getAttribute(a.fulfill(1));
 		}
-		return new Element(null).getAttribute(a.fulfill(1));
+    	System.err.println("sbext");
+		return new Element(identify()).getAttribute(a);
 	}
 
 	@Override

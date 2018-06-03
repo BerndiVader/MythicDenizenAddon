@@ -196,7 +196,7 @@ Adjustable {
 					return new Element(bl1).getAttribute(a.fulfill(i1));
 			}
 		}
-		return new Element(identify()).getAttribute(a.fulfill(0));
+		return new Element(identify()).getAttribute(a);
 	}
 	
 	boolean meta() {

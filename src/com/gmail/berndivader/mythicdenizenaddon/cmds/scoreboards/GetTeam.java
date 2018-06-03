@@ -3,7 +3,7 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds.scoreboards;
 import com.gmail.berndivader.mythicdenizenaddon.ScoreBoardsAddon;
 import com.gmail.berndivader.mythicdenizenaddon.obj.scoreboards.dTeam;
 
-import net.aufdemrand.denizen.utilities.DenizenAPI;
+import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
 import net.aufdemrand.denizencore.objects.aH;
@@ -21,7 +21,7 @@ public class GetTeam extends AbstractCommand {
 			} else arg.reportUnhandled();
 		}
 		if (!entry.hasObject(str_name)) {
-			DenizenAPI.getCurrentInstance().debugMessage("Teamname is required! for getteam command");
+			dB.echoError("Teamname is required! for getteam command");
 		}
 		
 	}
