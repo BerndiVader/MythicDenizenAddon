@@ -3,7 +3,6 @@ package com.gmail.berndivader.mythicdenizenaddon.obj;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 
 import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.tags.Attribute;
