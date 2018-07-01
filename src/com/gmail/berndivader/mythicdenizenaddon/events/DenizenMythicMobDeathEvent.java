@@ -30,7 +30,9 @@ BukkitScriptEvent
 implements 
 Listener {
 	public static DenizenMythicMobDeathEvent instance;
-	public MythicMobDeathEvent e;
+	MythicMobDeathEvent e;
+	double money;
+	int exp;
 	
 	public DenizenMythicMobDeathEvent() {
 		instance=this;

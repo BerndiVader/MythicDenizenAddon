@@ -76,9 +76,9 @@ Adjustable {
 	@Override
 	public String getAttribute(Attribute a) {
 		if(a==null) return null;
-		int i1=a.attributes.size();
+		int i1=a.attributes.length;
 		if(i1>0) {
-			String s1=a.attributes.get(0).toLowerCase();
+			String s1=a.getAttribute(1).toLowerCase();
 			switch(s1) {
 				case "caster":
 					return new dEntity(this.meta.getCaster().getEntity().getBukkitEntity()).getAttribute(a.fulfill(i1));
