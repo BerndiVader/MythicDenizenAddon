@@ -7,6 +7,7 @@ import org.bukkit.event.HandlerList;
 
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.skills.SkillCaster;
+import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 
 public class MMDenizenCustomSkill extends Event {
 	private enum TargetType {
@@ -20,8 +21,9 @@ public class MMDenizenCustomSkill extends Event {
 	private SkillCaster caster;
 	private String skill, args;
 	private TargetType targettype;
+	SkillMetadata data;
 
-	public MMDenizenCustomSkill(SkillCaster caster, Entity target, Location targetloc, AbstractEntity t, String s, String a) {
+	public MMDenizenCustomSkill(SkillCaster caster, Entity target, Location targetloc, AbstractEntity t, String s, String a, SkillMetadata data) {
 		this.caster = caster; this.skill = s; 
 		if (a.length()>1 && (a.startsWith("\"") && a.endsWith("\""))) {
 			this.args = a.substring(1, a.length()-1);
@@ -37,6 +39,7 @@ public class MMDenizenCustomSkill extends Event {
 			this.targetLocation = targetloc;
 			this.targettype = TargetType.LOCATION;
 		}
+		this.data=data;
 	}
 	
 	public Entity getCaster() {
@@ -59,6 +62,9 @@ public class MMDenizenCustomSkill extends Event {
 	}
 	public String getTargetType() {
 		return this.targettype.toString();
+	}
+	public SkillMetadata getMetadata() {
+		return this.data;
 	}
 
 	@Override

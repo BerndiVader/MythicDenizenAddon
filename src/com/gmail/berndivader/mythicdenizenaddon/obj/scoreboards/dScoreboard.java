@@ -14,7 +14,6 @@ import net.aufdemrand.denizencore.tags.TagContext;
 public class dScoreboard implements dObject, Adjustable {
 	private String prefix;
 	private String id;
-	@SuppressWarnings("unused")
 	private Scoreboard sb;
 
 	public dScoreboard(Scoreboard board, String id) {
@@ -31,7 +30,6 @@ public class dScoreboard implements dObject, Adjustable {
 		return valueOf(name, null);
 	}
 	
-	@SuppressWarnings("unused")
 	@Override
 	public void adjust(Mechanism m) {
 		Element val = m.getValue();

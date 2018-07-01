@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
+
 import net.aufdemrand.denizen.events.BukkitScriptEvent;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dLocation;
@@ -21,6 +23,7 @@ public class DenizenSkillEvent extends BukkitScriptEvent implements Listener {
 	private Element skill, args, targetType;
 	private dEntity caster, target, trigger;
 	private dLocation targetLoc;
+	dMythicMeta data;
 	
 	public DenizenSkillEvent() {
 		instance = this;
@@ -73,20 +76,23 @@ public class DenizenSkillEvent extends BukkitScriptEvent implements Listener {
 			return trigger;
 		case "targettype":
 			return targetType;
+		case "data":
+			return data;
 		}
         return super.getContext(name);
     }
 	
     @EventHandler
     public void onMythicDenizenSkillEvent(MMDenizenCustomSkill e) {
-    	this.skill = new Element(e.getSkill());
-    	this.args = new Element(e.getArgs());
-    	this.caster = new dEntity(e.getCaster());
-    	if (e.getTargetEntity()!=null) this.target = new dEntity(e.getTargetEntity());
-    	if (e.getTargetLocation()!=null) this.targetLoc = new dLocation(e.getTargetLocation());
-    	this.targetType = new Element(e.getTargetType());
-    	this.trigger = new dEntity(e.getTrigger());
-    	this.event = e;
+    	this.skill=new Element(e.getSkill());
+    	this.args=new Element(e.getArgs());
+    	this.caster=e.getCaster()!=null?new dEntity(e.getCaster()):null;
+    	this.target=e.getTargetEntity()!=null?new dEntity(e.getTargetEntity()):null;
+    	this.targetLoc=e.getTargetLocation()!=null?new dLocation(e.getTargetLocation()):null;
+    	this.targetType=new Element(e.getTargetType());
+    	this.trigger=e.getTrigger()!=null?new dEntity(e.getTrigger()):null;
+    	this.data=new dMythicMeta(e.getMetadata());
+    	this.event=e;
         fire();
     }
 

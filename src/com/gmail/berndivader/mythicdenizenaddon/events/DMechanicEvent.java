@@ -32,7 +32,7 @@ INoTargetSkill {
 	public boolean cast(SkillMetadata data) {
 		SkillCaster caster = data.getCaster();
 		String a = SkillString.parseMobVariables(this.args, caster, caster.getEntity(), data.getTrigger());
-		MMDenizenCustomSkill e = new MMDenizenCustomSkill(caster,null,null,data.getTrigger(),skill,a);
+		MMDenizenCustomSkill e = new MMDenizenCustomSkill(caster,null,null,data.getTrigger(),skill,a,data);
 		Bukkit.getServer().getPluginManager().callEvent(e);
 		return true;
 	}
@@ -41,7 +41,7 @@ INoTargetSkill {
 	public boolean castAtLocation(SkillMetadata data, AbstractLocation target) {
 		SkillCaster caster = data.getCaster();
 		String a = SkillString.parseMobVariables(this.args, caster, caster.getEntity(), data.getTrigger());
-		MMDenizenCustomSkill e = new MMDenizenCustomSkill(caster,null,BukkitAdapter.adapt(target),data.getTrigger(),skill,a);
+		MMDenizenCustomSkill e = new MMDenizenCustomSkill(caster,null,BukkitAdapter.adapt(target),data.getTrigger(),skill,a,data);
 		Bukkit.getServer().getPluginManager().callEvent(e);
 		return true;
 	}
@@ -50,7 +50,7 @@ INoTargetSkill {
 	public boolean castAtEntity(SkillMetadata data, AbstractEntity target) {
 		SkillCaster caster = data.getCaster();
 		String a = SkillString.parseMobVariables(this.args, caster, target, data.getTrigger());
-		MMDenizenCustomSkill e = new MMDenizenCustomSkill(caster,BukkitAdapter.adapt(target),null,data.getTrigger(),skill,a);
+		MMDenizenCustomSkill e = new MMDenizenCustomSkill(caster,BukkitAdapter.adapt(target),null,data.getTrigger(),skill,a,data);
 		Bukkit.getServer().getPluginManager().callEvent(e);
 		return true;
 	}

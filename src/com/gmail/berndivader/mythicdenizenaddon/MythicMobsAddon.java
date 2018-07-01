@@ -34,6 +34,7 @@ import com.gmail.berndivader.mythicdenizenaddon.obj.dEntityExt;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dListExt;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dLocationExt;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicItem;
+import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMob;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicSkill;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicSpawner;
@@ -68,7 +69,7 @@ public class MythicMobsAddon extends Support {
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
 		
-		registerObjects(dMythicSpawner.class, dActiveMob.class, dMythicMob.class, dMythicItem.class, dMythicSkill.class);
+		registerObjects(dMythicSpawner.class, dActiveMob.class, dMythicMob.class, dMythicItem.class, dMythicSkill.class, dMythicMeta.class);
 		registerProperty(dEntityExt.class, dEntity.class);
 		registerProperty(dWorldExt.class, dWorld.class);
 		registerProperty(dLocationExt.class, dLocation.class);

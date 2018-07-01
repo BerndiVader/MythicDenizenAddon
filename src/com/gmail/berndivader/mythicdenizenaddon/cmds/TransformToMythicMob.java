@@ -13,7 +13,6 @@ import io.lumine.xikage.mythicmobs.mobs.MythicMob;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.aH;
 import net.aufdemrand.denizencore.scripts.ScriptEntry;
 import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
@@ -42,7 +41,11 @@ public class TransformToMythicMob extends AbstractCommand {
 		int level = entry.getElement(Types.level.a()).asInt();
 		ActiveMob am=null;
 		if (mm!=null) am=TransformToMythicMob.transformEntityToMythicMob(entity,mm,level);
-		entry.addObject(Types.activemob.a(),am!=null?new dActiveMob(am):new Element(null));
+		if(am!=null) {
+			entry.addObject(Types.activemob.a(),new dActiveMob(am));
+		} else {
+			throw new CommandExecutionException("Failed to transfrom Entity to MythicMobs!");
+		}
 	}
 	
 	private static ActiveMob transformEntityToMythicMob(Entity l, MythicMob mm, int level) {

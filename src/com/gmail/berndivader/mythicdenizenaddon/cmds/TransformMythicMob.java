@@ -17,14 +17,11 @@ import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.aH;
 import net.aufdemrand.denizencore.scripts.ScriptEntry;
 import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
 public class TransformMythicMob extends AbstractCommand {
-	
-	
 	
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
@@ -38,17 +35,15 @@ public class TransformMythicMob extends AbstractCommand {
 	
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		ActiveMob am = ((dActiveMob)entry.getdObject(Types.activemob.a())).getActiveMob();
+		ActiveMob am=((dActiveMob)entry.getdObject(Types.activemob.a())).getActiveMob();
 		if (am!=null) {
 			Entity entity = transformToNormalEntity(am);
 			if (entity!=null) {
 				dEntity dentity = new dEntity(entity);
 				entry.addObject(Types.entity.a(),dentity);
 			} else {
-				entry.addObject(Types.entity.a(),new Element(null));
+				throw new CommandExecutionException("Failed to get Entity from MythicMob");
 			}
-		} else {
-			entry.addObject(Types.entity.a(),new Element(null));
 		}
 	}
 	

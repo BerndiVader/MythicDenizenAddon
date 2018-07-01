@@ -68,9 +68,9 @@ Listener {
     
     public void onDenizenEntityTargetEvent(MMDenizenEntityTargeterEvent e) {
     	this.event = e;
-    	this.caster=new dEntity(e.getCaster());
-    	this.trigger=new dEntity(e.getTrigger());
-    	this.targeter=new Element(e.getTargeterName());
+    	this.caster=e.getCaster()!=null?new dEntity(e.getCaster()):null;
+    	this.trigger=e.getTrigger()!=null?new dEntity(e.getTrigger()):null;
+    	this.targeter=e.getTargeterName()!=null?new Element(e.getTargeterName()):null;
     	this.args.addAll(Arrays.asList(e.getArgs()));
         fire();
     }

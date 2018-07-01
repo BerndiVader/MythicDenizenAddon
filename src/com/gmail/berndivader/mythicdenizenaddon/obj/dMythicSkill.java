@@ -1,6 +1,7 @@
 package com.gmail.berndivader.mythicdenizenaddon.obj;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
@@ -29,9 +30,9 @@ Adjustable {
 	public static String id="mythicskill@";
 	static MythicMobs mythicmobs=MythicMobs.inst();
 	private String prefix;
-	
 	Skill skill;
-	SkillMetadata meta;
+	public Optional<String> metaId;
+	dMythicMeta data;
 	HashSet<AbstractEntity>eTargets;
 	HashSet<AbstractLocation>lTargets;
 	HashSet<GenericCaster>casters;
@@ -42,6 +43,10 @@ Adjustable {
 	SkillTrigger cause;
 
 	public dMythicSkill(String name) {
+		this(name,null);
+	}
+	
+	public dMythicSkill(String name, String metaId) {
 		if (mythicmobs.getSkillManager().getSkill(name).isPresent()) {
 			this.skill=mythicmobs.getSkillManager().getSkill(name).get();
 		} else {
@@ -55,7 +60,9 @@ Adjustable {
 		this.origin=null;
 		this.trigger=null;
 		this.caster=null;
-		meta();
+		if (((this.metaId=Optional.ofNullable(metaId)).isPresent())) {
+			if (dMythicMeta.objects.containsKey(this.metaId.get())) data=new dMythicMeta(dMythicMeta.objects.get(this.metaId.get()));
+		}
 	}
 	
     public static boolean matches(String string) {
@@ -66,7 +73,7 @@ Adjustable {
 		return valueOf(name,null);
 	}
 	
-	public static dList getEntityTargets(HashSet<AbstractEntity>entities) {
+	static dList getEntityTargets(HashSet<AbstractEntity>entities) {
 		dList list=new dList();
 		for(AbstractEntity e:entities) {
 			list.add(new dEntity(e.getBukkitEntity()).identify());
@@ -74,7 +81,7 @@ Adjustable {
 		return list;
 	}
 	
-	public static dList getLocationTargets(HashSet<AbstractLocation>locations) {
+	static dList getLocationTargets(HashSet<AbstractLocation>locations) {
 		dList list=new dList();
 		for(AbstractLocation l:locations) {
 			list.add(new dLocation(BukkitAdapter.adapt(l)).identify());
@@ -94,7 +101,7 @@ Adjustable {
 		AbstractEntity trigger;
 		AbstractLocation origin;
 		float power;
-		if(a.attributes.size()>0) {
+		if(i1>0) {
 			String s1=a.attributes.get(0).toLowerCase();
 			switch(s1) {
 				case "present":
@@ -115,6 +122,9 @@ Adjustable {
 					break;
 				case "caster":
 					if (this.caster!=null) return new dEntity(this.caster.getEntity().getBukkitEntity()).getAttribute(a.fulfill(i1));
+					break;
+				case "data":
+					if(this.metaId.isPresent()) return this.data.getAttribute(a.fulfill(1));
 					break;
 				case "useable":
 					caster=this.caster;
@@ -185,9 +195,10 @@ Adjustable {
 						}
 						return new Element(bl1).getAttribute(a.fulfill(i1));
 					}
-					if(bl1=(this.meta.getCaster()!=null)) {
+					if(bl1=(this.metaId.isPresent())) {
+						SkillMetadata metaData=this.data.getSkillMetadata();
 						try {
-							skill.execute(this.meta);
+							skill.execute(metaData);
 						} catch (Exception ex) {
 							dB.log(ex.getMessage());
 							bl1=false;
@@ -199,8 +210,8 @@ Adjustable {
 		return new Element(identify()).getAttribute(a);
 	}
 	
-	boolean meta() {
-		return (this.meta=new SkillMetadata(this.cause,this.caster,this.trigger,this.origin,this.eTargets,this.lTargets,this.power))!=null;
+	dMythicMeta meta() {
+		return new dMythicMeta(new SkillMetadata(this.cause,this.caster,this.trigger,this.origin,this.eTargets,this.lTargets,this.power));
 	}
 	
 	@Override
@@ -244,6 +255,12 @@ Adjustable {
 			case "power":
 				this.power=e1.isFloat()?e1.asFloat():power;
 				break;
+			case "data":
+				if (e1.matchesType(dMythicMeta.class)) {
+					this.metaId=Optional.of(e1.identify());
+					this.data=new dMythicMeta(dMythicMeta.objects.get(this.metaId.get()));
+				};
+				break;
 		}
 	}
 	
@@ -264,7 +281,8 @@ Adjustable {
 
 	@Override
 	public String identify() {
-		return this.skill!=null?id+this.skill.getInternalName():null;
+		String s1=this.metaId.isPresent()?this.metaId.get():"";
+		return this.skill!=null?id+this.skill.getInternalName()+s1:null;
 	}
 
 	@Override
@@ -286,12 +304,19 @@ Adjustable {
     @Fetchable("mythicskill")
     public static dMythicSkill valueOf(String name,TagContext context) {
         if (name==null||name.isEmpty()) return null;
+        String metaId=null;
         try {
+        	if (name.contains(dMythicMeta.id)) {
+        		String[]arr1=name.split(dMythicMeta.id);
+        		name=arr1[0];
+        		metaId=arr1[1];
+        		System.err.println(metaId+":"+name);
+        	}
         	name=name.replace(id,"");
-            return new dMythicSkill(name);
+            return new dMythicSkill(name,metaId);
         }
         catch (Exception e) {
-        	dB.log(e.getMessage());
+        	dB.echoError(e.getMessage());
         }
         return null;
     }

@@ -86,19 +86,15 @@ public class DenizenTargetConditionEvent extends BukkitScriptEvent implements Li
 	
     @EventHandler
     public void onMythicMobConditionEvent(MMDenizenTargetConditionEvent e) {
-    	this.event = e;
-    	this.condition = new Element(e.getName());
-    	this.args = new Element(e.getArgs());
-    	this.meet = new Element(e.getBool());
-   		if (e.getEntity()!=null) {
-   			this.dentity = new dEntity(e.getEntity());
-   	    	this.dtarget = new dEntity(e.getTarget());
-   			this.type = new Element("e");
-   		} else if (e.getLocation()!=null) {
-   	    	this.dlocationtarget = new dLocation(e.getTargetLocation());
-   	   		this.dlocation = new dLocation(e.getLocation());
-   	   		this.type = new Element("l");
-   		}
+    	this.event=e;
+    	this.condition=new Element(e.getName());
+    	this.args=new Element(e.getArgs());
+    	this.meet=new Element(e.getBool());
+    	this.type=e.getEntity()!=null?new Element("e"):e.getLocation()!=null?new Element("l"):null;
+		this.dentity=e.getEntity()!=null?new dEntity(e.getEntity()):null;
+    	this.dtarget=e.getTarget()!=null?new dEntity(e.getTarget()):null;
+    	this.dlocationtarget=e.getTargetLocation()!=null?new dLocation(e.getTargetLocation()):null;
+   		this.dlocation=e.getLocation()!=null?new dLocation(e.getLocation()):null;
         fire();
         e.setBool(this.meet.asBoolean());
     }

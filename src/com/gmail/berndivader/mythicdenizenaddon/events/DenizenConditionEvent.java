@@ -26,8 +26,8 @@ Listener {
 	private Element args;
 	private Element type;
 	private Element condition;
-	private dEntity dentity=null;
-	private dLocation dlocation=null;
+	private dEntity dentity;
+	private dLocation dlocation;
 	
 	public DenizenConditionEvent() {
 		instance = this;
@@ -92,13 +92,9 @@ Listener {
     	this.condition=new Element(e.getName());
     	this.args=new Element(e.getArgs());
     	this.meet=new Element(e.getBool());
-   		if (e.getEntity()!=null) {
-   			this.dentity=new dEntity(e.getEntity());
-   			this.type=new Element("e");
-   		} else if (e.getLocation()!=null) {
-   	   		this.dlocation=new dLocation(e.getLocation());
-   	   		this.type=new Element("l");
-   		}
+		this.dentity=e.getEntity()!=null?new dEntity(e.getEntity()):null;
+   		this.dlocation=e.getLocation()!=null?new dLocation(e.getLocation()):null;
+   		this.type=e.getEntity()!=null?new Element("e"):e.getLocation()!=null?new Element("l"):new Element("n");
         fire();
         e.setBool(this.meet.asBoolean());
     }

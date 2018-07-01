@@ -44,7 +44,11 @@ AbstractCommand {
 			entry.addObject("mythicitems",list);
 		} else {
 			dMythicItem mi=new dMythicItem(p.pattern());
-			entry.addObject("mythicitem",mi.isPresent()?mi:new Element(null));
+			if(mi.isPresent()) {
+				entry.addObject("mythicitem",mi);
+			} else {
+				throw new CommandExecutionException("Failed to create "+dMythicItem.class.getSimpleName());
+			}
 		}
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
+import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicSkill;
 
 import io.lumine.xikage.mythicmobs.skills.Skill;
@@ -27,6 +28,9 @@ AbstractCommand {
 			} else if(!entry.hasObject("strict")&&arg.matchesPrefix("strict")) {
 				entry.addObject("strict",arg.asElement());
 			}
+			if(!entry.hasObject("data")&&arg.matchesPrefix("data")) {
+				entry.addObject("data",arg.asType(dMythicMeta.class));
+			}
 		}
 		if (!entry.hasObject("filter")) entry.addObject("filter",new Element(new String("")));
 		if (!entry.hasObject("strict")) entry.addObject("strict",new Element(false));
@@ -35,17 +39,26 @@ AbstractCommand {
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
 		Pattern p=Pattern.compile(entry.getElement("filter").asString());
+		String metaId=entry.hasObject("data")?entry.getdObject("data").identify():null;
+		System.err.println(metaId);
 		if (!entry.getElement("strict").asBoolean()) {
 			Iterator<Skill>it=MythicMobsAddon.mythicmobs.getSkillManager().getSkills().iterator();
 			dList list=new dList();
 			while(it.hasNext()) {
 				String s1=it.next().getInternalName();
-				if (p.matcher(s1).find()) list.add(new dMythicSkill(s1).identify());
+				if (p.matcher(s1).find()) {
+					dMythicSkill skill=new dMythicSkill(s1,metaId);
+					if (skill.isPresent()) list.add(skill.identify());
+				}
 			}
 			entry.addObject("skills",list);
 		} else {
-			dMythicSkill skill=new dMythicSkill(p.pattern());
-			entry.addObject("skill",skill.isPresent()?skill:new Element(null));
+			dMythicSkill skill=new dMythicSkill(p.pattern(),metaId);
+			if(skill.isPresent()) {
+				entry.addObject("skill",skill);
+			} else {
+				throw new CommandExecutionException("Failed to create "+dMythicSkill.class.getSimpleName());
+			}
 		}
 	}
 }
