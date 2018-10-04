@@ -76,7 +76,7 @@ Adjustable {
 	@Override
 	public String getAttribute(Attribute a) {
 		if(a==null) return null;
-		int i1=a.attributes.length;
+		int i1=a.attributes.size();
 		if(i1>0) {
 			String s1=a.getAttribute(i1).toLowerCase();
 			switch(s1) {

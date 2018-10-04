@@ -22,7 +22,9 @@ import io.lumine.xikage.mythicmobs.drops.IItemDrop;
 import io.lumine.xikage.mythicmobs.drops.ILocationDrop;
 import io.lumine.xikage.mythicmobs.drops.IMessagingDrop;
 import io.lumine.xikage.mythicmobs.drops.LootBag;
+import io.lumine.xikage.mythicmobs.drops.droppables.DropTableDrop;
 import io.lumine.xikage.mythicmobs.drops.droppables.ItemDrop;
+import io.lumine.xikage.mythicmobs.drops.droppables.VaultDrop;
 import net.aufdemrand.denizen.BukkitScriptEntryData;
 import net.aufdemrand.denizen.events.BukkitScriptEvent;
 import net.aufdemrand.denizen.objects.dEntity;
@@ -82,7 +84,7 @@ Listener {
 	@Override
     public boolean applyDetermination(ScriptContainer container,String determination) {
 		if(aH.Argument.valueOf(determination).matchesArgumentType(dList.class)) {
-			setDrops(lootBag,aH.Argument.valueOf(determination).asType(dList.class));
+			setDrops(lootBag,aH.Argument.valueOf(determination).asType(dList.class),e);
 		}
 		return true;
     }
@@ -107,7 +109,7 @@ Listener {
 		fire();
 	}
 	
-	private static void setDrops(LootBag lootBag,dList dropList) {
+	private static void setDrops(LootBag lootBag,dList dropList,MythicMobLootDropEvent e) {
 		Map<Class,Drop>intangibleDrops=new HashMap<Class,Drop>();
 		List<Drop>itemDrops=new ArrayList<Drop>();
 		for(String type:dropList) {
@@ -117,10 +119,21 @@ Listener {
 				drop.setAmount(bit.getAmount());
 				itemDrops.add(drop);
 			}else if (aH.Argument.valueOf(type).matchesPrimitive(PrimitiveType.String)) {
-				type=type.replaceAll("/"," ");
 				Drop drop=Drop.getDrop(type);
-				drop.setAmount(Double.parseDouble(type.split(" ")[1]));
-				intangibleDrops.put(drop.getClass(),drop);
+				if(drop instanceof DropTableDrop) {
+					LootBag loot=((DropTableDrop)drop).get(new DropMetadata(e.getMob(),BukkitAdapter.adapt(e.getKiller())));
+					for(Drop d1:loot.getDrops()) {
+						if(d1 instanceof IItemDrop) {
+							itemDrops.add(d1);
+						} else {
+							intangibleDrops.merge(d1.getClass(),d1,(o,n)->o.addAmount(n));
+						}
+					}
+				} else {
+					String[]arr1=type.split(" ");
+					drop.setAmount(arr1.length==0?1.0D:Double.parseDouble(arr1[1]));
+					intangibleDrops.merge(drop.getClass(),drop,(o,n)->o.addAmount(n));
+				}
 			}
 		}
 		lootBag.setLootTable(itemDrops);
@@ -132,7 +145,7 @@ Listener {
 		for(Drop drop:lootBag.getDrops()) {
 			if(drop instanceof IItemDrop) {
 				ItemStack item=BukkitAdapter.adapt(((IItemDrop) drop).getDrop(new DropMetadata(e.getMob(),BukkitAdapter.adapt(e.getKiller()))));
-				dropList.addObject(new dItem(item));
+				dropList.add(new dItem(item).identify());
 				continue;
 			}
 			if(drop instanceof ILocationDrop||drop instanceof IIntangibleDrop||drop instanceof IMessagingDrop) {

@@ -1,5 +1,6 @@
 package com.gmail.berndivader.mythicdenizenaddon;
 
+import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.events.ScriptEvent;
 import net.aufdemrand.denizencore.objects.ObjectFetcher;
@@ -18,11 +19,13 @@ import java.util.Map;
 public class SupportManager {
 
     private final MythicDenizenPlugin mmd;
+    private final PropertyParser propertyParser;
     private final Map<String, Support> additionalTags;
     private boolean hasNewObjects = false;
 
     public SupportManager(MythicDenizenPlugin mmd) {
         this.mmd = mmd;
+        this.propertyParser = DenizenAPI.getCurrentInstance().getPropertyParser();
         this.additionalTags = new HashMap<String, Support>();
         TagManager.registerTagEvents(this);
     }
@@ -38,7 +41,7 @@ public class SupportManager {
             for (Map.Entry<Class<? extends Property>, Class<? extends dObject>>prop
                     : support.getProperties().entrySet()) {
             	Class<? extends dObject> obj=prop.getValue();
-            	PropertyParser.registerProperty(prop.getKey(),obj);
+            	propertyParser.registerProperty(prop.getKey(),obj);
             }
         }
         if (support.hasEvents()) {

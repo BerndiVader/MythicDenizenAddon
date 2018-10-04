@@ -84,7 +84,10 @@ MM_Events:
 			- announce <context.drops>
 			- announce <context.activemob.mobtype>
 			- announce <context.killer.name>
-			- determine li@i@dirt|money/100/1|exp/100/1
+			- define money "money 5 1"
+			- define exp "exp 100 1"
+			- define droptable "ClothesTD 1 1"
+			- determine li@i@dirt|i@stone|<def[money]>|<def[exp]>|<def[droptable]>
 ```
 
 ----

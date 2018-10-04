@@ -1,5 +1,9 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
+- Update 0.500b - gone back to denizen 1.0.2-SNAPSHOT (build 1649), core version: 1.15 (Build 108)
+                  because the devbuilds are not compatible with the official release at spigot resource page.
+                - proper handling of dList
+                - fixed droptable drops didnt work
 - Update 0.500a - added support for MythicMobs 4.4.0.
                 - added mythicmobs lootdrop event
                 - added support for denizen 1.0.2-SNAPSHOT (build 1651), core version: 1.15 (Build 152)
