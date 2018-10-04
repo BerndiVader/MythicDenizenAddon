@@ -33,13 +33,13 @@
     
   on mm denizen death:
   on mythicmobs death:
-    - determine drops:@li;money:0;exp:0
+    - determine drops:li@;money:0;exp:0
     
   on mm denizen death:
   on mythicmobs death:
     - determine passively money:0
     - determine passively exp:0
-    - determine drops:@li
+    - determine drops:li@
 ```
 ----
 ### MythicMobsSpawnEvent
