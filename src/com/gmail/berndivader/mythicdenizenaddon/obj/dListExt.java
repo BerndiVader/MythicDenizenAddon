@@ -32,7 +32,7 @@ public class dListExt extends dObjectExtension {
     
     @Override
     public String getAttribute(Attribute a) {
-    	if (a==null||a.attributes.size()<1) return null;
+    	if (a==null||a.attributes.length<1) return null;
    		String s1=a.getAttribute(1).toLowerCase();
    		if(s1.startsWith("sort_by_distance")&&a.hasContext(1)) {
    			String s3=a.getContext(1);

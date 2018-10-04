@@ -1,6 +1,7 @@
 # Events:
 [MythicMobsDeathEvent](#mythicmobsdeathevent) <br>
 [MythicMobsSpawnEvent](#mythicmobsspawnevent) <br>
+[MythicMobsDropEvent](mythicmobsdropevent) <br>
 [CustomMechanic](#custommechanic) <br>
 [CustomCondition](#customcondition) <br>
 
@@ -56,6 +57,35 @@
 
 **Determinations:** <br>
 "`TRUE`" to cancel the event. (This allows use of the tag `<context.cancelled>`).
+
+----
+### MythicMobsDropEvent
+**Names** <br>
+*mm lootdrop* <br>
+*mythicmobs lootdrop* <br>
+
+|Contexts|Descriptions|
+|--|--|
+|<context.drops>|Returns the dList of the Lootbag.|
+|<context.activemob>|Returns the MythicMobs mob instance.|
+|<context.killer>|Returns the killer of the mob.|
+
+**Determinations:** <br>
+"`dList`" Replace or clear the drops.
+
+**Denizen Example:** <br>
+```yaml
+MM_Events:
+	type: world
+	debug: false
+  
+	events:
+		on mythicmobs lootdrop:
+			- announce <context.drops>
+			- announce <context.activemob.mobtype>
+			- announce <context.killer.name>
+			- determine li@i@dirt|money/100/1|exp/100/1
+```
 
 ----
 ### CustomMechanic

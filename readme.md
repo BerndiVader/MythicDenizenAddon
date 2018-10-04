@@ -1,5 +1,8 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
+- Update 0.500a - added support for MythicMobs 4.4.0.
+                - added mythicmobs lootdrop event
+                - added support for denizen 1.0.2-SNAPSHOT (build 1651), core version: 1.15 (Build 152)
 - Update 0.499d - added sort_by_distance to dList
 - Update 0.499b - added dMythicSkill object, added getmythicskills command
 - Update 0.499a - added MythicItem dObject, added getmythicitems command

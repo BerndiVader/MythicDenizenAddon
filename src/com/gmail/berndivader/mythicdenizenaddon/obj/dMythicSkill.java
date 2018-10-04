@@ -96,13 +96,13 @@ Adjustable {
 	@Override
 	public String getAttribute(Attribute a) {
 		if(a==null) return null;
-		int i1=a.attributes.size();
+		int i1=a.attributes.length;
 		GenericCaster caster;
 		AbstractEntity trigger;
 		AbstractLocation origin;
 		float power;
 		if(i1>0) {
-			String s1=a.attributes.get(0).toLowerCase();
+			String s1=a.getAttribute(i1).toLowerCase();
 			switch(s1) {
 				case "present":
 					return new Element(isPresent()).getAttribute(a.fulfill(i1));

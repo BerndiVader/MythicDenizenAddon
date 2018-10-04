@@ -62,9 +62,8 @@ Listener {
     public boolean applyDetermination(ScriptContainer container, String d) {
 		if (aH.Argument.valueOf(d).matchesPrimitive(aH.PrimitiveType.Boolean)) {
 			this.meet = new Element(d);
-			return true;
 		}
-        return super.applyDetermination(container, d);
+		return Boolean.parseBoolean(d);
     }
 	
 	@Override

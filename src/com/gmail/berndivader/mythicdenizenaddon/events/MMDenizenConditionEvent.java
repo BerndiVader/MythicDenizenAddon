@@ -48,7 +48,7 @@ Event {
 		return this.bool;
 	}
 	public void setBool(Boolean b) {
-		this.bool = b;
+		this.bool=b;
 	}
 	
 	@Override

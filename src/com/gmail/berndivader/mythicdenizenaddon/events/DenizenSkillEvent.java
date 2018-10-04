@@ -55,7 +55,7 @@ public class DenizenSkillEvent extends BukkitScriptEvent implements Listener {
     
 	@Override
     public boolean applyDetermination(ScriptContainer container, String d) {
-        return super.applyDetermination(container, d);
+		return Boolean.parseBoolean(d);
     }
 	
 	@Override

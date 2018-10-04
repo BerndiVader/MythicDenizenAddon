@@ -124,8 +124,8 @@ Listener {
     }
 	
 	@EventHandler
-	public void onMythicMobsDeathEvent(MythicMobDeathEvent e) {
-		this.e=e;
+	public void onMythicMobsDeathEvent(MythicMobDeathEvent ev) {
+		this.e=ev;
 		fire();
 	}
 }
