@@ -96,7 +96,7 @@ Adjustable {
 	@Override
 	public String getAttribute(Attribute a) {
 		if(a==null) return null;
-		int i1=a.attributes.size();
+		int i1=a.attributes.length;
 		GenericCaster caster;
 		AbstractEntity trigger;
 		AbstractLocation origin;

@@ -14,13 +14,14 @@
 |Contexts|Descriptions|
 |--|--|
 |`<context.victim>`<br>`<context.entity>`|Returns the dEntity of the MythicMob being killed.|
-|`<context.activemob>`|Returns the dActiveMob of the MythicMob being killed.<br>NOTE: You can use <context.victim.activemob> instead.|
+|`<context.activemob>`|Returns the dActiveMob of the MythicMob being killed.<br>NOTE: You can use `<context.victim.activemob>` instead.|
 |`<context.killer>`<br>`<context.attacker>`|Returns the dEntity of the killer.|
 |`<context.drops>`|Returns a dList of the drops for this MythicMob.|
 |`<context.money>`|Returns an Element(Decimal) of the money dropped.|
 |`<context.exp>`|Returns an Element(Number) of the XP dropped by the mob.|
 
 **Determinations:** <br>
+*DETERMINATIONS DONT WORK ANYMORE BECAUSE MYTHICMOBS DEATHEVENT IS BROKEN*
 `DROPS:dList(dItem)` to specify new items to be dropped. <br>
 `MONEY:Element(Decimal)` to specify the new amount of money to drop. Requires Vault and an economy plugin. <br>
 `EXP:Element(Number)` to specify the new amount of XP to drop. <br>
@@ -49,11 +50,11 @@
 
 |Contexts|Descriptions|
 |--|--|
-|<context.entity>|Returns the dEntity of the MythicMob being spawned.|
-|<context.location>|Returns the dLocation where the MythicMob is being spawned.|
-|<context.level>|Returns the level of the MythicMob being spawned.|
-|<context.mobtype>|Returns the mob type of the MythicMob being spawned.<br>NOTE: You can use <context.entity.entity_type> instead.|
-|<context.cancelled><br><context.iscancelled>|Returns an Element(Boolean) if the event is cancelled.|
+|`<context.entity>`|Returns the dEntity of the MythicMob being spawned.|
+|`<context.location>`|Returns the dLocation where the MythicMob is being spawned.|
+|`<context.level>`|Returns the level of the MythicMob being spawned.|
+|`<context.mobtype>`|Returns the mob type of the MythicMob being spawned.<br>NOTE: You can use `<context.entity.entity_type>` instead.|
+|`<context.cancelled>`<br>`<context.iscancelled>`|Returns an Element(Boolean) if the event is cancelled.|
 
 **Determinations:** <br>
 "`TRUE`" to cancel the event. (This allows use of the tag `<context.cancelled>`).
@@ -66,12 +67,14 @@
 
 |Contexts|Descriptions|
 |--|--|
-|<context.drops>|Returns the dList of the Lootbag.|
-|<context.activemob>|Returns the MythicMobs mob instance.|
-|<context.killer>|Returns the killer of the mob.|
+|`<context.drops>`|Returns the dList of all drops inside the Lootbag.|
+|`<context.money>`|Returns the amount of money found in the Lootbag.|
+|`<context.exp>`|Returns the amount of exp found in the Lootbag.|
+|`<context.activemob>`|Returns the MythicMobs mob instance.|
+|`<context.killer>`|Returns the killer of the mob.|
 
 **Determinations:** <br>
-"`dList`" Replace or clear the drops.
+`dList` Replace or clear the drops.
 
 **Denizen Example:** <br>
 ```yaml

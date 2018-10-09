@@ -21,15 +21,15 @@ import io.lumine.xikage.mythicmobs.drops.IIntangibleDrop;
 import io.lumine.xikage.mythicmobs.drops.IItemDrop;
 import io.lumine.xikage.mythicmobs.drops.ILocationDrop;
 import io.lumine.xikage.mythicmobs.drops.IMessagingDrop;
+import io.lumine.xikage.mythicmobs.drops.IMultiDrop;
 import io.lumine.xikage.mythicmobs.drops.LootBag;
-import io.lumine.xikage.mythicmobs.drops.droppables.DropTableDrop;
 import io.lumine.xikage.mythicmobs.drops.droppables.ItemDrop;
-import io.lumine.xikage.mythicmobs.drops.droppables.VaultDrop;
 import net.aufdemrand.denizen.BukkitScriptEntryData;
 import net.aufdemrand.denizen.events.BukkitScriptEvent;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dItem;
 import net.aufdemrand.denizen.utilities.DenizenAPI;
+import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.aH;
 import net.aufdemrand.denizencore.objects.aH.PrimitiveType;
 import net.aufdemrand.denizencore.objects.dList;
@@ -94,6 +94,10 @@ Listener {
 		switch(name.toLowerCase()) {
 		case "drops":
 			return getDrops(e,lootBag);
+		case "money":
+			return new Element(e.getMoney());
+		case "exp":
+			return new Element(e.getExp());
 		case "activemob":
 			return new dActiveMob(e.getMob());
 		case "killer":
@@ -120,8 +124,8 @@ Listener {
 				itemDrops.add(drop);
 			}else if (aH.Argument.valueOf(type).matchesPrimitive(PrimitiveType.String)) {
 				Drop drop=Drop.getDrop(type);
-				if(drop instanceof DropTableDrop) {
-					LootBag loot=((DropTableDrop)drop).get(new DropMetadata(e.getMob(),BukkitAdapter.adapt(e.getKiller())));
+				if(drop instanceof IMultiDrop) {
+					LootBag loot=((IMultiDrop)drop).get(new DropMetadata(e.getMob(),BukkitAdapter.adapt(e.getKiller())));
 					for(Drop d1:loot.getDrops()) {
 						if(d1 instanceof IItemDrop) {
 							itemDrops.add(d1);
@@ -131,7 +135,7 @@ Listener {
 					}
 				} else {
 					String[]arr1=type.split(" ");
-					drop.setAmount(arr1.length==0?1.0D:Double.parseDouble(arr1[1]));
+					drop.setAmount(arr1.length==1?1.0D:Double.parseDouble(arr1[1]));
 					intangibleDrops.merge(drop.getClass(),drop,(o,n)->o.addAmount(n));
 				}
 			}
