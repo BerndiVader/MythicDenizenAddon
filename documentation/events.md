@@ -4,6 +4,8 @@
 [MythicMobsDropEvent](mythicmobsdropevent) <br>
 [CustomMechanic](#custommechanic) <br>
 [CustomCondition](#customcondition) <br>
+[EntityTargeter](#entitytargeter) <br>
+[LocationTargeter](#locationtargeter) <br>
 
 ----
 ### MythicMobsDeathEvent
@@ -91,6 +93,87 @@ MM_Events:
 			- define exp "exp 100 1"
 			- define droptable "ClothesTD 1 1"
 			- determine li@i@dirt|i@stone|<def[money]>|<def[exp]>|<def[droptable]>
+```
+
+----
+### EntityTargeter
+**Names** <br>
+*mythicmobs entitytargeter* <br>
+
+**Note:** <br>
+The event fires only when a MythicMob uses the `dentity` targeter.
+
+|Contexts|Descriptions|
+|--|--|
+|`<context.targeter>`|Returns the name of the targeter defined inside the dentity targeter.|
+|`<context.caster>`|Get the caster as entity.|
+|`<context.trigger>`|The trigger as entity.|
+|`<context.origin>`|The origin location.|
+|`<context.cause>`|What caused the skill.|
+|`<context.args>`|The args as list defined inside the dentity targeter.|
+
+**Determinations:** <br>
+`dList` Add entities as targets to use within mythicmobs.
+
+**MythicMob and Denizen Examples:** <br>
+*In MythicMobs:*
+```yaml
+PotatoMob:
+  Type: zombie
+  Display: 'a Potato'
+  Skills:
+  - message{msg="FRENCH FRIES!"} @dentity{name=denizen_entity_targeter;args=arg1,arg2,arg3,arg4} ~onInteract
+```
+*In Denizen:*
+```yaml
+		on mythicmobs entitytargeter:
+			- narrate <context.targeter>
+			- narrate <context.caster>
+			- narrate <context.trigger>
+			- narrate <context.origin>
+			- narrate <context.cause>
+			- narrate <context.args>
+			- determine <context.caster.location.find.players.within[5.0]>
+```
+
+----
+### LocationTargeter
+**Names** <br>
+*mythicmobs locationtargeter* <br>
+
+**Note:** <br>
+The event fires only when a MythicMob uses the `dlocation` targeter.
+
+|Contexts|Descriptions|
+|--|--|
+|`<context.targeter>`|Returns the name of the targeter defined inside the dentity targeter.|
+|`<context.caster>`|Get the caster as entity.|
+|`<context.trigger>`|The trigger as entity.|
+|`<context.origin>`|The origin location.|
+|`<context.cause>`|What caused the skill.|
+|`<context.args>`|The args as list defined inside the dentity targeter.|
+
+**Determinations:** <br>
+`dList` Add locations as targets to use within mythicmobs.
+
+**MythicMob and Denizen Examples:** <br>
+*In MythicMobs:*
+```yaml
+PotatoMob:
+  Type: zombie
+  Display: 'a Potato'
+  Skills:
+  - message{msg="FRENCH FRIES!"} @dlocation{name=denizen_location_targeter;args=arg1,arg2,arg3,arg4} ~onInteract
+```
+*In Denizen:*
+```yaml
+		on mythicmobs locationtargeter:
+			- narrate <context.targeter>
+			- narrate <context.caster>
+			- narrate <context.trigger>
+			- narrate <context.origin>
+			- narrate <context.cause>
+			- narrate <context.args>
 ```
 
 ----

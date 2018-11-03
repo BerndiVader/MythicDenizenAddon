@@ -1,5 +1,6 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
+- Update 0.501a - added mythicmobs entitytargeter && mythicmobs locationtargeter event
 - Update 0.500c - up to Denizen 1.0.2-r06 again.
                   added `<context.money>` && `<context.exp>` to mythicmobs lootdrop event
 - Update 0.500b - gone back to denizen 1.0.2-SNAPSHOT (build 1649), core version: 1.15 (Build 108)
@@ -34,5 +35,6 @@
 \- dMythicSpawner<br>
 \- dMythicMob<br>
 \- dMythicItem<br>
-\- dTeam
-\- dListExt
+\- dTeam<br>
+\- dListExt<br>
+\- DMythicMeta<br>

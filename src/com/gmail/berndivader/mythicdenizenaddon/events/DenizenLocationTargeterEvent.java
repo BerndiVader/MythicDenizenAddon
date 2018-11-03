@@ -21,14 +21,14 @@ import net.aufdemrand.denizencore.utilities.CoreUtilities;
 
 public
 class
-DenizenEntityTargeterEvent
+DenizenLocationTargeterEvent
 extends
 BukkitScriptEvent
 implements
 Listener 
 {
-	public static DenizenEntityTargeterEvent instance;
-	public MMDenizenEntityTargeterEvent event;
+	public static DenizenLocationTargeterEvent instance;
+	public MythicMobsDenizenLocationTargeterEvent event;
 	private dEntity caster;
 	private dEntity trigger;
 	private Element targeter,cause;
@@ -36,7 +36,7 @@ Listener
 	private dMythicMeta metaData;
 	private dList args=new dList();
 	
-	public DenizenEntityTargeterEvent() {
+	public DenizenLocationTargeterEvent() {
 		instance=this;
 	}
 
@@ -45,7 +45,7 @@ Listener
 	}
 	@Override
 	public boolean couldMatch(ScriptContainer container, String s) {
-		return CoreUtilities.toLowerCase(s).startsWith("mythicmobs entitytargeter");
+		return CoreUtilities.toLowerCase(s).startsWith("mythicmobs locationtargeter");
 	}
 	@Override
 	public boolean matches(ScriptContainer container, String s) {
@@ -53,11 +53,11 @@ Listener
 	}
 	@Override
 	public String getName() {
-		return "DenizenEntityTargeterEvent";
+		return "DenizenLocationTargeterEvent";
 	}
     @Override
     public void destroy() {
-    	MMDenizenEntityTargeterEvent.getHandlerList().unregister(this);
+    	MythicMobsDenizenLocationTargeterEvent.getHandlerList().unregister(this);
     }
     
 	@Override
@@ -66,9 +66,9 @@ Listener
 			event.addTargetList((aH.Argument.valueOf(determination).asType(dList.class)));
 		}
 		return true;
-    }    
+    }
     
-    @Override
+	@Override
     public dObject getContext(String name) {
     	switch(name.toLowerCase()) {
     	case "caster":
@@ -89,9 +89,9 @@ Listener
     	}
     	return super.getContext(name);
     }
-    
+	
 	@EventHandler
-    public void onDenizenEntityTargetEvent(MMDenizenEntityTargeterEvent e) {
+    public void onDenizenEntityTargetEvent(MythicMobsDenizenLocationTargeterEvent e) {
     	this.caster=e.getCaster()!=null?new dEntity(e.getCaster()):null;
     	this.trigger=e.getTrigger()!=null?new dEntity(e.getTrigger()):null;
     	this.targeter=e.getTargeterName()!=null?new Element(e.getTargeterName()):null;

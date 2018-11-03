@@ -24,6 +24,7 @@ import com.gmail.berndivader.mythicdenizenaddon.cmds.TransformToMythicMob;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.TriggerSkill;
 import com.gmail.berndivader.mythicdenizenaddon.events.DenizenConditionEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DenizenEntityTargeterEvent;
+import com.gmail.berndivader.mythicdenizenaddon.events.DenizenLocationTargeterEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DenizenMythicMobDeathEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DenizenMythicMobSpawnEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DenizenSkillEvent;
@@ -82,8 +83,8 @@ public class MythicMobsAddon extends Support {
 		registerScriptEvents(new DenizenMythicMobDeathEvent());
 		registerScriptEvents(new DenizenTargetConditionEvent());
 		registerScriptEvents(new DenizenEntityTargeterEvent());
+		registerScriptEvents(new DenizenLocationTargeterEvent());
 		registerScriptEvents(new MythicMobsDropEvent());
-//		registerScriptEvents(new DenizenLocationTargeterEvent());
 
 		new MythicMobsSpawn().activate().as("mmspawnmob").withOptions("- mmspawnmob [mobtype:string] [location] (world:string) (level:integer)", 2);
 		new ActiveMobSkillCast().activate().as("mmcastmob").withOptions("- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);

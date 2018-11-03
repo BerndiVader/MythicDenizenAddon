@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mythicdenizenaddon.events.DConditionEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DEntityTargeter;
+import com.gmail.berndivader.mythicdenizenaddon.events.DLocationTargeter;
 import com.gmail.berndivader.mythicdenizenaddon.events.DMechanicEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DSpawnConditionEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DTargetConditionEvent;
@@ -13,9 +14,6 @@ import com.gmail.berndivader.mythicdenizenaddon.events.DTargetConditionEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicConditionLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicTargeterLoadEvent;
-import io.lumine.xikage.mythicmobs.skills.SkillCondition;
-import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
-import io.lumine.xikage.mythicmobs.skills.SkillTargeter;
 
 public class RegisterEvents implements Listener {
 	
@@ -25,38 +23,35 @@ public class RegisterEvents implements Listener {
 	
 	@EventHandler
 	public void onMythicMobsCustomConditionsLoad(MythicConditionLoadEvent e) {
-		if (e.getConditionName().toLowerCase().equals("dcondition")) {
-			SkillCondition c;
-			if ((c = new DConditionEvent(e.getConditionName(), e.getConfig())) != null) e.register(c);
-		} else if (e.getConditionName().toLowerCase().equals("dtargetcondition")) {
-			SkillCondition c;
-			if ((c = new DTargetConditionEvent(e.getConditionName(), e.getConfig())) != null) e.register(c);
-		} else if (e.getConditionName().toLowerCase().equals("dspawncondition")) {
-			SkillCondition c;
-			if ((c = new DSpawnConditionEvent(e.getConditionName(), e.getConfig())) != null) e.register(c);
+		switch(e.getConditionName().toLowerCase()) {
+		case "dcondition":
+			e.register(new DConditionEvent(e.getConditionName(), e.getConfig()));
+			break;
+		case "dtargetcondition":
+			e.register(new DTargetConditionEvent(e.getConditionName(), e.getConfig()));
+			break;
+		case "dspawncondition":
+			e.register(new DSpawnConditionEvent(e.getConditionName(), e.getConfig()));
+			break;
 		}
 	}
 	
 	@EventHandler
 	public void onMythicMobsCustomMechanicLoad(MythicMechanicLoadEvent e) {
 		if (e.getMechanicName().toLowerCase().equals("dskill")) {
-			SkillMechanic m;
-			if ((m = new DMechanicEvent(e.getContainer().getConfigLine(), e.getConfig()))!=null) e.register(m);
+			e.register(new DMechanicEvent(e.getContainer().getConfigLine(),e.getConfig()));
 		}
 	}
 	
+	@EventHandler
 	public void onMythicMobsTargeterLoad(MythicTargeterLoadEvent e) {
 		switch(e.getTargeterName().toLowerCase()) {
-		case "dentitytargeter":{
-			SkillTargeter targeter=new DEntityTargeter(e.getConfig());
-			e.register(targeter);
+		case "dentity":
+			e.register(new DEntityTargeter(e.getConfig()));
 			break;
-		}
-//		case "dlocationtargeter":{
-//			SkillTargeter targeter=new dLocationTargeter(e.getConfig());
-//			e.register(targeter);
-//			break;
-//		}
+		case "dlocation":
+			e.register(new DLocationTargeter(e.getConfig()));
+			break;
 		}
 	}
 }

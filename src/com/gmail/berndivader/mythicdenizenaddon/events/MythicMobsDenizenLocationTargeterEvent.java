@@ -8,13 +8,15 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
+import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
-import net.aufdemrand.denizen.objects.dEntity;
+import net.aufdemrand.denizen.objects.dLocation;
 import net.aufdemrand.denizencore.objects.dList;
 
-public class MMDenizenEntityTargeterEvent
+public
+class 
+MythicMobsDenizenLocationTargeterEvent
 extends
 Event 
 {
@@ -22,9 +24,9 @@ Event
 	private SkillMetadata data;
 	private String targeter;
 	private String[] args;
-	private HashSet<AbstractEntity>targets;
+	private HashSet<AbstractLocation>targets;
 	
-	public MMDenizenEntityTargeterEvent(SkillMetadata data,String targeter, String[]args) {
+	public MythicMobsDenizenLocationTargeterEvent(SkillMetadata data,String targeter, String[]args) {
 		this.data=data;
 		this.targeter=targeter;
 		this.args=args;
@@ -50,28 +52,28 @@ Event
 	public String[] getArgs() {
 		return this.args;
 	}
-	public HashSet<AbstractEntity>getTargets(){
+	public HashSet<AbstractLocation>getTargets(){
 		return this.targets!=null?this.targets:new HashSet<>();
 	}
 	public String getCause() {
 		return this.data.getCause().name();
 	}
-	public void addSingleTarget(Entity target) {
+	public void addSingleTarget(Location target) {
 		this.targets.add(BukkitAdapter.adapt(target));
 	}
 	public void addTargetList(dList dlist) {
-		List<dEntity>list=dlist.filter(dEntity.class);
+		List<dLocation>list=dlist.filter(dLocation.class);
 		int size=list.size();
 		for(int i1=0;i1<size;i1++) {
-			targets.add(BukkitAdapter.adapt(list.get(i1).getBukkitEntity()));
+			targets.add(BukkitAdapter.adapt(list.get(i1)));
 		}
 	}
-	
+
 	@Override
 	public HandlerList getHandlers() {
 		return handlers;
 	}
 	public static HandlerList getHandlerList() {
         return handlers;
-    }	
+    }
 }
