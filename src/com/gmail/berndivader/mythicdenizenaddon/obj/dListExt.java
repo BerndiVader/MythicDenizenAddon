@@ -5,6 +5,9 @@ import java.util.Random;
 
 import org.bukkit.Location;
 
+import com.gmail.berndivader.mythicdenizenaddon.QuickSort;
+import com.gmail.berndivader.mythicdenizenaddon.QuickSortPair;
+
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dLocation;
 import net.aufdemrand.denizencore.objects.Element;
@@ -48,40 +51,18 @@ public class dListExt extends dObjectExtension {
     
     static dList sort(String s1,Location l1) {
 		String[]arr1=s1.substring(3).split("\\|");
-		Double[]arr2=new Double[0];
-		for(String s3:arr1) {
+		QuickSortPair[]arr=new QuickSortPair[arr1.length];
+		for(int i1=0;i1<arr1.length;i1++) {
+			String s3=arr1[i1];
 			double d1=l1.distance(dEntity.matches(s3)?new Element(s3).asType(dEntity.class).getLocation():dLocation.matches(s3)?new Element(s3).asType(dLocation.class).clone():l1);
-			arr2=add(arr2,d1);
+			QuickSortPair pair=new QuickSortPair(d1,s3);
+			arr[i1]=pair;
 		}
-    	return new dList(Arrays.asList(bSort(arr2,arr1,arr2.length)));
-    }
-    
-    static String[] bSort(Double[]dist1,String[]arr1,int n1) {
-    	for (int i1=0;i1<n1;i1++) {
-    		for (int j1=1;j1<(n1-i1);j1++) {
-    			if (dist1[j1-1]>dist1[j1]) {
-    				arr1=(String[])swp(j1,j1-1,arr1);
-    				dist1=(Double[])swp(j1,j1-1,dist1);
-    			}
-    		}
-    	}
-    	return arr1;
-    }
-    
-    static Object[] swp(int i1,int j1,Object[]arr1) {
-    	Object s1=arr1[i1];
-    	arr1[i1]=arr1[j1];
-    	arr1[j1]=s1;
-    	return arr1;
-    }
-    
-    static Double[] add(Double[] arr1,double d2) {
-    	int i1=arr1.length;
-		Double[]arr2=new Double[]{d2};
-		Double[]arr=new Double[i1+1];
-		System.arraycopy(arr1,0,arr,0,i1);
-		System.arraycopy(arr2,0,arr,i1,1);
-		return arr;
+		arr=QuickSort.sort(arr,0,arr.length-1);
+		for(int i1=0;i1<arr.length;i1++) {
+			arr1[i1]=(String)arr[i1].object;
+		}
+    	return new dList(Arrays.asList(arr1));
     }
     
 }
