@@ -1,0 +1,5 @@
+name: MythicDenizenAddon
+main: com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin
+version: ${version}
+softdepend: []
+depend: [MythicMobs, Denizen]
