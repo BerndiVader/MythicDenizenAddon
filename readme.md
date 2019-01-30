@@ -1,6 +1,6 @@
 # Denizen Support for MythicMobs 4.0.1 or higher
 
-##[DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/)<br>
+# [DOWNLOAD] (http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
 - Update 0.510a - added support for mythicmobs 4.5.1 and denizen 1.0.3
 - Update 0.501a - added mythicmobs entitytargeter && mythicmobs locationtargeter event
