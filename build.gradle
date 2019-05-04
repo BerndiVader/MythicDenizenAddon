@@ -20,13 +20,13 @@ repositories {
     mavenCentral()
     maven {
         url "http://mc.hackerzlair.org:8888/repository/public"
-    }    
+    }
 }
 
 dependencies {
-	compileOnly "org.spigotmc:spigot:1.13.2"
-	compileOnly "io.lumine.xikage:mythicmobs:4.5.1"
-	compileOnly "net.aufdemrand:denizen:1.0.3"
+	compileOnly "org.spigotmc:spigot:+"
+    compileOnly  ("io.lumine.xikage:mythicmobs:4.5.7")
+	compileOnly "net.aufdemrand:denizen:+"
 }
 
 processResources {
@@ -51,4 +51,14 @@ task createPom  {
             version project.version
         }
     }.writeTo("./build/libs/"+project.name+"-"+project.version+".xml")
+}
+
+task copy132(type: Copy) {
+	from "build/libs/"+project.name+"-"+project.version+".jar"
+    into "c:/DevServer13/plugins/"
+}
+
+task copy122(type: Copy) {
+	from "build/libs/"+project.name+"-"+project.version+".jar"
+    into "c:/DevServer 112/plugins/"
 }

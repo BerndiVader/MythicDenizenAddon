@@ -4,7 +4,6 @@
 [MythicMobsDropEvent](mythicmobsdropevent) <br>
 [CustomMechanic](#custommechanic) <br>
 [CustomCondition](#customcondition) <br>
-[EntityTargeter](#entitytargeter) <br>
 [LocationTargeter](#locationtargeter) <br>
 
 ----

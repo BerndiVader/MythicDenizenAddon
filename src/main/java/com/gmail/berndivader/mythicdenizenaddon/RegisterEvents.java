@@ -4,6 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
+import com.gmail.berndivader.mythicdenizenaddon.drops.DenizenScriptDrop;
 import com.gmail.berndivader.mythicdenizenaddon.events.DConditionEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DEntityTargeter;
 import com.gmail.berndivader.mythicdenizenaddon.events.DLocationTargeter;
@@ -12,6 +13,7 @@ import com.gmail.berndivader.mythicdenizenaddon.events.DSpawnConditionEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DTargetConditionEvent;
 
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicConditionLoadEvent;
+import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicDropLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicTargeterLoadEvent;
 
@@ -52,6 +54,13 @@ public class RegisterEvents implements Listener {
 		case "dlocation":
 			e.register(new DLocationTargeter(e.getConfig()));
 			break;
+		}
+	}
+	
+	@EventHandler
+	public void mythicMobsCustomDrop(MythicDropLoadEvent e) {
+		if(e.getDropName().toLowerCase().equals("dscriptdrop")) {
+			e.register(new DenizenScriptDrop(e.getContainer().getLine(),e.getConfig(),e.getContainer().getAmount()));
 		}
 	}
 }

@@ -2,6 +2,8 @@
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.511a - added support for mythicmobs 4.5.7
+				  added dscriptdrop 
 - Update 0.510a - added support for mythicmobs 4.5.1 and denizen 1.0.3
 - Update 0.501a - added mythicmobs entitytargeter && mythicmobs locationtargeter event
 - Update 0.500c - up to Denizen 1.0.2-r06 again.
@@ -25,7 +27,8 @@
 [Events](documentation/events.md) <br>
 [Tags](documentation/tags.md) <br>
 [Mechanisms](documentation/mechanisms.md) <br>
-[Commands](documentation/commands.md)
+[Commands](documentation/commands.md) <br>
+[Drops](documentation/drops.md)
 
 **dObjects**<br>
 \- dActiveMob<br>
