@@ -36,6 +36,11 @@ Adjustable {
 	}
 
 	@Override
+	public String toString() {
+		return this.identify();
+	}
+
+	@Override
 	public String getAttribute(Attribute a) {
 		if(a.startsWith("internalname")||a.startsWith("type")) {
 			return new Element(mi.getInternalName()).getAttribute(a.fulfill(1));

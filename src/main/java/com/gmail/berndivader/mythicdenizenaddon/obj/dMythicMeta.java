@@ -2,6 +2,7 @@ package com.gmail.berndivader.mythicdenizenaddon.obj;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
@@ -23,7 +24,8 @@ import net.aufdemrand.denizencore.tags.TagContext;
 public class dMythicMeta 
 implements
 dObject,
-Adjustable {
+Adjustable
+{
 	static Map<String,SkillMetadata>objects;
 	public static String id;
 	static MythicMobs mythicmobs;
@@ -43,14 +45,6 @@ Adjustable {
 	public dMythicMeta(SkillMetadata data) {
 		this.meta=data;
 		if(data!=null) dMythicMeta.objects.put(this.identify(),this.meta);
-	}
-	
-    public static boolean matches(String string) {
-        return valueOf(string)!=null;
-    }
-    
-	public static dMythicMeta valueOf(String name) {
-		return valueOf(name,null);
 	}
 	
 	public static dList getEntityTargets(HashSet<AbstractEntity>entities) {
@@ -76,32 +70,40 @@ Adjustable {
 	@Override
 	public String getAttribute(Attribute a) {
 		if(a==null) return null;
-		int i1=a.attributes.length;
-		if(i1>0) {
-			String s1=a.getAttribute(i1).toLowerCase();
-			switch(s1) {
-				case "caster":
-					return new dEntity(this.meta.getCaster().getEntity().getBukkitEntity()).getAttribute(a.fulfill(i1));
+		int i1=1;
+		if (a.startsWith("caster")) {
+			return new dEntity(this.meta.getCaster().getEntity().getBukkitEntity()).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("cause")) {
+			return new Element(this.meta.getCause().toString()).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("trigger")) {
+			return new dEntity(this.meta.getTrigger().getBukkitEntity()).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("origin")) {
+			return new dLocation(BukkitAdapter.adapt(this.meta.getOrigin())).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("targets")) {
+			dList targets=new dList();
+			if(this.meta.getEntityTargets()!=null&&!this.meta.getEntityTargets().isEmpty()) {
+				Iterator<AbstractEntity> it=this.meta.getEntityTargets().iterator();
+				while(it.hasNext()) {
+					targets.addObject(new dEntity(it.next().getBukkitEntity()));
+				}
+			} else if(this.meta.getLocationTargets()!=null&&!this.meta.getLocationTargets().isEmpty()) {
+				Iterator<AbstractLocation>it=this.meta.getLocationTargets().iterator();
+				while(it.hasNext()) {
+					targets.addObject(new dLocation(BukkitAdapter.adapt(it.next())));
+				}
 			}
+			return targets.getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("power")) {
+			return new Element(this.meta.getPower()).getAttribute(a.fulfill(i1));
 		}
 		return new Element(identify()).getAttribute(a);
 	}
 	
 	@Override
 	public void adjust(Mechanism m) {
-		Element e1=m.getValue();
 		switch (m.getName().toLowerCase()) {
-			case "cause":
-				break;
-			case "caster":
-				break;
-			case "trigger":
-				break;
-			case "origin":
-				break;
-			case "targets":
-				break;
-			case "power":
+			case "cancel":
+				this.meta.cancelEvent();
 				break;
 		}
 	}
@@ -123,7 +125,8 @@ Adjustable {
 
 	@Override
 	public String identify() {
-		return this.meta!=null?id+this.meta.hashCode():null;
+		if(this.meta!=null) return id+this.meta.hashCode();
+		return null;
 	}
 
 	@Override
@@ -138,17 +141,33 @@ Adjustable {
 	
 	@Override
 	public dObject setPrefix(String string) {
-		this.prefix = string;
+		this.prefix=string;
 		return this;
 	}
 	
+    public static boolean matches(String string) {
+        return valueOf(string)!=null;
+    }
+    
+	public static dMythicMeta valueOf(String name) {
+		return valueOf(name,null);
+	}	
+	
     @Fetchable("mythicmeta")
     public static dMythicMeta valueOf(String name,TagContext context) {
+    	if(name==null) return null;
+    	
        	if (dMythicMeta.objects.containsKey(name)) {
-       		return new dMythicMeta(new SkillMetadata(dMythicMeta.objects.get(name)));
+       		SkillMetadata data=dMythicMeta.objects.get(name);
+       		return new dMythicMeta(data);
        	};
         return null;
     }
+    
+	@Override
+	public String toString() {
+		return identify();
+	}
     
     @Override
     protected void finalize() throws Throwable {

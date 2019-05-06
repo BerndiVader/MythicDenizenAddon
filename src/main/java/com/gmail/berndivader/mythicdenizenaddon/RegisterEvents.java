@@ -11,6 +11,7 @@ import com.gmail.berndivader.mythicdenizenaddon.events.DLocationTargeter;
 import com.gmail.berndivader.mythicdenizenaddon.events.DMechanicEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DSpawnConditionEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DTargetConditionEvent;
+import com.gmail.berndivader.mythicdenizenaddon.mechanics.DenizenScriptMechanic;
 
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicConditionLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicDropLoadEvent;
@@ -40,8 +41,13 @@ public class RegisterEvents implements Listener {
 	
 	@EventHandler
 	public void onMythicMobsCustomMechanicLoad(MythicMechanicLoadEvent e) {
-		if (e.getMechanicName().toLowerCase().equals("dskill")) {
-			e.register(new DMechanicEvent(e.getContainer().getConfigLine(),e.getConfig()));
+		switch(e.getMechanicName().toLowerCase()) {
+			case "dskill":
+				e.register(new DMechanicEvent(e.getContainer().getConfigLine(),e.getConfig()));
+				break;
+			case "dscript":
+				e.register(new DenizenScriptMechanic(e.getContainer().getConfigLine(),e.getConfig()));
+				break;
 		}
 	}
 	
@@ -59,7 +65,7 @@ public class RegisterEvents implements Listener {
 	
 	@EventHandler
 	public void mythicMobsCustomDrop(MythicDropLoadEvent e) {
-		if(e.getDropName().toLowerCase().equals("dscriptdrop")) {
+		if(e.getDropName().toLowerCase().equals("dscriptdrop")||e.getDropName().toLowerCase().equals("dscript")) {
 			e.register(new DenizenScriptDrop(e.getContainer().getLine(),e.getConfig(),e.getContainer().getAmount()));
 		}
 	}

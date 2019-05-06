@@ -219,6 +219,11 @@ public class dActiveMob implements dObject, Adjustable {
 		this.prefix = string;
 		return this;
 	}
+	
+	@Override
+	public String toString() {
+		return this.identify();
+	}
 
     @Fetchable("activemob")
     public static dActiveMob valueOf(String string, TagContext context) {

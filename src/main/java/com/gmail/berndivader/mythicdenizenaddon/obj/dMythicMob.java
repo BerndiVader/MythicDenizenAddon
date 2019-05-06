@@ -82,6 +82,11 @@ Adjustable {
 		this.prefix = string;
 		return this;
 	}
+	
+	@Override
+	public String toString() {
+		return this.identify();
+	}
 
     @Fetchable("mythicmob")
     public static dMythicMob valueOf(String uniqueName, TagContext context) {

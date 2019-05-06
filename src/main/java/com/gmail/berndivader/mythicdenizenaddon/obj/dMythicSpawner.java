@@ -140,6 +140,11 @@ public class dMythicSpawner implements dObject, Adjustable {
 		return this;
 	}
 	
+	@Override
+	public String toString() {
+		return this.identify();
+	}
+	
     @Fetchable("mythicspawner")
     public static dMythicSpawner valueOf(String uniqueName, TagContext context) {
         if (uniqueName == null) {

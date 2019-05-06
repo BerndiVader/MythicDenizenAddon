@@ -60,8 +60,8 @@ Adjustable {
 		this.origin=null;
 		this.trigger=null;
 		this.caster=null;
-		if (((this.metaId=Optional.ofNullable(metaId)).isPresent())) {
-			if (dMythicMeta.objects.containsKey(this.metaId.get())) data=new dMythicMeta(dMythicMeta.objects.get(this.metaId.get()));
+		if (((this.metaId=Optional.ofNullable(metaId)).isPresent())&&dMythicMeta.objects.containsKey(this.metaId.get())) {
+			data=new dMythicMeta(dMythicMeta.objects.get(this.metaId.get()));
 		}
 	}
 	
@@ -95,117 +95,108 @@ Adjustable {
 	
 	@Override
 	public String getAttribute(Attribute a) {
-		if(a==null) return null;
-		int i1=a.attributes.length;
+		int i1=1;
 		GenericCaster caster;
 		AbstractEntity trigger;
 		AbstractLocation origin;
 		float power;
-		if(i1>0) {
-			String s1=a.getAttribute(i1).toLowerCase();
-			switch(s1) {
-				case "present":
-					return new Element(isPresent()).getAttribute(a.fulfill(i1));
-				case "type":
-					return new Element(isPresent()?skill.getInternalName():null).getAttribute(a.fulfill(i1));
-				case "entities":
-					return getEntityTargets(this.eTargets).getAttribute(a.fulfill(i1));
-				case "locations":
-					return getLocationTargets(this.lTargets).getAttribute(a.fulfill(i1));
-				case "power":
-					return new Element(this.power).getAttribute(a.fulfill(1));
-				case "origin":
-					if (this.origin!=null) return new dLocation(BukkitAdapter.adapt(this.origin)).getAttribute(a.fulfill(i1));
-					break;
-				case "trigger":
-					if (this.trigger!=null) return new dEntity(this.trigger.getBukkitEntity()).getAttribute(a.fulfill(i1));
-					break;
-				case "caster":
-					if (this.caster!=null) return new dEntity(this.caster.getEntity().getBukkitEntity()).getAttribute(a.fulfill(i1));
-					break;
-				case "data":
-					if(this.metaId.isPresent()) return this.data.getAttribute(a.fulfill(1));
-					break;
-				case "useable":
-					caster=this.caster;
-					trigger=this.trigger;
-					for(int i2=2;i2<=i1;i2++) {
-						if(a.getAttribute(i2).startsWith("for")&&a.hasContext(i2)) {
-							dEntity dentity=new Element(a.getContext(i2)).asType(dEntity.class);
-							if (dentity!=null) caster=new GenericCaster(BukkitAdapter.adapt(dentity.getBukkitEntity()));
-						} else if(a.getAttribute(i2).startsWith("with_trigger")&&a.hasContext(i2)) {
-							dEntity dentity=new Element(a.getContext(i2)).asType(dEntity.class);
-							if (dentity!=null) trigger=BukkitAdapter.adapt(dentity.getBukkitEntity());
-						}
-					}
-					SkillMetadata data=new SkillMetadata(SkillTrigger.API,caster,trigger);
-					return new Element(caster!=null&&skill.isUsable(data)).getAttribute(a.fulfill(i1));
-				case "cast":
-					trigger=this.trigger;
-					origin=this.origin;
-					power=this.power;
-					HashSet<AbstractEntity>eTargets=new HashSet<>();
-					HashSet<AbstractLocation>lTargets=new HashSet<>();
-					HashSet<GenericCaster>casters=new HashSet<>();
-					if (this.caster!=null) casters.add(this.caster);
-					boolean bl1=false;
-					if(i1>1) {
-						for(int i2=2;i2<=i1;i2++) {
-							if(a.getAttribute(i2).startsWith("for")&&a.hasContext(i2)) {
-								casters.clear();
-								if(!dList.matches(a.getContext(i2))&&dEntity.matches(a.getContext(i2))) {
-									casters.add(new GenericCaster(BukkitAdapter.adapt(new Element(a.getContext(i2)).asType(dEntity.class).getBukkitEntity())));
-								} else {
-									dList targets=new Element(a.getContext(i2)).asType(dList.class);
-									for(String s4:targets) {
-										if (dEntity.matches(s4)) {
-											casters.add(new GenericCaster(BukkitAdapter.adapt(new Element(s4).asType(dEntity.class).getBukkitEntity())));
-										}
-									}
-								}
-								dEntity dentity=new Element(a.getContext(i2)).asType(dEntity.class);
-								if (dentity!=null) caster=new GenericCaster(BukkitAdapter.adapt(dentity.getBukkitEntity()));
-							} else if(a.getAttribute(i2).startsWith("with_trigger")&&a.hasContext(i2)) {
-								dEntity dentity=new Element(a.getContext(i2)).asType(dEntity.class);
-								if (dentity!=null) trigger=BukkitAdapter.adapt(dentity.getBukkitEntity());
-							} else if(a.getAttribute(i2).startsWith("with_origin")&&a.hasContext(i2)) {
-								dLocation dlocation=new Element(a.getContext(i2)).asType(dLocation.class);
-								if(dlocation!=null) origin=BukkitAdapter.adapt(dlocation.clone());
-							} else if(a.getAttribute(i2).startsWith("with_power")&&a.hasContext(i2)) {
-								power=(float)a.getDoubleContext(i2);
-							} else if(a.getAttribute(i2).startsWith("at_targets")&&a.hasContext(i2)) {
-								dList targets=new Element(a.getContext(i2)).asType(dList.class);
-								for(String s4:targets) {
-									if (dEntity.matches(s4)) {
-										eTargets.add(BukkitAdapter.adapt(new Element(s4).asType(dEntity.class).getBukkitEntity()));
-									} else if (dLocation.matches(s4)) {
-										lTargets.add(BukkitAdapter.adapt(new Element(s4).asType(dLocation.class).clone()));
-									}
-								}
-							}
-						}
-						for(GenericCaster gc:casters) {
-							try {
-								this.skill.execute(this.cause,gc,trigger,origin,eTargets,lTargets,power);
-								bl1=true;
-							} catch (Exception ex) {
-								dB.log(ex.getMessage());
-								bl1=false;
-							}
-						}
-						return new Element(bl1).getAttribute(a.fulfill(i1));
-					}
-					if(bl1=(this.metaId.isPresent())) {
-						SkillMetadata metaData=this.data.getSkillMetadata();
-						try {
-							skill.execute(metaData);
-						} catch (Exception ex) {
-							dB.log(ex.getMessage());
-							bl1=false;
-						}
-					}
-					return new Element(bl1).getAttribute(a.fulfill(i1));
+		if(a.startsWith("present")) {
+			return new Element(isPresent()).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("type")) {
+			return new Element(isPresent()?skill.getInternalName():null).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("entities")) {
+			return getEntityTargets(this.eTargets).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("locations")) {
+			return getLocationTargets(this.lTargets).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("power")) {
+			return new Element(this.power).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("origin")) {
+			if (this.origin!=null) return new dLocation(BukkitAdapter.adapt(this.origin)).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("trigger")) {
+			if (this.trigger!=null) return new dEntity(this.trigger.getBukkitEntity()).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("caster")) {
+			if (this.caster!=null) return new dEntity(this.caster.getEntity().getBukkitEntity()).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("data")) {
+			if(this.metaId.isPresent()) return this.data.getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("useable")) {
+			caster=this.caster;
+			trigger=this.trigger;
+			for(int i2=2;i2<=i1;i2++) {
+				if(a.getAttribute(i2).startsWith("for")&&a.hasContext(i2)) {
+					dEntity dentity=new Element(a.getContext(i2)).asType(dEntity.class);
+					if (dentity!=null) caster=new GenericCaster(BukkitAdapter.adapt(dentity.getBukkitEntity()));
+				} else if(a.getAttribute(i2).startsWith("with_trigger")&&a.hasContext(i2)) {
+					dEntity dentity=new Element(a.getContext(i2)).asType(dEntity.class);
+					if (dentity!=null) trigger=BukkitAdapter.adapt(dentity.getBukkitEntity());
+				}
 			}
+			SkillMetadata data=new SkillMetadata(SkillTrigger.API,caster,trigger);
+			return new Element(caster!=null&&skill.isUsable(data)).getAttribute(a.fulfill(i1));
+		} else if(a.startsWith("cast")) {
+			trigger=this.trigger;
+			origin=this.origin;
+			power=this.power;
+			HashSet<AbstractEntity>eTargets=new HashSet<>();
+			HashSet<AbstractLocation>lTargets=new HashSet<>();
+			HashSet<GenericCaster>casters=new HashSet<>();
+			if (this.caster!=null) casters.add(this.caster);
+			boolean bl1=false;
+			if(i1>1) {
+				for(int i2=2;i2<=i1;i2++) {
+					if(a.getAttribute(i2).startsWith("for")&&a.hasContext(i2)) {
+						casters.clear();
+						if(!dList.matches(a.getContext(i2))&&dEntity.matches(a.getContext(i2))) {
+							casters.add(new GenericCaster(BukkitAdapter.adapt(new Element(a.getContext(i2)).asType(dEntity.class).getBukkitEntity())));
+						} else {
+							dList targets=new Element(a.getContext(i2)).asType(dList.class);
+							for(String s4:targets) {
+								if (dEntity.matches(s4)) {
+									casters.add(new GenericCaster(BukkitAdapter.adapt(new Element(s4).asType(dEntity.class).getBukkitEntity())));
+								}
+							}
+						}
+						dEntity dentity=new Element(a.getContext(i2)).asType(dEntity.class);
+						if (dentity!=null) caster=new GenericCaster(BukkitAdapter.adapt(dentity.getBukkitEntity()));
+					} else if(a.getAttribute(i2).startsWith("with_trigger")&&a.hasContext(i2)) {
+						dEntity dentity=new Element(a.getContext(i2)).asType(dEntity.class);
+						if (dentity!=null) trigger=BukkitAdapter.adapt(dentity.getBukkitEntity());
+					} else if(a.getAttribute(i2).startsWith("with_origin")&&a.hasContext(i2)) {
+						dLocation dlocation=new Element(a.getContext(i2)).asType(dLocation.class);
+						if(dlocation!=null) origin=BukkitAdapter.adapt(dlocation.clone());
+					} else if(a.getAttribute(i2).startsWith("with_power")&&a.hasContext(i2)) {
+						power=(float)a.getDoubleContext(i2);
+					} else if(a.getAttribute(i2).startsWith("at_targets")&&a.hasContext(i2)) {
+						dList targets=new Element(a.getContext(i2)).asType(dList.class);
+						for(String s4:targets) {
+							if (dEntity.matches(s4)) {
+								eTargets.add(BukkitAdapter.adapt(new Element(s4).asType(dEntity.class).getBukkitEntity()));
+							} else if (dLocation.matches(s4)) {
+								lTargets.add(BukkitAdapter.adapt(new Element(s4).asType(dLocation.class).clone()));
+							}
+						}
+					}
+				}
+				for(GenericCaster gc:casters) {
+					try {
+						this.skill.execute(this.cause,gc,trigger,origin,eTargets,lTargets,power);
+						bl1=true;
+					} catch (Exception ex) {
+						dB.log(ex.getMessage());
+						bl1=false;
+					}
+				}
+				return new Element(bl1).getAttribute(a.fulfill(i1));
+			}
+			if(bl1=(this.metaId.isPresent())) {
+				SkillMetadata metaData=this.data.getSkillMetadata();
+				try {
+					skill.execute(metaData);
+				} catch (Exception ex) {
+					dB.log(ex.getMessage());
+					bl1=false;
+				}
+			}
+			return new Element(bl1).getAttribute(a.fulfill(i1));
 		}
 		return new Element(identify()).getAttribute(a);
 	}
@@ -292,13 +283,18 @@ Adjustable {
 
 	@Override
 	public boolean isUnique() {
-		return false;
+		return true;
 	}
 	
 	@Override
 	public dObject setPrefix(String string) {
 		this.prefix = string;
 		return this;
+	}
+	
+	@Override
+	public String toString() {
+		return this.identify();
 	}
 	
     @Fetchable("mythicskill")
@@ -310,7 +306,6 @@ Adjustable {
         		String[]arr1=name.split(dMythicMeta.id);
         		name=arr1[0];
         		metaId=arr1[1];
-        		System.err.println(metaId+":"+name);
         	}
         	name=name.replace(id,"");
             return new dMythicSkill(name,metaId);

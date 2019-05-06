@@ -40,7 +40,6 @@ AbstractCommand {
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
 		Pattern p=Pattern.compile(entry.getElement("filter").asString());
 		String metaId=entry.hasObject("data")?entry.getdObject("data").identify():null;
-		System.err.println(metaId);
 		if (!entry.getElement("strict").asBoolean()) {
 			Iterator<Skill>it=MythicMobsAddon.mythicmobs.getSkillManager().getSkills().iterator();
 			dList list=new dList();

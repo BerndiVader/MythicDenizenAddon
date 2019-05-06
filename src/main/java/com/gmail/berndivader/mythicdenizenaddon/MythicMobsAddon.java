@@ -71,10 +71,10 @@ public class MythicMobsAddon extends Support {
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
 		
-		registerObjects(dMythicSpawner.class, dActiveMob.class, dMythicMob.class, dMythicItem.class, dMythicSkill.class, dMythicMeta.class);
-		registerProperty(dEntityExt.class, dEntity.class);
-		registerProperty(dWorldExt.class, dWorld.class);
-		registerProperty(dLocationExt.class, dLocation.class);
+		registerObjects(dMythicSpawner.class,dActiveMob.class,dMythicMob.class,dMythicItem.class,dMythicSkill.class,dMythicMeta.class);
+		registerProperty(dEntityExt.class,dEntity.class);
+		registerProperty(dWorldExt.class,dWorld.class);
+		registerProperty(dLocationExt.class,dLocation.class);
 		registerProperty(dListExt.class,dList.class);
 		
 		registerScriptEvents(new DenizenConditionEvent());
@@ -98,7 +98,7 @@ public class MythicMobsAddon extends Support {
 		new GetMythicItems().activate().as("getmythicitems").withOptions("- getmythicitems (filter:regex) (strict:boolean)",0);
 		new GetMythicSkills().activate().as("getmythicskills").withOptions("- getmythicskills (filter:regex) (strict:boolean>",0);
 	}
-
+	
 	public static boolean isActiveMob(UUID uuid) {
 		return mythicmobs.getMobManager().isActiveMob(uuid);
 	}

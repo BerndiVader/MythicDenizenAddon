@@ -2,6 +2,10 @@
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.512a - fix for cached scriptcontainer
+				- added dskill mechanic
+			    - added dMythicMeta object
+			    - added dMythicSkill object
 - Update 0.511a - added support for mythicmobs 4.5.7
 				  added dscriptdrop 
 - Update 0.510a - added support for mythicmobs 4.5.1 and denizen 1.0.3
@@ -35,6 +39,7 @@
 \- dMythicSpawner<br>
 \- dMythicMob<br>
 \- dMythicItem<br>
+\- dMythicMeta<br>
+\- dMythicSkill<br>
 \- dTeam<br>
 \- dListExt<br>
-\- DMythicMeta<br>

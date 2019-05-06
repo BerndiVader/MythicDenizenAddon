@@ -1,4 +1,4 @@
-package com.gmail.berndivader.mythicdenizenaddon.drops;
+package com.gmail.berndivader.mythicdenizenaddon.context;
 
 import java.util.HashMap;
 
@@ -7,18 +7,15 @@ import net.aufdemrand.denizencore.objects.dObject;
 
 public 
 class 
-DropContextSource
+MythicContextSource
 implements
 ContextSource
 {
 	HashMap<String,dObject>context_map;
 	
-	public DropContextSource() {
+	public MythicContextSource(HashMap<String,dObject>context_map) {
 		this.context_map=new HashMap<>();
-	}
-	
-	public void setContext(HashMap<String,dObject>context_map) {
-		this.context_map=context_map;
+		this.context_map.putAll(context_map);
 	}
 	
 	@Override
@@ -32,7 +29,7 @@ ContextSource
 
 	@Override
 	public boolean getShouldCache() {
-		return true;
+		return false;
 	}
 
 }

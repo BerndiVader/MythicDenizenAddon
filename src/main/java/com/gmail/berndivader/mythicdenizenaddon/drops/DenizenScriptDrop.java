@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
+import com.gmail.berndivader.mythicdenizenaddon.context.MythicContextSource;
 
 import io.lumine.xikage.mythicmobs.adapters.AbstractPlayer;
 import io.lumine.xikage.mythicmobs.drops.Drop;
@@ -38,9 +37,6 @@ IIntangibleDrop
 {
 	final double amount;
 	final String script_name;
-	dScript script;
-	DropContextSource context_source;
-	List<ScriptEntry>entries;
 	HashMap<String,String>attributes;
 	
 	
@@ -49,7 +45,6 @@ IIntangibleDrop
 		this.amount=amount;
 		
 		script_name=config.getString("script","");
-		context_source=new DropContextSource();
 
 		if(line.contains("{")&&line.contains("}")) {
 			String parse[]=line.split("\\{")[1].split("\\}")[0].split(";");
@@ -61,26 +56,22 @@ IIntangibleDrop
 				if(arr1.length==2) attributes.put(arr1[0],arr1[1]);
 			}
 		}
-		
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				script=new dScript(script_name);
-				if(script!=null&&script.isValid()) {
-					try {
-						ScriptEntry entry=new ScriptEntry(script.getName(),new String[0],script.getContainer());
-						entry.setScript(script_name);
-						entries=script.getContainer().getBaseEntries(entry.entryData.clone());
-					} catch (ScriptEntryCreationException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}.runTask(MythicDenizenPlugin.inst());
 	}
 
 	@Override
 	public void giveDrop(AbstractPlayer abstract_player,DropMetadata drop_data) {
+		List<ScriptEntry>entries=null;
+		dScript script=new dScript(script_name);
+		if(script!=null&&script.isValid()) {
+			try {
+				ScriptEntry entry=new ScriptEntry(script.getName(),new String[0],script.getContainer());
+				entry.setScript(script_name);
+				entries=script.getContainer().getBaseEntries(entry.entryData.clone());
+			} catch (ScriptEntryCreationException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		if(entries!=null) {
 			ScriptQueue queue;
 			String id=ScriptQueue.getNextId(script.getContainer().getName());
@@ -88,11 +79,7 @@ IIntangibleDrop
 			ScriptBuilder.addObjectToEntries(entries,"reqid",req_id);
 			if(script.getContainer().contains("SPEED")) {
 				long ticks=Duration.valueOf(script.getContainer().getString("SPEED","0")).getTicks();
-				if(ticks>0) {
-					queue=((TimedQueue)TimedQueue.getQueue(id).addEntries(entries)).setSpeed(ticks);
-				} else {
-					queue=InstantQueue.getQueue(id).addEntries(entries);
-				}
+				queue=ticks>0?((TimedQueue)TimedQueue.getQueue(id).addEntries(entries)).setSpeed(ticks):InstantQueue.getQueue(id).addEntries(entries);
 			} else {
 				queue=TimedQueue.getQueue(id).addEntries(entries);
 			}
@@ -101,8 +88,7 @@ IIntangibleDrop
 			context.put("amount",new Element(drop_data.getAmount()));
 			context.put("cause",drop_data.getCause().isPresent()?new dEntity(drop_data.getCause().get().getBukkitEntity()):null);
 			context.put("dropper",drop_data.getDropper().isPresent()?new dEntity(drop_data.getDropper().get().getEntity().getBukkitEntity()):null);
-			context_source.setContext(context);
-			queue.setContextSource(context_source);
+			queue.setContextSource(new MythicContextSource(context));
 			queue.setReqId(req_id);
 			for(Map.Entry<String,String>item:attributes.entrySet()) {
 				queue.addDefinition(item.getKey(),item.getValue());
