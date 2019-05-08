@@ -4,6 +4,7 @@
 [ActiveMob tags](#dactivemob-tags) <br>
 [MythicItem tags](#dmythicitem-tags) <br>
 [MythicSkill tags](#dmythicskill-tags) <br>
+[MythicMeta tags](#dmythicmeta-tags) <br>
 [MythicSpawner tags](#dmythicspawner-tags) <br>
 [Team tags](#dteam-tags) <br>
 [List tags](#dlist-tags) <br>
@@ -83,14 +84,20 @@
 |Tag Names|Descriptions|
 |---|---|
 |`<mythicskill@mythicskill.type>`<br>Returns: Element(String)|Returns the internal, unique, name for this MythicSkill.|
-|`<mythicskill@mythicskill.entities>`<br>Returns: dList(dEntity)|The entity targets.|
-|`<mythicskill@mythicskill.locations>`<br>Returns: dList(dLocation)The location targets.|
-|`<mythicskill@mythicskill.power>`<br>Returns: Element(Number)|The skill power.|
-|`<mythicskill@mythicskill.origin>`<br>Returns: Element(dLocation)|Origin location.|
-|`<mythicskill@mythicskill.trigger>`<br>Returns: Element(dEntity)|The skill trigger.|
-|`<mythicskill@mythicskill.caster>`<br>Returns: Element(dEntity)|The caster.|
-|`<mythicskill@mythicskill.useable(.for[<entity>])(.with_trigger[<entity])>`<br>Returns: Element(Boolean)|If the skill is useable for the stored data or define another caster with .for and another trigger .with_trigger. Both is optional|
-|`<mythicskill@mythicskill.cast(.for[(<entity>)(<list>)])(.with_trigger[<entity>])(.with_origin[<location>])(.with_power[<Number>])(.at_targets[dlist(<entity>)(<location>)])>`<br>Returns: Element(Boolean)|cast the skill with the stored data or, optional supply new data on the fly by using some or all of the optinal tags.|
+|`<mythicskill@mythicskill.present>`<br>Returns: Element(Boolean)|Returns if there is a MythicMobs skill present.|
+|`<mythicskill@mythicskill.is_useable([dMythicMeta])>`<br>Returns: Element(Boolean)|Returns if the skill is useable with the stored data, or optional supply new data.|
+|`<mythicskill@mythicskill.execute([dMythicMeta])`<br>Returns: Element(Boolean)|cast the skill with the stored data or, optional supply new data on the fly.|
+
+----
+### dMythicMeta Tags
+|Tag Names|Descriptions|
+|---|---|
+|`<mythicmeta@mythicmeta.caster>`<br>Returns: Element(dEntity)|Returns the entity used as caster.|
+|`<mythicmeta@mythicmeta.cause>`<br>Returns: Element(String)|Returns the cause used to trigger.|
+|`<mythicmeta@mythicmeta.trigger>`<br>Returns: Element(dEntity)|Returns the entity used as trigger.|
+|`<mythicmeta@mythicmeta.origin>`<br>Returns: Element(dLocation)|Returns the origin location.|
+|`<mythicmeta@mythicmeta.targets>`<br>Returns: Element(dList)|Returns a list of the targets.|
+|`<mythicmeta@mythicmeta.power>`<br>Returns: Element(Float)|Returns the power.|
 
 ----
 ### dMythicSpawner Tags

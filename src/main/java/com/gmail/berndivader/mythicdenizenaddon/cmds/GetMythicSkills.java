@@ -32,7 +32,7 @@ AbstractCommand {
 				entry.addObject("data",arg.asType(dMythicMeta.class));
 			}
 		}
-		if (!entry.hasObject("filter")) entry.addObject("filter",new Element(new String("")));
+		if (!entry.hasObject("filter")) entry.addObject("filter",new Element(""));
 		if (!entry.hasObject("strict")) entry.addObject("strict",new Element(false));
 	}
 	

@@ -39,13 +39,8 @@ public class PlayerSkillCast extends AbstractCommand {
 			} else if (!entry.hasObject(Types.skill.a()) && arg.matchesPrefix(Types.skill.a())) {
 				entry.addObject(Types.skill.a(), arg.asElement());
 			} else if (!entry.hasObject(Types.target.a()) && arg.matchesPrefix(Types.target.a())) {
-				if (arg.getValue().toLowerCase().startsWith("l@")) {
-					bool = false;
-					entry.addObject(Types.target.a(), arg.asType(dLocation.class));
-				} else {
-					bool = true;
-					entry.addObject(Types.target.a(), arg.asType(dEntity.class));
-				}
+				bool=!arg.getValue().toLowerCase().startsWith("l@");
+				entry.addObject(Types.target.a(),bool?arg.asType(dEntity.class):arg.asType(dLocation.class));
 			} else if (!entry.hasObject(Types.trigger.a()) && arg.matchesPrefix(Types.trigger.a())) {
 				entry.addObject(Types.trigger.a(), arg.asType(dEntity.class));
 			} else if (!entry.hasObject(Types.repeat.a()) && arg.matchesPrefix(Types.repeat.a()) 

@@ -1,14 +1,20 @@
 package com.gmail.berndivader.mythicdenizenaddon.obj;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.bukkit.Location;
+
+import com.gmail.berndivader.mythicdenizenaddon.Utils;
+
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
+import io.lumine.xikage.mythicmobs.mobs.GenericCaster;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dLocation;
@@ -102,10 +108,40 @@ Adjustable
 	@Override
 	public void adjust(Mechanism m) {
 		switch (m.getName().toLowerCase()) {
+			case "power":
+				if(m.requireFloat()) this.meta.setPower(m.getValue().asFloat());
+				break;
+			case "origin":
+				if(m.requireObject(dLocation.class)) this.meta.setOrigin(BukkitAdapter.adapt((Location)m.getValue().asType(dLocation.class)));
+				break;
 			case "cancel":
 				this.meta.cancelEvent();
 				break;
-		}
+			case "caster":
+				if(m.requireObject(dEntity.class)) {
+					this.meta.setCaster(new GenericCaster(BukkitAdapter.adapt(m.getValue().asType(dEntity.class).getBukkitEntity())));
+				}
+				break;
+			case "trigger":
+				if(m.requireObject(dEntity.class)) {
+					this.meta.setCaster(new GenericCaster(BukkitAdapter.adapt(m.getValue().asType(dEntity.class).getBukkitEntity())));
+				}
+				break;
+			case "targets":
+				if(m.requireObject(dList.class)) {
+					HashSet<AbstractLocation>locations=new HashSet<>();
+					HashSet<AbstractEntity>entities=new HashSet<>();
+					dList list=m.getValue().asType(dList.class);
+					AbstractMap.SimpleEntry<HashSet<AbstractEntity>,HashSet<AbstractLocation>>pair=Utils.split_target_list(list);
+					locations=pair.getValue();
+					entities=pair.getKey();
+					if(!locations.isEmpty()) {
+						this.meta.setLocationTargets(locations);
+					} else if(!entities.isEmpty()) {
+						this.meta.setEntityTargets(entities);
+					}
+				}
+		}	
 	}
 	
 	@Override
@@ -156,7 +192,6 @@ Adjustable
     @Fetchable("mythicmeta")
     public static dMythicMeta valueOf(String name,TagContext context) {
     	if(name==null) return null;
-    	
        	if (dMythicMeta.objects.containsKey(name)) {
        		SkillMetadata data=dMythicMeta.objects.get(name);
        		return new dMythicMeta(data);

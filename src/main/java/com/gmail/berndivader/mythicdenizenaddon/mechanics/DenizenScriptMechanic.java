@@ -101,8 +101,7 @@ ITargetedEntitySkill
 		}
 		HashMap<String,dObject>context=new HashMap<String,dObject>();
 		context.put("data",new dMythicMeta(data));
-		context.put("target",o_target_entity.isPresent()?new dEntity(o_target_entity.get().getBukkitEntity()):null);
-		context.put("location",o_target_location.isPresent()?new dLocation(BukkitAdapter.adapt(o_target_location.get())):null);
+		context.put("target",o_target_entity.isPresent()?new dEntity(o_target_entity.get().getBukkitEntity()):o_target_location.isPresent()?new dLocation(BukkitAdapter.adapt(o_target_location.get())):null);
 		queue.setContextSource(new MythicContextSource(context));
 		queue.setReqId(req_id);
 		for(Map.Entry<String,String>item:attributes.entrySet()) {

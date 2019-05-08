@@ -12,6 +12,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.berndivader.mythicdenizenaddon.cmds.ActiveMobSkillCast;
+import com.gmail.berndivader.mythicdenizenaddon.cmds.CreateMythicMeta;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.CreateMythicSpawner;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.GetMythicItems;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.GetMythicSkills;
@@ -97,6 +98,7 @@ public class MythicMobsAddon extends Support {
 		new TransformMythicMob().activate().as("mmremovemythic").withOptions("- mmremovemythic [activemob:dActiveMob]", 1);
 		new GetMythicItems().activate().as("getmythicitems").withOptions("- getmythicitems (filter:regex) (strict:boolean)",0);
 		new GetMythicSkills().activate().as("getmythicskills").withOptions("- getmythicskills (filter:regex) (strict:boolean>",0);
+		new CreateMythicMeta().activate().as("createmythicmeta").withOptions("- createmythicmeta",0);
 	}
 	
 	public static boolean isActiveMob(UUID uuid) {

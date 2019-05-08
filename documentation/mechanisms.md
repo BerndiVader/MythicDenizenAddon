@@ -72,9 +72,14 @@
 ### dMythicSkill Mechanisms
 |Mechanisms|Descriptions|
 |---|---|
-|Name: `cause`<br>Input: `String`|Set the skilltrigger cause <br>**Valid Triggers:** `DEFAULT`, `ATTACK`, `BOW_HIT`, `BLOCK`, `COMBAT`, `CROUCH`, `UNCROUCH`, `DAMAGED`, `DROPCOMBAT`, `DEATH`, `ENTERCOMBAT`, `EXPLODE`, `INTERACT`, `KILL`, `KILLPLAYER`, `PLAYERDEATH`, `SHOOT`, `SIGNAL`, `SPAWN`, `SPLASH_POTION`, `SWING`, `TARGETCHANGE`, `TELEPORT`, `TIMER`, `USE`, `READY` <br>**Related tags:** `<mythicskill@mythicskill.cause>` |
-|Name: `caster`<br>Input: `dEntity`|Set the caster.<br>**Related tags:** `<mythicskill@mythicskill.caster>`|
-|Name: `trigger`<br>Input: `dEntity`|Set the trigger.<br>**Related tags:** `<mythicskill@mythicskill.trigger>`|
-|Name: `origin`<br>Input: `dLocation`|Set the origin location.<br>**Related tags:** `<mythicskill@mythicskill.origin>`|
-|Name: `targets`<br>Input: `dEntity||dLocation||dList(dEntity||dLocation)`|Set the target as list or object<br>**Related tags:** `<mythicskill@mythicskill.targets>`|
-|Name: `power`<br>Input: `Number`|Set the power.<br>**Related tags:** `<mythicskill@mythicskill.power>`|
+|Name: `data`<br>Input: `dMythicMeta`|Set the Skillmetadata.<br>**Related tags:** `<mythicskill@mythicskill.data>`|
+
+---
+### dMythicMeta Mechanisms
+|Mechanisms|Descriptions|
+|---|---|
+|Name: `power`<br>Input: `Float`|Set the power.<br>**Related tags:** `<mythicmeta@mythicmeta.power>`|
+|Name: `origin`<br>Input: `dLocation`|Set the origin location.<br>**Related tags:** `<mythicmeta@mythicmeta.origin>`|
+|Name: `caster`<br>Input: `dEntity`|Set the caster.<br>**Related tags:** `<mythicmeta@mythicmeta.caster>`|
+|Name: `trigger`<br>Input: `dEntity`|Set the trigger.<br>**Related tags:** `<mythicmeta@mythicmeta.trigger>`|
+|Name: `targets`<br>Input: `dList`|Set the targets.<br>**Related tags:** `<mythicmeta@mythicmeta.targets>`|

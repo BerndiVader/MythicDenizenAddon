@@ -39,7 +39,6 @@ IIntangibleDrop
 	final String script_name;
 	HashMap<String,String>attributes;
 	
-	
 	public DenizenScriptDrop(String line,MythicLineConfig config,double amount) {
 		super(line,config,amount);
 		this.amount=amount;

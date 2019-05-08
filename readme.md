@@ -2,6 +2,10 @@
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.513a - renamed scriptcall for drop & mechanic
+                  both now called dscript or denizenscript
+                - added createmythicmeta command
+                - added documentation for dMythicMeta & dMythicSkill object
 - Update 0.512a - fix for cached scriptcontainer
 				- added dskill mechanic
 			    - added dMythicMeta object
@@ -32,7 +36,11 @@
 [Tags](documentation/tags.md) <br>
 [Mechanisms](documentation/mechanisms.md) <br>
 [Commands](documentation/commands.md) <br>
-[Drops](documentation/drops.md)
+[Drops](documentation/drops.md)<br>
+[MythicMobs Mechanics](documentation/mythicmechanics.md)<br><br>
+
+
+[Examples](documentation/examples.md)
 
 **dObjects**<br>
 \- dActiveMob<br>

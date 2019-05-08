@@ -42,9 +42,11 @@ public class RegisterEvents implements Listener {
 	@EventHandler
 	public void onMythicMobsCustomMechanicLoad(MythicMechanicLoadEvent e) {
 		switch(e.getMechanicName().toLowerCase()) {
+			case "denizenskill":
 			case "dskill":
 				e.register(new DMechanicEvent(e.getContainer().getConfigLine(),e.getConfig()));
 				break;
+			case "denizenscript":
 			case "dscript":
 				e.register(new DenizenScriptMechanic(e.getContainer().getConfigLine(),e.getConfig()));
 				break;
@@ -54,19 +56,22 @@ public class RegisterEvents implements Listener {
 	@EventHandler
 	public void onMythicMobsTargeterLoad(MythicTargeterLoadEvent e) {
 		switch(e.getTargeterName().toLowerCase()) {
-		case "dentity":
-			e.register(new DEntityTargeter(e.getConfig()));
-			break;
-		case "dlocation":
-			e.register(new DLocationTargeter(e.getConfig()));
-			break;
-		}
+			case "dentity":
+				e.register(new DEntityTargeter(e.getConfig()));
+				break;
+			case "dlocation":
+				e.register(new DLocationTargeter(e.getConfig()));
+				break;
+			}
 	}
 	
 	@EventHandler
 	public void mythicMobsCustomDrop(MythicDropLoadEvent e) {
-		if(e.getDropName().toLowerCase().equals("dscriptdrop")||e.getDropName().toLowerCase().equals("dscript")) {
-			e.register(new DenizenScriptDrop(e.getContainer().getLine(),e.getConfig(),e.getContainer().getAmount()));
+		switch(e.getDropName().toLowerCase()) {
+			case "dscript":
+			case "denizenscript":
+				e.register(new DenizenScriptDrop(e.getContainer().getLine(),e.getConfig(),e.getContainer().getAmount()));
+				break;
 		}
 	}
 }
