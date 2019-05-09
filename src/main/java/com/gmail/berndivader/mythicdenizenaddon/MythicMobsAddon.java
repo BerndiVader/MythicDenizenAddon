@@ -88,7 +88,7 @@ public class MythicMobsAddon extends Support {
 		registerScriptEvents(new DenizenLocationTargeterEvent());
 		registerScriptEvents(new MythicMobsDropEvent());
 		
-		new FireCustomObjectiveEvent().activate().as("firequestobjective").withOptions("- firequestobjective",0);
+		new FireCustomObjectiveEvent().activate().as("firequestobjective").withOptions("- firequestobjective",1);
 		new MythicMobsSpawn().activate().as("mmspawnmob").withOptions("- mmspawnmob [mobtype:string] [location] (world:string) (level:integer)", 2);
 		new ActiveMobSkillCast().activate().as("mmcastmob").withOptions("- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);
 		new PlayerSkillCast().activate().as("mmcastplayer").withOptions("- mmcastplayer [player:dPlayer] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)", 3);

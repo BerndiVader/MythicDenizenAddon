@@ -2,6 +2,7 @@
 [Items](#items) <br>
 [ActiveMobs](#activemobs) <br>
 [Players](#players) <br>
+[Quests](#quests) <br>
 [Skills](#skills)<br> <br>
 
 ----
@@ -167,3 +168,12 @@ Optionally specify a filter to limit the output. <br>
 Optionally specify strict true to get a single skill. This requires filter to be set to the skillname! <br>
 **Tags:** `<entry.[saveName].skills>` A list of skills (if strict=false) <br>
 `<entry.[saveName].skill>` a dMythicSkill object (if strict=true)
+
+---
+### Quests
+**Command:** `firecustomobjective (action:String[FAIL||COMPLETE]) (quester:<dPlayer>) (type:String[QUESTS OBJECTIVE TYPE])` <br>
+**Description:** Fires the quests denizen custom objective.<br>
+Use *type* to filter the denizen objective.<br>
+Use *action* to FAIL or to COMPLETE the objective.<br>
+Use *quester* to define the player.<br>
+

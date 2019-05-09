@@ -9,16 +9,19 @@ extends
 AbstractEvent
 {
 	public static enum Action{
+		INCREMENT,
 		COMPLETE,
 		FAIL
 	}
 	
 	private Player player;
 	private Action action;
+	private String objective_type;
 	
-	public CustomObjectiveEvent(Player player,Action action) {
+	public CustomObjectiveEvent(Player player,Action action,String objective_type) {
 		this.setPlayer(player);
 		this.setAction(action);
+		this.setObjectiveType(objective_type);
 	}
 	
 	public Player getPlayer() {
@@ -33,6 +36,14 @@ AbstractEvent
 	}
 	public void setAction(Action action) {
 		this.action=action;
+	}
+
+	public String getObjectiveType() {
+		return objective_type;
+	}
+
+	public void setObjectiveType(String objective_type) {
+		this.objective_type=objective_type;
 	}
 
 }

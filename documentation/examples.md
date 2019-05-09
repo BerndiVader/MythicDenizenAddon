@@ -28,3 +28,40 @@ DenizenMonkey:
   - equip{i=BlackbeardHead:4} @self ~onSpawn
   - dscript{script=dscript_example;example=hihihi;other=hohoho;meme=hihihi} @trigger ~onDamaged
 ```
+
+----
+### firecustomobjective command for Quests & MythicMobsQuestModule
+
+*In Denizen:*
+```yaml
+Events:
+  type: world
+  debug: false
+  
+  events:
+
+    on player consumes item:
+      - announce <context.item.material>
+      - firequestobjective action:INCREMENT quester:<player> "type:consume <context.item.material>"
+```
+
+*In Quests:*
+```yaml
+Quests:
+  custom1:
+    name: 'The booze battle'
+    ask-message: 'You booze more than the old drunkard?'
+    finish-message: 'Well done! You are far gone, but you are now the new drunkard in town!'
+    stages:
+      ordered:
+        '1':
+          custom-objectives:
+            custom1:
+              name: Custom Denizen
+              count: 5
+              data:
+                Objective Name: Defeat the old drunkard!
+                Objective Type: consume m@potion
+                Notify player: 'true'
+                Notify Message: '%c% %s%'
+```
