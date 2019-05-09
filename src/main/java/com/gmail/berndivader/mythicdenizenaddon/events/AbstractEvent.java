@@ -3,10 +3,13 @@ package com.gmail.berndivader.mythicdenizenaddon.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class AbstractEvent
+public
+class
+AbstractEvent
 extends
-Event {
-	private static final HandlerList handlers = new HandlerList();
+Event 
+{
+	static final HandlerList handlers=new HandlerList();
 	
 	@Override
 	public HandlerList getHandlers() {

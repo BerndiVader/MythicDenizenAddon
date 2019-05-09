@@ -5,10 +5,8 @@ import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.items.MythicItem;
 import net.aufdemrand.denizen.objects.dItem;
 import net.aufdemrand.denizen.utilities.debugging.dB;
-import net.aufdemrand.denizencore.objects.Adjustable;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Fetchable;
-import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dList;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.tags.Attribute;
@@ -16,8 +14,8 @@ import net.aufdemrand.denizencore.tags.TagContext;
 
 public class dMythicItem 
 implements
-dObject,
-Adjustable {
+dObject
+{
 	public static String id="mythicitem@";
 	private String prefix;
 	MythicItem mi;
@@ -120,11 +118,4 @@ Adjustable {
         return null;
     }
 
-	@Override
-	public void adjust(Mechanism arg0) {
-	}
-
-	@Override
-	public void applyProperty(Mechanism arg0) {
-	}
 }

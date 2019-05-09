@@ -23,6 +23,7 @@ import com.gmail.berndivader.mythicdenizenaddon.cmds.SendSignal;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.TransformMythicMob;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.TransformToMythicMob;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.TriggerSkill;
+import com.gmail.berndivader.mythicdenizenaddon.cmds.quests.FireCustomObjectiveEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DenizenConditionEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DenizenEntityTargeterEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DenizenLocationTargeterEvent;
@@ -86,7 +87,8 @@ public class MythicMobsAddon extends Support {
 		registerScriptEvents(new DenizenEntityTargeterEvent());
 		registerScriptEvents(new DenizenLocationTargeterEvent());
 		registerScriptEvents(new MythicMobsDropEvent());
-
+		
+		new FireCustomObjectiveEvent().activate().as("firequestobjective").withOptions("- firequestobjective",0);
 		new MythicMobsSpawn().activate().as("mmspawnmob").withOptions("- mmspawnmob [mobtype:string] [location] (world:string) (level:integer)", 2);
 		new ActiveMobSkillCast().activate().as("mmcastmob").withOptions("- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);
 		new PlayerSkillCast().activate().as("mmcastplayer").withOptions("- mmcastplayer [player:dPlayer] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)", 3);

@@ -2,6 +2,7 @@
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.513b - added firequestobjective command
 - Update 0.513a - renamed scriptcall for drop & mechanic
                   both now called dscript or denizenscript
                 - added createmythicmeta command

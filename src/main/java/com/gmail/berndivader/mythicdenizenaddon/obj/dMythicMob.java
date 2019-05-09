@@ -2,22 +2,22 @@ package com.gmail.berndivader.mythicdenizenaddon.obj;
 
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 
+import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
-import net.aufdemrand.denizencore.objects.Adjustable;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.Fetchable;
-import net.aufdemrand.denizencore.objects.Mechanism;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.tags.Attribute;
 import net.aufdemrand.denizencore.tags.TagContext;
 
 public class dMythicMob 
 implements 
-dObject, 
-Adjustable {
+dObject
+{
 	static String id="mythicmob@";
+	static MythicMobs mythicmobs=MythicMobs.inst();
 
-	private String prefix;
+	String prefix;
 	MythicMob mm;
 
 	public dMythicMob(MythicMob mythicMob) {
@@ -33,18 +33,9 @@ Adjustable {
 	}
 	
 	@Override
-	public void adjust(Mechanism m) {
-//		Element val = m.getValue();
-	}
-
-	@Override
 	public String getAttribute(Attribute a) {
 		if (a==null) return null;
 		return new Element(identify()).getAttribute(a);
-	}
-
-	@Override
-	public void applyProperty(Mechanism mech) {
 	}
 
 	@Override
