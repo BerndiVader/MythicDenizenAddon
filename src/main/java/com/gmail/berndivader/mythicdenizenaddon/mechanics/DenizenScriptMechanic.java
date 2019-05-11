@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.gmail.berndivader.mythicdenizenaddon.Utils;
 import com.gmail.berndivader.mythicdenizenaddon.context.MythicContextSource;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 
@@ -48,17 +49,8 @@ ITargetedEntitySkill
 		this.ASYNC_SAFE=false;
 		
 		script_name=config.getString("script","");
+		attributes=Utils.parse_attributes(skill);
 
-		if(line.contains("{")&&line.contains("}")) {
-			String parse[]=line.split("\\{")[1].split("\\}")[0].split(";");
-			attributes=new HashMap<>();
-			int size=parse.length;
-			for(int i1=0;i1<size;i1++) {
-				if(parse[i1].startsWith("script")) continue;
-				String arr1[]=parse[i1].split("=");
-				if(arr1.length==2) attributes.put(arr1[0],arr1[1]);
-			}
-		}
 	}
 
 	@Override

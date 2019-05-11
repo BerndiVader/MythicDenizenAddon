@@ -2,6 +2,12 @@
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.515a - added dentity mythicmobs script mechanic
+				- added dlocation mythicmobs script mechanic
+				- added dentitycompare mythicmobs script mechanic
+				- added dlocationcompare mythicmobs script mechanic
+				- fixed npe inside <mythicskill@skill.execute[data]>
+				  if casting entity is dead.
 - Update 0.513c - updated firequestobjective command
 - Update 0.513b - added firequestobjective command
 - Update 0.513a - renamed scriptcall for drop & mechanic

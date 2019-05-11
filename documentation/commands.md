@@ -171,9 +171,9 @@ Optionally specify strict true to get a single skill. This requires filter to be
 
 ---
 ### Quests
-**Command:** `firecustomobjective (action:String[FAIL||COMPLETE]) (quester:<dPlayer>) (type:String[QUESTS OBJECTIVE TYPE])` <br>
+**Command:** `firecustomobjective (action:String[FAIL||COMPLETE||INCREMENT]) (quester:<dPlayer>) (type:String[QUESTS OBJECTIVE TYPE])` <br>
 **Description:** Fires the quests denizen custom objective.<br>
 Use *type* to filter the denizen objective.<br>
-Use *action* to FAIL or to COMPLETE the objective.<br>
+Use *action* to FAIL, COMPLETE or INCREMENT the objective.<br>
 Use *quester* to define the player.<br>
 

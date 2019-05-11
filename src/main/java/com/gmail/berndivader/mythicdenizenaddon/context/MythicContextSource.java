@@ -31,5 +31,9 @@ ContextSource
 	public boolean getShouldCache() {
 		return false;
 	}
+	
+	public HashMap<String,dObject> getContexts() {
+		return this.context_map;
+	}
 
 }

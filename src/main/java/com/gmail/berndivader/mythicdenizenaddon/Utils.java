@@ -1,6 +1,7 @@
 package com.gmail.berndivader.mythicdenizenaddon;
 
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.Location;
@@ -41,6 +42,21 @@ Utils
 			}
 		}
 		return new AbstractMap.SimpleEntry<HashSet<AbstractEntity>, HashSet<AbstractLocation>>(entity_targets,location_targets);
+	}
+	
+	public static HashMap<String,String> parse_attributes(String line) {
+		if(line.contains("{")&&line.contains("}")) {
+			String parse[]=line.split("\\{")[1].split("\\}")[0].split(";");
+			HashMap<String,String>attributes=new HashMap<>();
+			int size=parse.length;
+			for(int i1=0;i1<size;i1++) {
+				if(parse[i1].startsWith("script")) continue;
+				String arr1[]=parse[i1].split("=");
+				if(arr1.length==2) attributes.put(arr1[0],arr1[1]);
+			}
+			return attributes;
+		}
+		return null;
 	}
 
 }

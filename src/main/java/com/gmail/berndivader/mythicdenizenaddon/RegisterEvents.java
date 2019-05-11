@@ -4,6 +4,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
+import com.gmail.berndivader.mythicdenizenaddon.conditions.EntityCompareScriptCondition;
+import com.gmail.berndivader.mythicdenizenaddon.conditions.EntityScriptCondition;
+import com.gmail.berndivader.mythicdenizenaddon.conditions.LocationCompareScriptCondition;
+import com.gmail.berndivader.mythicdenizenaddon.conditions.LocationScriptCondition;
 import com.gmail.berndivader.mythicdenizenaddon.drops.DenizenScriptDrop;
 import com.gmail.berndivader.mythicdenizenaddon.events.DConditionEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DEntityTargeter;
@@ -27,15 +31,27 @@ public class RegisterEvents implements Listener {
 	@EventHandler
 	public void onMythicMobsCustomConditionsLoad(MythicConditionLoadEvent e) {
 		switch(e.getConditionName().toLowerCase()) {
-		case "dcondition":
-			e.register(new DConditionEvent(e.getConditionName(), e.getConfig()));
-			break;
-		case "dtargetcondition":
-			e.register(new DTargetConditionEvent(e.getConditionName(), e.getConfig()));
-			break;
-		case "dspawncondition":
-			e.register(new DSpawnConditionEvent(e.getConditionName(), e.getConfig()));
-			break;
+			case "dcondition":
+				e.register(new DConditionEvent(e.getConditionName(), e.getConfig()));
+				break;
+			case "dtargetcondition":
+				e.register(new DTargetConditionEvent(e.getConditionName(), e.getConfig()));
+				break;
+			case "dspawncondition":
+				e.register(new DSpawnConditionEvent(e.getConditionName(), e.getConfig()));
+				break;
+			case "dentity":
+				e.register(new EntityScriptCondition(e.getConfig().getLine(),e.getConfig()));
+				break;
+			case "dentitycompare":
+				e.register(new EntityCompareScriptCondition(e.getConfig().getLine(),e.getConfig()));
+				break;
+			case "dlocation":
+				e.register(new LocationScriptCondition(e.getConfig().getLine(),e.getConfig()));
+				break;
+			case "dlocationcompare":
+				e.register(new LocationCompareScriptCondition(e.getConfig().getLine(),e.getConfig()));
+				break;
 		}
 	}
 	
@@ -48,6 +64,7 @@ public class RegisterEvents implements Listener {
 				break;
 			case "denizenscript":
 			case "dscript":
+			case "denizen":
 				e.register(new DenizenScriptMechanic(e.getContainer().getConfigLine(),e.getConfig()));
 				break;
 		}
@@ -70,6 +87,7 @@ public class RegisterEvents implements Listener {
 		switch(e.getDropName().toLowerCase()) {
 			case "dscript":
 			case "denizenscript":
+			case "denizen":
 				e.register(new DenizenScriptDrop(e.getContainer().getLine(),e.getConfig(),e.getContainer().getAmount()));
 				break;
 		}

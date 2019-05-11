@@ -1,15 +1,10 @@
 package com.gmail.berndivader.mythicdenizenaddon.obj;
 
-import java.util.HashSet;
 import java.util.Optional;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
-import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
-import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
-import io.lumine.xikage.mythicmobs.mobs.GenericCaster;
 import io.lumine.xikage.mythicmobs.skills.Skill;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
-import io.lumine.xikage.mythicmobs.skills.SkillTrigger;
 import net.aufdemrand.denizen.utilities.debugging.dB;
 import net.aufdemrand.denizencore.objects.Adjustable;
 import net.aufdemrand.denizencore.objects.Element;
@@ -19,24 +14,19 @@ import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.tags.Attribute;
 import net.aufdemrand.denizencore.tags.TagContext;
 
-public class dMythicSkill 
+public 
+class 
+dMythicSkill 
 implements
 dObject,
-Adjustable {
+Adjustable
+{
 	public static String id="mythicskill@";
 	static MythicMobs mythicmobs=MythicMobs.inst();
 	private String prefix;
 	Skill skill;
 	public Optional<String> metaId;
 	dMythicMeta data;
-	HashSet<AbstractEntity>eTargets;
-	HashSet<AbstractLocation>lTargets;
-	HashSet<GenericCaster>casters;
-	float power;
-	AbstractLocation origin;
-	AbstractEntity trigger;
-	GenericCaster caster;
-	SkillTrigger cause;
 
 	public dMythicSkill(String name) {
 		this(name,null);
@@ -51,14 +41,6 @@ Adjustable {
 		if (((this.metaId=Optional.ofNullable(meta_hash)).isPresent())&&dMythicMeta.objects.containsKey(this.metaId.get())) {
 			data=new dMythicMeta(dMythicMeta.objects.get(this.metaId.get()));
 		}
-		this.eTargets=new HashSet<>();
-		this.lTargets=new HashSet<>();
-		this.casters=new HashSet<>();
-		this.cause=SkillTrigger.API;
-		this.power=1F;
-		this.origin=null;
-		this.trigger=null;
-		this.caster=null;
 	}
 	
     public static boolean matches(String string) {
@@ -97,6 +79,7 @@ Adjustable {
 				data=((dMythicMeta)a.getContextObject(i1)).meta;
 			}
 			boolean bl1=skill.isUsable(data);
+			//
 			if(bl1) skill.execute(data);
 			return new Element(bl1).getAttribute(a.fulfill(i1));
 		}
