@@ -18,6 +18,12 @@
 |`<w@world.allmythicspawners>`<br>Returns: dList(dMythicSpawner)|Returns a list of all MythicSpawners in this world.|
 
 ----
+### dMythicMob Tags
+|Tag Names|Descriptions|
+|---|---|
+|`<mythicmob@mythicmob.spawn[<location||entity>]>`<br>Returns: dActiveMob|Returns the created activemob instance.|
+
+----
 ### dEntity Tags
 |Tag Names|Descriptions|
 |---|---|
@@ -98,6 +104,12 @@
 |`<mythicmeta@mythicmeta.origin>`<br>Returns: Element(dLocation)|Returns the origin location.|
 |`<mythicmeta@mythicmeta.targets>`<br>Returns: Element(dList)|Returns a list of the targets.|
 |`<mythicmeta@mythicmeta.power>`<br>Returns: Element(Float)|Returns the power.|
+
+----
+### dMythicMob Tags
+|Tag Names|Descriptions|
+|---|---|
+|`<mythicmob@mythicmob.spawn[location||entity]>`<br>Returns: dActiveMob|Return an activemob or null if failed.|
 
 ----
 ### dMythicSpawner Tags

@@ -19,7 +19,6 @@ IEntityCondition
 
 	@Override
 	public boolean check(AbstractEntity abstract_entity) {
-		System.err.println(abstract_entity.getUniqueId());
 		return __check(new dEntity(abstract_entity.getBukkitEntity()));
 	}
 

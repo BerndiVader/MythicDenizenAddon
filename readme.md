@@ -2,6 +2,9 @@
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.515b - added added spawn to dMythicMob object
+				- added dentityscript mythicmobs targeter
+				- added dlocationscript mythicmobs targeter
 - Update 0.515a - added dentity mythicmobs script mechanic
 				- added dlocation mythicmobs script mechanic
 				- added dentitycompare mythicmobs script mechanic
@@ -45,7 +48,7 @@
 [Mechanisms](documentation/mechanisms.md) <br>
 [Commands](documentation/commands.md) <br>
 [Drops](documentation/drops.md)<br>
-[MythicMobs Mechanics](documentation/mythicmechanics.md)<br><br>
+[MythicMobs Mechanics / Conditions / Drops / Targeters](documentation/mythicmechanics.md)<br><br>
 
 
 [Examples](documentation/examples.md)

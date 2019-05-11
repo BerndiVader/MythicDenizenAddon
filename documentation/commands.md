@@ -62,7 +62,7 @@ MythicEntity:
 <br>
 <br>
 
-**DEPRECATED use mmskillcast instead**
+**DEPRECATED use dMythicSkill instead**
 **Command:** `mmcastmob [caster:<ActiveMob>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>)` <br>
 **Description:** Forces an ActiveMob to cast a skill onto a target entity or location. <br>
 "`skill`" should be a valid MythicMobs skill. <br>
@@ -71,6 +71,7 @@ Optionally specify a trigger entity and power level of the skill. The trigger en
 <br>
 <br>
 
+**DEPRECATED use dMythicSkill instead**
 **Command:** `mmskillcast [caster:<entity>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>) (repeat:<#>) (delay:<#>)` <br>
 **Description:** Forces an entity (caster) to cast a skill onto a target entity or location. <br>
 "`skill`" should be a valid MythicMobs skill. <br>
@@ -123,7 +124,7 @@ Monkey:
 
 ----
 ### Players
-**DEPRECATED use mmskillcast instead**
+**DEPRECATED use dMythicSkill instead**
 **Command:** `mmcastplayer [caster:<entity>] [skill:<element>] [target:<entity>/<location>] (trigger:<entity>) (repeat:<#>) (delay:<#>)` <br>
 **Description:** Forces a player to use a MythicMobs skill. <br>
 Optionally specify a trigger entity. The trigger entity defaults to the caster. <br>

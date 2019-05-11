@@ -16,14 +16,20 @@ import com.gmail.berndivader.mythicdenizenaddon.events.DMechanicEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DSpawnConditionEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.DTargetConditionEvent;
 import com.gmail.berndivader.mythicdenizenaddon.mechanics.DenizenScriptMechanic;
+import com.gmail.berndivader.mythicdenizenaddon.targeters.EntityTargeter;
+import com.gmail.berndivader.mythicdenizenaddon.targeters.LocationTargeter;
 
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicConditionLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicDropLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMechanicLoadEvent;
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicTargeterLoadEvent;
 
-public class RegisterEvents implements Listener {
-	
+public
+class
+RegisterEvents 
+implements 
+Listener 
+{
 	public RegisterEvents() {
 		MythicDenizenPlugin.inst().getServer().getPluginManager().registerEvents(this, MythicDenizenPlugin.inst());
 	}
@@ -78,6 +84,12 @@ public class RegisterEvents implements Listener {
 				break;
 			case "dlocation":
 				e.register(new DLocationTargeter(e.getConfig()));
+				break;
+			case "dentityscript":
+				e.register(new EntityTargeter(e.getConfig().getLine(),e.getConfig()));
+				break;
+			case "dlocationscript":
+				e.register(new LocationTargeter(e.getConfig().getLine(),e.getConfig()));
 				break;
 			}
 	}

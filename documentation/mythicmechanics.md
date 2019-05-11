@@ -1,4 +1,4 @@
-# MythicMobs Mechanics
+# MythicMobs Mechanics / Conditions / Targeters
 
 ### dscript for mechanic
 |Mechanisms|Descriptions||
@@ -29,4 +29,14 @@
 |Mechanisms|Descriptions||
 |---|---|---|
 |Name: `dlocationcompare`|args: `script` name of the denizenscript<br>`args, ...`additional args|**Related tags:**<br>`<context.source>`<br> `<context.target>` <br> **Determinate with true/false**|
+
+### dscript for entitytargeter
+|Mechanisms|Descriptions||
+|---|---|---|
+|Name: `dentityscript`|args: `script` name of the denizenscript<br>`args, ...`additional args|**Related tags:**<br>`<context.data>`<br> **Determinate with a empty or pupulated li@**|
+
+### dscript for locationtargeter
+|Mechanisms|Descriptions||
+|---|---|---|
+|Name: `dentityscript`|args: `script` name of the denizenscript<br>`args, ...`additional args|**Related tags:**<br>`<context.data>`<br> **Determinate with a empty or pupulated li@**|
 

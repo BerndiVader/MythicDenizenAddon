@@ -86,7 +86,6 @@ AbstractCustomCondition
 			queue.callBack(new Runnable() {
 				@Override
 				public void run() {
-					final_entry.addObject(req_id+str_determination,queue.getLastEntryExecuted().getArguments());
 					final_entry.setFinished(true);
 				}
 			});
@@ -100,10 +99,10 @@ AbstractCustomCondition
 				}
 			}
 			
-			Object o=final_entry.getObject(req_id+str_determination);
+			Object o=queue.getLastEntryExecuted().getArguments();
 			if(o!=null&&o instanceof List) {
 				@SuppressWarnings("unchecked")
-				List<Argument>args=aH.interpret((List<String>)final_entry.getObject(req_id+str_determination));
+				List<Argument>args=aH.interpret((List<String>)o);
 				for(Argument arg:args) {
 					if(arg.matchesPrimitive(PrimitiveType.Boolean)) {
 						match=arg.asElement().asBoolean();
