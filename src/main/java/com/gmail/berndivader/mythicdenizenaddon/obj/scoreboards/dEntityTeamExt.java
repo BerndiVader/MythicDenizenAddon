@@ -43,6 +43,7 @@ dObjectExtension {
     
     @Override
     public String getAttribute(Attribute a) {
+    	if(a==null) return null;
     	Team team=null;
     	if (a.startsWith("hasteam")) {
     		team=(this.entity instanceof Player)?ScoreBoardsAddon.scoreboard.getEntryTeam(this.entity.getName())

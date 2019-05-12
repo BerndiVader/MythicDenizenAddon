@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
+import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicSkill;
 
@@ -23,24 +24,24 @@ AbstractCommand {
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
 		for (aH.Argument arg:aH.interpret(entry.getArguments())) {
-			if(!entry.hasObject("filter")&&arg.matchesPrefix("filter")) {
-				entry.addObject("filter",arg.asElement());
-			} else if(!entry.hasObject("strict")&&arg.matchesPrefix("strict")) {
-				entry.addObject("strict",arg.asElement());
+			if(!entry.hasObject(Statics.str_filter)&&arg.matchesPrefix(Statics.str_filter)) {
+				entry.addObject(Statics.str_filter,arg.asElement());
+			} else if(!entry.hasObject(Statics.str_strict)&&arg.matchesPrefix(Statics.str_strict)) {
+				entry.addObject(Statics.str_strict,arg.asElement());
 			}
 			if(!entry.hasObject("data")&&arg.matchesPrefix("data")) {
 				entry.addObject("data",arg.asType(dMythicMeta.class));
 			}
 		}
-		if (!entry.hasObject("filter")) entry.addObject("filter",new Element(""));
-		if (!entry.hasObject("strict")) entry.addObject("strict",new Element(false));
+		if (!entry.hasObject(Statics.str_filter)) entry.addObject(Statics.str_filter,new Element(""));
+		if (!entry.hasObject(Statics.str_strict)) entry.addObject(Statics.str_strict,new Element(false));
 	}
 	
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		Pattern p=Pattern.compile(entry.getElement("filter").asString());
+		Pattern p=Pattern.compile(entry.getElement(Statics.str_filter).asString());
 		String metaId=entry.hasObject("data")?entry.getdObject("data").identify():null;
-		if (!entry.getElement("strict").asBoolean()) {
+		if (!entry.getElement(Statics.str_strict).asBoolean()) {
 			Iterator<Skill>it=MythicMobsAddon.mythicmobs.getSkillManager().getSkills().iterator();
 			dList list=new dList();
 			while(it.hasNext()) {

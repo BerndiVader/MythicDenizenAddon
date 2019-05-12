@@ -62,7 +62,7 @@ MythicEntity:
 <br>
 <br>
 
-**DEPRECATED use dMythicSkill instead**
+**DEPRECATED use dMythicSkill or castmythicskill instead**
 **Command:** `mmcastmob [caster:<ActiveMob>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>)` <br>
 **Description:** Forces an ActiveMob to cast a skill onto a target entity or location. <br>
 "`skill`" should be a valid MythicMobs skill. <br>
@@ -71,7 +71,7 @@ Optionally specify a trigger entity and power level of the skill. The trigger en
 <br>
 <br>
 
-**DEPRECATED use dMythicSkill instead**
+**DEPRECATED use dMythicSkill or castmythicskill instead**
 **Command:** `mmskillcast [caster:<entity>] [target:<entity>/<location>] [skill:<element>] (trigger:<entity>) (power:<#.#>) (repeat:<#>) (delay:<#>)` <br>
 **Description:** Forces an entity (caster) to cast a skill onto a target entity or location. <br>
 "`skill`" should be a valid MythicMobs skill. <br>
@@ -124,7 +124,7 @@ Monkey:
 
 ----
 ### Players
-**DEPRECATED use dMythicSkill instead**
+**DEPRECATED use dMythicSkill or castmythicskill instead**
 **Command:** `mmcastplayer [caster:<entity>] [skill:<element>] [target:<entity>/<location>] (trigger:<entity>) (repeat:<#>) (delay:<#>)` <br>
 **Description:** Forces a player to use a MythicMobs skill. <br>
 Optionally specify a trigger entity. The trigger entity defaults to the caster. <br>
@@ -168,7 +168,11 @@ Damage:
 Optionally specify a filter to limit the output. <br>
 Optionally specify strict true to get a single skill. This requires filter to be set to the skillname! <br>
 **Tags:** `<entry.[saveName].skills>` A list of skills (if strict=false) <br>
-`<entry.[saveName].skill>` a dMythicSkill object (if strict=true)
+`<entry.[saveName].skill>` a dMythicSkill object (if strict=true)<br><br>
+
+**Command:** `castmythicskill [skill:string||dMythicSkill] [data:dMythicMeta]||[caster:dEntity] (cause:string) (trigger:dEntity) (origin:dLocation) (power:float) (targets:dList)` <br>
+**Description:** Cast the given skill by using the the metadata or replace the meta stored in dmythicskill or creates a new meta with all the given arguments. <br>
+
 
 ---
 ### Quests

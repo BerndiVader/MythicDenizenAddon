@@ -5,7 +5,7 @@ import java.util.HashSet;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
-import com.gmail.berndivader.mythicdenizenaddon.Types;
+import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
@@ -26,32 +26,32 @@ public class ActiveMobSkillCast extends AbstractCommand {
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
 		for (aH.Argument arg:aH.interpret(entry.getArguments())) {
-			if (!entry.hasObject(Types.caster.a()) && arg.matchesPrefix(Types.caster.a())
+			if (!entry.hasObject(Statics.str_caster) && arg.matchesPrefix(Statics.str_caster)
 					&& arg.matchesArgumentType(dActiveMob.class)) {
-				entry.addObject(Types.caster.a(), arg.asType(dActiveMob.class));
-			} else if (!entry.hasObject(Types.skill.a()) && arg.matchesPrefix(Types.skill.a())) {
-				entry.addObject(Types.skill.a(), arg.asElement());
-			} else if (!entry.hasObject(Types.target.a()) && arg.matchesPrefix(Types.target.a())) {
+				entry.addObject(Statics.str_caster, arg.asType(dActiveMob.class));
+			} else if (!entry.hasObject(Statics.str_skill) && arg.matchesPrefix(Statics.str_skill)) {
+				entry.addObject(Statics.str_skill, arg.asElement());
+			} else if (!entry.hasObject(Statics.str_target) && arg.matchesPrefix(Statics.str_target)) {
 				if (arg.getValue().toLowerCase().startsWith("l@")) {
 					bool = false;
-					entry.addObject(Types.target.a(), arg.asType(dLocation.class));
+					entry.addObject(Statics.str_target, arg.asType(dLocation.class));
 				} else {
 					bool = true;
-					entry.addObject(Types.target.a(), arg.asType(dEntity.class));
+					entry.addObject(Statics.str_target, arg.asType(dEntity.class));
 				}
-			} else if (!entry.hasObject(Types.trigger.a()) && arg.matchesPrefix(Types.trigger.a())) {
-				entry.addObject(Types.trigger.a(), arg.asType(dEntity.class));
-			} else if (!entry.hasObject(Types.power.a()) && arg.matchesPrefix(Types.power.a())
+			} else if (!entry.hasObject(Statics.str_trigger) && arg.matchesPrefix(Statics.str_trigger)) {
+				entry.addObject(Statics.str_trigger, arg.asType(dEntity.class));
+			} else if (!entry.hasObject(Statics.str_power) && arg.matchesPrefix(Statics.str_power)
 					&& arg.matchesPrimitive(aH.PrimitiveType.Float)) {
-				entry.addObject(Types.power.a(), arg.asElement());
+				entry.addObject(Statics.str_power, arg.asElement());
 			}
 		}
 		
-		if (!entry.hasObject(Types.trigger.a())) {
-			entry.addObject(Types.trigger.a(), new dEntity(((dActiveMob)entry.getdObject(Types.caster.a())).getEntity()));
+		if (!entry.hasObject(Statics.str_trigger)) {
+			entry.addObject(Statics.str_trigger, new dEntity(((dActiveMob)entry.getdObject(Statics.str_caster)).getEntity()));
 		}
-		if (!entry.hasObject(Types.power.a())) {
-			entry.addObject(Types.power.a(), new Element("1"));
+		if (!entry.hasObject(Statics.str_power)) {
+			entry.addObject(Statics.str_power, new Element("1"));
 		}
 	}
 	
@@ -61,14 +61,14 @@ public class ActiveMobSkillCast extends AbstractCommand {
 		HashSet<Entity> etargets = new HashSet<Entity>();
 		HashSet<Location> ltargets = new HashSet<Location>();
 		if (bool) {
-			etargets.add(((dEntity)entry.getdObject(Types.target.a())).getBukkitEntity());
+			etargets.add(((dEntity)entry.getdObject(Statics.str_target)).getBukkitEntity());
 		} else {
-			ltargets.add(((dLocation)entry.getdObject(Types.target.a())));
+			ltargets.add(((dLocation)entry.getdObject(Statics.str_target)));
 		}
-		ActiveMob caster = ((dActiveMob)entry.getdObject(Types.caster.a())).getActiveMob();
-		Entity trigger = ((dEntity)entry.getdObject(Types.trigger.a())).getBukkitEntity();
-		String skill = entry.getElement(Types.skill.a()).asString();
-		float power = entry.getElement(Types.power.a()).asFloat();
+		ActiveMob caster = ((dActiveMob)entry.getdObject(Statics.str_caster)).getActiveMob();
+		Entity trigger = ((dEntity)entry.getdObject(Statics.str_trigger)).getBukkitEntity();
+		String skill = entry.getElement(Statics.str_skill).asString();
+		float power = entry.getElement(Statics.str_power).asFloat();
 		MythicMobs.inst().getAPIHelper().castSkill(BukkitAdapter.adapt(caster.getEntity()), skill, trigger, BukkitAdapter.adapt(caster.getLocation()), etargets, ltargets, power);
 	}
 }

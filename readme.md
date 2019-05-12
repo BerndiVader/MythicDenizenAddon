@@ -2,6 +2,7 @@
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.515c - added castmythicskill command
 - Update 0.515b - added added spawn to dMythicMob object
 				- added dentityscript mythicmobs targeter
 				- added dlocationscript mythicmobs targeter

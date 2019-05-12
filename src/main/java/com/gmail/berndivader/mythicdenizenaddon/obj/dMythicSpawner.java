@@ -74,6 +74,7 @@ public class dMythicSpawner implements dObject, Adjustable {
 	
 	@Override
 	public String getAttribute(Attribute a) {
+		if(a==null) return null;
 		if (a.startsWith("location")) {
 			return new dLocation(BukkitAdapter.adapt(ms.getLocation())).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("world")) {

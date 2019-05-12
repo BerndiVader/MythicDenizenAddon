@@ -95,9 +95,11 @@ public class dActiveMob implements dObject, Adjustable {
 			}
 			break;
 		case "clearthreat":
+		case "zapthreat":
 			am.getThreatTable().getAllThreatTargets().clear();
 			break;
 		case "removethreat":
+		case "delththreat":
 			if (val.matchesType(dEntity.class)) MythicMobsAddon.removeThreatOfEntity(am, val.asType(dEntity.class));
 			break;
 		case "newtargetthreattable":
@@ -116,7 +118,7 @@ public class dActiveMob implements dObject, Adjustable {
 
 	@Override
 	public String getAttribute(Attribute a) {
-		if (a==null) return "<NONE>";
+		if (a==null) return null;
 		if (a.startsWith("isdead")) {
 			return new Element(MythicMobsAddon.isDead(entity)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("entity")) {

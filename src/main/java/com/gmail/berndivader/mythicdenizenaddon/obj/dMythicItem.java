@@ -40,6 +40,7 @@ dObject
 
 	@Override
 	public String getAttribute(Attribute a) {
+		if(a==null) return null;
 		if(a.startsWith("internalname")||a.startsWith("type")) {
 			return new Element(mi.getInternalName()).getAttribute(a.fulfill(1));
 		} else if(a.startsWith("amount")) {

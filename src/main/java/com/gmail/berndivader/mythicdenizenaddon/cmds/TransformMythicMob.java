@@ -7,7 +7,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
-import com.gmail.berndivader.mythicdenizenaddon.Types;
+import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
@@ -26,21 +26,21 @@ public class TransformMythicMob extends AbstractCommand {
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
 		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
-			if (!entry.hasObject(Types.activemob.a()) && arg.matchesPrefix(Types.activemob.a()) 
+			if (!entry.hasObject(Statics.str_activemob) && arg.matchesPrefix(Statics.str_activemob) 
 					&& arg.matchesArgumentType(dActiveMob.class)) {
-				entry.addObject(Types.activemob.a(), arg.asType(dActiveMob.class));
+				entry.addObject(Statics.str_activemob, arg.asType(dActiveMob.class));
 			}
 		}
 	}
 	
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		ActiveMob am=((dActiveMob)entry.getdObject(Types.activemob.a())).getActiveMob();
+		ActiveMob am=((dActiveMob)entry.getdObject(Statics.str_activemob)).getActiveMob();
 		if (am!=null) {
 			Entity entity = transformToNormalEntity(am);
 			if (entity!=null) {
 				dEntity dentity = new dEntity(entity);
-				entry.addObject(Types.entity.a(),dentity);
+				entry.addObject(Statics.str_entity,dentity);
 			} else {
 				throw new CommandExecutionException("Failed to get Entity from MythicMob");
 			}

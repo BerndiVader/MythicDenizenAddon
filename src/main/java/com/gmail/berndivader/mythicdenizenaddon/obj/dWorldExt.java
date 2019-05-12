@@ -25,6 +25,7 @@ public class dWorldExt extends dObjectExtension {
     
     @Override
     public String getAttribute(Attribute a) {
+    	if(a==null) return null;
     	if (a.startsWith("allactivemobs")) {
     		return MythicMobsAddon.allActiveMobs(world.getWorld()).getAttribute(a.fulfill(1));
     	} else if (a.startsWith("allmythicspawners")) {

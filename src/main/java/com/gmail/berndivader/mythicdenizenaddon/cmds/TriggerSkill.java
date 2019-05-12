@@ -2,7 +2,7 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.gmail.berndivader.mythicdenizenaddon.Types;
+import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
@@ -23,11 +23,11 @@ public class TriggerSkill extends AbstractCommand {
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
 		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
-			if (!entry.hasObject(Types.activemob.a()) && arg.matchesPrefix(Types.activemob.a()) && arg.matchesArgumentType(dActiveMob.class))  {
+			if (!entry.hasObject(Statics.str_activemob) && arg.matchesPrefix(Statics.str_activemob) && arg.matchesArgumentType(dActiveMob.class))  {
 				entry.addObject(arg.getPrefix().getValue(), arg.asType(dActiveMob.class));
-			} else if (!entry.hasObject(Types.trigger.a()) && arg.matchesPrefix(Types.trigger.a())) {
+			} else if (!entry.hasObject(Statics.str_trigger) && arg.matchesPrefix(Statics.str_trigger)) {
 				entry.addObject(arg.getPrefix().getValue(), arg.asElement());
-			} else if (!entry.hasObject(Types.entity.a()) && arg.matchesPrefix(Types.entity.a()) && arg.matchesArgumentType(dEntity.class)) {
+			} else if (!entry.hasObject(Statics.str_entity) && arg.matchesPrefix(Statics.str_entity) && arg.matchesArgumentType(dEntity.class)) {
 				entry.addObject(arg.getPrefix().getValue(), arg.asType(dEntity.class));
 			}
 		}
@@ -35,16 +35,16 @@ public class TriggerSkill extends AbstractCommand {
 	
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		if (!entry.hasObject(Types.activemob.a()) || !entry.hasObject(Types.entity.a()) || !entry.hasObject(Types.trigger.a())) return;
+		if (!entry.hasObject(Statics.str_activemob) || !entry.hasObject(Statics.str_entity) || !entry.hasObject(Statics.str_trigger)) return;
 		SkillTrigger trigger = SkillTrigger.API;
 		try {
-			trigger = SkillTrigger.valueOf(entry.getElement(Types.trigger.a()).asString().toUpperCase());
+			trigger = SkillTrigger.valueOf(entry.getElement(Statics.str_trigger).asString().toUpperCase());
 		} catch (Exception ex) {
 			dB.log(ex.getMessage());
 			return;
 		}
-		ActiveMob am = ((dActiveMob)entry.getObject(Types.activemob.a())).getActiveMob();
-		AbstractEntity ae = BukkitAdapter.adapt(((dEntity)entry.getObject(Types.entity.a())).getBukkitEntity());
+		ActiveMob am = ((dActiveMob)entry.getObject(Statics.str_activemob)).getActiveMob();
+		AbstractEntity ae = BukkitAdapter.adapt(((dEntity)entry.getObject(Statics.str_entity)).getBukkitEntity());
 		new TriggeredSkill(trigger,am,ae,new Pair[0]);
 	}
 }

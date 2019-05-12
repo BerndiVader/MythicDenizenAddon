@@ -3,6 +3,7 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
+import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMob;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
@@ -22,7 +23,6 @@ extends
 AbstractCommand 
 {
 	
-	static String str_filter="filter",str_strict="strict";
 	static MobManager mobmanager;
 	static MythicMobs mythicmobs;
 	
@@ -34,20 +34,20 @@ AbstractCommand
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
 		for (aH.Argument arg:aH.interpret(entry.getArguments())) {
-			if(!entry.hasObject(str_filter)&&arg.matchesPrefix(str_filter)) {
-				entry.addObject(str_filter,arg.asElement());
-			} else if(!entry.hasObject(str_strict)&&arg.matchesPrefix(str_strict)) {
-				entry.addObject(str_strict,arg.asElement());
+			if(!entry.hasObject(Statics.str_filter)&&arg.matchesPrefix(Statics.str_filter)) {
+				entry.addObject(Statics.str_filter,arg.asElement());
+			} else if(!entry.hasObject(Statics.str_strict)&&arg.matchesPrefix(Statics.str_strict)) {
+				entry.addObject(Statics.str_strict,arg.asElement());
 			}
 		}
-		if (!entry.hasObject(str_filter)) entry.addObject(str_filter,new Element(new String("")));
-		if (!entry.hasObject(str_strict)) entry.addObject(str_strict,new Element(false));
+		if (!entry.hasObject(Statics.str_filter)) entry.addObject(Statics.str_filter,new Element(new String("")));
+		if (!entry.hasObject(Statics.str_strict)) entry.addObject(Statics.str_strict,new Element(false));
 	}
 	
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		Pattern p=Pattern.compile(entry.getElement(str_filter).asString());
-		if (!entry.getElement(str_strict).asBoolean()) {
+		Pattern p=Pattern.compile(entry.getElement(Statics.str_filter).asString());
+		if (!entry.getElement(Statics.str_strict).asBoolean()) {
 			Iterator<String>it=mobmanager.getMobNames().iterator();
 			dList list=new dList();
 			while(it.hasNext()) {

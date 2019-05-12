@@ -55,17 +55,47 @@ Adjustable
 		return this.skill!=null;
 	}
 	
+	public boolean hasMeta() {
+		return this.data!=null&&this.data.meta!=null;
+	}
+	
+	public void setSkillMetadata(SkillMetadata data) {
+		if(data!=null) this.data.meta=data;
+	}
+	
+	public void setMythicMeta(dMythicMeta data) {
+		this.data=data;
+	}
+	
+	public dMythicMeta getMythicMeta() {
+		return this.data;
+	}
+	
+	public SkillMetadata getSkillMetadata() {
+		if(this.data!=null&&this.data.meta!=null) return this.data.meta;
+		return null;
+	}
+	
+	public boolean execute(SkillMetadata data) {
+		if(data==null) data=this.data.meta;
+		if(this.skill.isUsable(data)) {
+			this.skill.execute(data);
+			return true;
+		}
+		return false;
+	}
+	
 	public String getAttribute(Attribute a) {
 		if(a==null) return null;
 		int i1=1;
-		if(a.startsWith("present")) {
+		if(a.startsWith("present")||a.startsWith("ispresent")) {
 			return new Element(isPresent()).getAttribute(a.fulfill(i1));
 		} else if(a.startsWith("type")) {
 			return new Element(isPresent()?skill.getInternalName():null).getAttribute(a.fulfill(i1));
 		} else if(a.startsWith("data")) {
 			if(this.data!=null) return this.data.getAttribute(a.fulfill(i1));
 			return null;
-		} else if(a.startsWith("is_useable")) {
+		} else if(a.startsWith("isuseable")||a.startsWith("checkconditions")) {
 			SkillMetadata data=null;
 			if(this.data!=null) data=this.data.meta;
 			if(a.hasContext(i1)&&dMythicMeta.matches(a.getContext(i1))) {
@@ -79,7 +109,6 @@ Adjustable
 				data=((dMythicMeta)a.getContextObject(i1)).meta;
 			}
 			boolean bl1=skill.isUsable(data);
-			//
 			if(bl1) skill.execute(data);
 			return new Element(bl1).getAttribute(a.fulfill(i1));
 		}

@@ -8,7 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
-import com.gmail.berndivader.mythicdenizenaddon.Types;
+import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.ActivePlayer;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
@@ -33,49 +33,49 @@ public class PlayerSkillCast extends AbstractCommand {
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
 		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
-			if (!entry.hasObject(Types.caster.a()) && arg.matchesPrefix(Types.caster.a()) 
+			if (!entry.hasObject(Statics.str_caster) && arg.matchesPrefix(Statics.str_caster) 
 					&& arg.matchesArgumentType(dEntity.class)) {
-				entry.addObject(Types.caster.a(), arg.asType(dEntity.class));
-			} else if (!entry.hasObject(Types.skill.a()) && arg.matchesPrefix(Types.skill.a())) {
-				entry.addObject(Types.skill.a(), arg.asElement());
-			} else if (!entry.hasObject(Types.target.a()) && arg.matchesPrefix(Types.target.a())) {
+				entry.addObject(Statics.str_caster, arg.asType(dEntity.class));
+			} else if (!entry.hasObject(Statics.str_skill) && arg.matchesPrefix(Statics.str_skill)) {
+				entry.addObject(Statics.str_skill, arg.asElement());
+			} else if (!entry.hasObject(Statics.str_target) && arg.matchesPrefix(Statics.str_target)) {
 				bool=!arg.getValue().toLowerCase().startsWith("l@");
-				entry.addObject(Types.target.a(),bool?arg.asType(dEntity.class):arg.asType(dLocation.class));
-			} else if (!entry.hasObject(Types.trigger.a()) && arg.matchesPrefix(Types.trigger.a())) {
-				entry.addObject(Types.trigger.a(), arg.asType(dEntity.class));
-			} else if (!entry.hasObject(Types.repeat.a()) && arg.matchesPrefix(Types.repeat.a()) 
+				entry.addObject(Statics.str_target,bool?arg.asType(dEntity.class):arg.asType(dLocation.class));
+			} else if (!entry.hasObject(Statics.str_trigger) && arg.matchesPrefix(Statics.str_trigger)) {
+				entry.addObject(Statics.str_trigger, arg.asType(dEntity.class));
+			} else if (!entry.hasObject(Statics.str_repeat) && arg.matchesPrefix(Statics.str_repeat) 
 					&& arg.matchesPrimitive(aH.PrimitiveType.Integer)) {
-				entry.addObject(Types.repeat.a(), arg.asElement());
-			} else if (!entry.hasObject(Types.delay.a()) && arg.matchesPrefix(Types.delay.a()) 
+				entry.addObject(Statics.str_repeat, arg.asElement());
+			} else if (!entry.hasObject(Statics.str_delay) && arg.matchesPrefix(Statics.str_delay) 
 					&& arg.matchesPrimitive(aH.PrimitiveType.Integer)) {
-				entry.addObject(Types.delay.a(), arg.asElement());
+				entry.addObject(Statics.str_delay, arg.asElement());
 			}
 		}
-		if (!entry.hasObject(Types.trigger.a())) {
-			entry.addObject(Types.trigger.a(), (dEntity)entry.getdObject(Types.caster.a()));
+		if (!entry.hasObject(Statics.str_trigger)) {
+			entry.addObject(Statics.str_trigger, (dEntity)entry.getdObject(Statics.str_caster));
 		}
-		if (!entry.hasObject(Types.repeat.a())) {
-			entry.addObject(Types.repeat.a(), new Element("0"));
+		if (!entry.hasObject(Statics.str_repeat)) {
+			entry.addObject(Statics.str_repeat, new Element("0"));
 		}
-		if (!entry.hasObject(Types.delay.a())) {
-			entry.addObject(Types.delay.a(), new Element("0"));
+		if (!entry.hasObject(Statics.str_delay)) {
+			entry.addObject(Statics.str_delay, new Element("0"));
 		}
 	}
 
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		Entity caster = ((dEntity)entry.getdObject(Types.caster.a())).getBukkitEntity();
-		Entity trigger = ((dEntity)entry.getdObject(Types.trigger.a())).getBukkitEntity();
-		int ttimer = entry.getElement(Types.repeat.a()).asInt();
-		long tdelay = entry.getElement(Types.delay.a()).asLong();
+		Entity caster = ((dEntity)entry.getdObject(Statics.str_caster)).getBukkitEntity();
+		Entity trigger = ((dEntity)entry.getdObject(Statics.str_trigger)).getBukkitEntity();
+		int ttimer = entry.getElement(Statics.str_repeat).asInt();
+		long tdelay = entry.getElement(Statics.str_delay).asLong();
 		Entity etarget = null;
 		Location ltarget = null;
 		if (bool) {
-			etarget = ((dEntity)entry.getdObject(Types.target.a())).getBukkitEntity();
+			etarget = ((dEntity)entry.getdObject(Statics.str_target)).getBukkitEntity();
 		} else {
-			ltarget = ((dLocation)entry.getdObject(Types.target.a()));
+			ltarget = ((dLocation)entry.getdObject(Statics.str_target));
 		}
-		String skill = entry.getElement(Types.skill.a()).asString();
+		String skill = entry.getElement(Statics.str_skill).asString();
         HashSet<AbstractEntity> eTargets = new HashSet<AbstractEntity>();
         HashSet<AbstractLocation> lTargets = new HashSet<AbstractLocation>();
         if (etarget != null) eTargets.add(BukkitAdapter.adapt(etarget));

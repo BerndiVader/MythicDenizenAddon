@@ -87,6 +87,7 @@ public class dEntityExt extends dObjectExtension {
 	
     @Override
     public String getAttribute(Attribute a) {
+    	if(a==null) return null;
     	if (a.startsWith("is_activemob")||a.startsWith("isactivemob")) {
     		return new Element(MythicMobsAddon.isActiveMob(entity.getUUID())).getAttribute(a.fulfill(1));
     	} else if ((a.startsWith("activemob")||a.startsWith("get_activemob"))&&MythicMobsAddon.isActiveMob(entity.getUUID())) {

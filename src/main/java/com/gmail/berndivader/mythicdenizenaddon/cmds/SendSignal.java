@@ -2,7 +2,7 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 
 import org.bukkit.entity.Entity;
 
-import com.gmail.berndivader.mythicdenizenaddon.Types;
+import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
@@ -19,26 +19,26 @@ public class SendSignal extends AbstractCommand {
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
 		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
-			if (!entry.hasObject(Types.activemob.a()) && arg.matchesPrefix(Types.activemob.a()) 
+			if (!entry.hasObject(Statics.str_activemob) && arg.matchesPrefix(Statics.str_activemob) 
 					&& arg.matchesArgumentType(dActiveMob.class)) {
-				entry.addObject(Types.activemob.a(), arg.asType(dActiveMob.class));
-			} else if (!entry.hasObject(Types.signal.a()) && arg.matchesPrefix(Types.signal.a())) {
-				entry.addObject(Types.signal.a(), arg.asElement());
-			} else if (!entry.hasObject(Types.trigger.a()) && arg.matchesPrefix(Types.trigger.a())
+				entry.addObject(Statics.str_activemob, arg.asType(dActiveMob.class));
+			} else if (!entry.hasObject(Statics.str_signal) && arg.matchesPrefix(Statics.str_signal)) {
+				entry.addObject(Statics.str_signal, arg.asElement());
+			} else if (!entry.hasObject(Statics.str_trigger) && arg.matchesPrefix(Statics.str_trigger)
 					&& arg.matchesArgumentType(dEntity.class)) {
-				entry.addObject(Types.trigger.a(), arg.asType(dEntity.class));
+				entry.addObject(Statics.str_trigger, arg.asType(dEntity.class));
 			}
 		}
 		
-		if (!entry.hasObject(Types.trigger.a())) {
-			entry.addObject(Types.trigger.a(), new dEntity(((dActiveMob)entry.getObject(Types.activemob.a())).getEntity()));
+		if (!entry.hasObject(Statics.str_trigger)) {
+			entry.addObject(Statics.str_trigger, new dEntity(((dActiveMob)entry.getObject(Statics.str_activemob)).getEntity()));
 		}
 	}
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		ActiveMob am = ((dActiveMob)entry.getObject(Types.activemob.a())).getActiveMob();
-		String signal = entry.getElement(Types.signal.a()).asString();
-		Entity trigger = ((dEntity)entry.getObject(Types.trigger.a())).getBukkitEntity();
+		ActiveMob am = ((dActiveMob)entry.getObject(Statics.str_activemob)).getActiveMob();
+		String signal = entry.getElement(Statics.str_signal).asString();
+		Entity trigger = ((dEntity)entry.getObject(Statics.str_trigger)).getBukkitEntity();
 		am.signalMob(BukkitAdapter.adapt(trigger),signal);
 	}
 }

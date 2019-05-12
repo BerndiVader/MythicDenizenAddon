@@ -4,7 +4,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
-import com.gmail.berndivader.mythicdenizenaddon.Types;
+import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
@@ -22,27 +22,27 @@ public class TransformToMythicMob extends AbstractCommand {
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
 		for (aH.Argument arg:aH.interpret(entry.getArguments())) {
-			if (!entry.hasObject(Types.entity.a())&&arg.matchesPrefix(Types.entity.a())&&arg.matchesArgumentType(dEntity.class)) {
-				entry.addObject(Types.entity.a(),arg.asType(dEntity.class));
-			} else if (!entry.hasObject(Types.mobtype.a()) && arg.matchesPrefix(Types.mobtype.a())) {
-				entry.addObject(Types.mobtype.a(), arg.asElement());
-			} else if (!entry.hasObject(Types.level.a()) && arg.matchesPrefix(Types.level.a())) {
-				entry.addObject(Types.level.a(), arg.asElement());
+			if (!entry.hasObject(Statics.str_entity)&&arg.matchesPrefix(Statics.str_entity)&&arg.matchesArgumentType(dEntity.class)) {
+				entry.addObject(Statics.str_entity,arg.asType(dEntity.class));
+			} else if (!entry.hasObject(Statics.str_mobtype) && arg.matchesPrefix(Statics.str_mobtype)) {
+				entry.addObject(Statics.str_mobtype, arg.asElement());
+			} else if (!entry.hasObject(Statics.str_level) && arg.matchesPrefix(Statics.str_level)) {
+				entry.addObject(Statics.str_level, arg.asElement());
 			}
 		}
-		if (!entry.hasObject(Types.level.a())) entry.addObject(Types.level.a(), 1);
+		if (!entry.hasObject(Statics.str_level)) entry.addObject(Statics.str_level, 1);
 	}
 	
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		Entity entity = ((dEntity)entry.getdObject(Types.entity.a())).getBukkitEntity();
-		String mmName = entry.getElement(Types.mobtype.a()).asString();
+		Entity entity = ((dEntity)entry.getdObject(Statics.str_entity)).getBukkitEntity();
+		String mmName = entry.getElement(Statics.str_mobtype).asString();
 		MythicMob mm = MythicMobsAddon.mythicmobs.getMobManager().getMythicMob(mmName);
-		int level = entry.getElement(Types.level.a()).asInt();
+		int level = entry.getElement(Statics.str_level).asInt();
 		ActiveMob am=null;
 		if (mm!=null) am=TransformToMythicMob.transformEntityToMythicMob(entity,mm,level);
 		if(am!=null) {
-			entry.addObject(Types.activemob.a(),new dActiveMob(am));
+			entry.addObject(Statics.str_activemob,new dActiveMob(am));
 		} else {
 			throw new CommandExecutionException("Failed to transfrom Entity to MythicMobs!");
 		}
