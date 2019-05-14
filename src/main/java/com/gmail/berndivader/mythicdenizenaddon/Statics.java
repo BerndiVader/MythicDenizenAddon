@@ -25,5 +25,8 @@ Statics
 	public static final String str_filter = "filter";
 	public static final String str_strict = "strict";
 	public static final String str_data = "data";
+	public static final String str_mechanic = "mechanic";
+	public static final String str_line = "line";
+	public static final String str_name = "name";
 }
 

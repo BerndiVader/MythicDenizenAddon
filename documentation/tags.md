@@ -4,6 +4,7 @@
 [ActiveMob tags](#dactivemob-tags) <br>
 [MythicItem tags](#dmythicitem-tags) <br>
 [MythicSkill tags](#dmythicskill-tags) <br>
+[MythicMechanic tags](#dmythicmechanic-tags) <br>
 [MythicMeta tags](#dmythicmeta-tags) <br>
 [MythicSpawner tags](#dmythicspawner-tags) <br>
 [Team tags](#dteam-tags) <br>
@@ -92,7 +93,18 @@
 |`<mythicskill@mythicskill.type>`<br>Returns: Element(String)|Returns the internal, unique, name for this MythicSkill.|
 |`<mythicskill@mythicskill.present>`<br>Returns: Element(Boolean)|Returns if there is a MythicMobs skill present.|
 |`<mythicskill@mythicskill.is_useable([dMythicMeta])>`<br>Returns: Element(Boolean)|Returns if the skill is useable with the stored data, or optional supply new data.|
+|`<mythicskill@mythicskill.data>`<br>Returns: Element(dMythicMeta)|Returns if the mythicmeta.|
 |`<mythicskill@mythicskill.execute([dMythicMeta])`<br>Returns: Element(Boolean)|cast the skill with the stored data or, optional supply new data on the fly.|
+
+----
+### dMythicMechanic Tags
+|Tag Names|Descriptions|
+|---|---|
+|`<mythicmechanic@mythicmechanic.type>`<br>Returns: Element(String)|Returns the internal, unique, name for this mechanic.|
+|`<mythicmechanic@mythicmechanic.present>`<br>Returns: Element(boolean)|Returns if the object is a valid mythicmechanic.|
+|`<mythicmechanic@mythicmechanic.is_useable([dMythicMeta])>`<br>Returns: Element(boolean)|Returns if the mechanic can be executed by the metadata.|
+|`<mythicmechanic@mythicmechanic.data>`<br>Returns: Element(dMythicMeta)|Returns if the mythicmeta.|
+|`<mythicmechanic@mythicmechanic.execute([dMythicMeta])`<br>Returns: Element(Boolean)|cast the mechanic with the stored data or, optional supply new data on the fly.|
 
 ----
 ### dMythicMeta Tags

@@ -16,6 +16,7 @@ import com.gmail.berndivader.mythicdenizenaddon.cmds.CreateMythicMeta;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.CreateMythicSpawner;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.ExecuteMythicMobsSkill;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.GetMythicItems;
+import com.gmail.berndivader.mythicdenizenaddon.cmds.GetMythicMechanic;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.GetMythicMobConfig;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.GetMythicSkills;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.MythicMobSkillCast;
@@ -40,6 +41,7 @@ import com.gmail.berndivader.mythicdenizenaddon.obj.dEntityExt;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dListExt;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dLocationExt;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicItem;
+import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMechanic;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMob;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicSkill;
@@ -75,7 +77,7 @@ public class MythicMobsAddon extends Support {
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
 		
-		registerObjects(dMythicSpawner.class,dActiveMob.class,dMythicMob.class,dMythicItem.class,dMythicSkill.class,dMythicMeta.class);
+		registerObjects(dMythicSpawner.class,dActiveMob.class,dMythicMob.class,dMythicItem.class,dMythicMechanic.class,dMythicSkill.class,dMythicMeta.class);
 		registerProperty(dEntityExt.class,dEntity.class);
 		registerProperty(dWorldExt.class,dWorld.class);
 		registerProperty(dLocationExt.class,dLocation.class);
@@ -104,6 +106,7 @@ public class MythicMobsAddon extends Support {
 		new TransformMythicMob().activate().as("mmremovemythic").withOptions("- mmremovemythic [activemob:dActiveMob]", 1);
 		new GetMythicItems().activate().as("getmythicitems").withOptions("- getmythicitems (filter:regex) (strict:boolean)",0);
 		new GetMythicSkills().activate().as("getmythicskills").withOptions("- getmythicskills (filter:regex) (strict:boolean>",0);
+		new GetMythicMechanic().activate().as("getmythicmechanic").withOptions("- getmythicmechanic [name:string] (data:dMythicMeta) (line:string)",1);
 		new CreateMythicMeta().activate().as("createmythicmeta").withOptions("- createmythicmeta",0);
 	}
 	

@@ -29,8 +29,8 @@ AbstractCommand {
 			} else if(!entry.hasObject(Statics.str_strict)&&arg.matchesPrefix(Statics.str_strict)) {
 				entry.addObject(Statics.str_strict,arg.asElement());
 			}
-			if(!entry.hasObject("data")&&arg.matchesPrefix("data")) {
-				entry.addObject("data",arg.asType(dMythicMeta.class));
+			if(!entry.hasObject(Statics.str_data)&&arg.matchesPrefix(Statics.str_data)) {
+				entry.addObject(Statics.str_data,arg.asType(dMythicMeta.class));
 			}
 		}
 		if (!entry.hasObject(Statics.str_filter)) entry.addObject(Statics.str_filter,new Element(""));
@@ -40,7 +40,7 @@ AbstractCommand {
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
 		Pattern p=Pattern.compile(entry.getElement(Statics.str_filter).asString());
-		String metaId=entry.hasObject("data")?entry.getdObject("data").identify():null;
+		String metaId=entry.hasObject(Statics.str_data)?entry.getdObject(Statics.str_data).identify():null;
 		if (!entry.getElement(Statics.str_strict).asBoolean()) {
 			Iterator<Skill>it=MythicMobsAddon.mythicmobs.getSkillManager().getSkills().iterator();
 			dList list=new dList();

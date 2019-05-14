@@ -4,6 +4,7 @@
 [Players](#players) <br>
 [Quests](#quests) <br>
 [Skills](#skills)<br> <br>
+[Mechanics](#mechanics)<br> <br>
 
 ----
 ### Items
@@ -173,6 +174,14 @@ Optionally specify strict true to get a single skill. This requires filter to be
 **Command:** `castmythicskill [skill:string||dMythicSkill] [data:dMythicMeta]||[caster:dEntity] (cause:string) (trigger:dEntity) (origin:dLocation) (power:float) (targets:dList)` <br>
 **Description:** Cast the given skill by using the the metadata or replace the meta stored in dmythicskill or creates a new meta with all the given arguments. <br>
 
+
+---
+### Mechanics
+**Command:** `getmythicmechanic [name:<string>] [line:<string>] (data:<dMythicMeta>)` <br>
+**Description:** Returns the dMythicMechanic.<br>
+Define the arguments inside the line argument.<br>
+Optionally, specify a dMythicMeta objects.<br>
+**Tags:** `<entry.[saveName].mechanic>` the dMythicMechanic object.<br>
 
 ---
 ### Quests

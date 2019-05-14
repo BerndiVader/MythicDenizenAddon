@@ -4,6 +4,7 @@
 [MythicSpawner mechanisms](#dmythicspawner-mechanisms) <br>
 [Team mechanisms](#dteam-mechanisms) <br>
 [MythicSkill mechanisms](#dmythicskill-mechanisms) <br>
+[MythicMechanic mechanisms](#dmythicmechanic-mechanisms) <br>
 
 ### dActiveMob Mechanisms
 |Mechanisms|Descriptions|
@@ -73,6 +74,13 @@
 |Mechanisms|Descriptions|
 |---|---|
 |Name: `data`<br>Input: `dMythicMeta`|Set the Skillmetadata.<br>**Related tags:** `<mythicskill@mythicskill.data>`|
+
+---
+### dMythicMechanic Mechanisms
+|Mechanisms|Descriptions|
+|---|---|
+|Name: `data`<br>Input: `dMythicMeta`|Set the Skillmetadata.<br>**Related tags:** `<mythicmechanic@mythicmechanic.data>`|
+|Name: `init`<br>Input: `Element(String)`|Init the mechanic with new arguments.|
 
 ---
 ### dMythicMeta Mechanisms
