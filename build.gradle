@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
 	compileOnly "org.spigotmc:spigot:+"
-    compileOnly  ("io.lumine.xikage:mythicmobs:4.5.7")
+    compileOnly "io.lumine.xikage:mythicmobs:4.5.7"
 	compileOnly "net.aufdemrand:denizen:+"
 }
 
@@ -41,6 +41,14 @@ processResources {
 		exclude "plugin.yml"
 		exclude "version.txt"
 	}
+	
+	doLast {
+		copy {
+	    	from "src/main/resources/DenizenCustomQuestsObjective.jar"
+	      	into "$buildDir/resources/main"
+	    }
+	}
+	
 }
 
 task createPom  {
