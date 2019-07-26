@@ -17,7 +17,6 @@ import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.exceptions.ScriptEntryCreationException;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.aH;
 import net.aufdemrand.denizencore.objects.dList;
@@ -26,7 +25,6 @@ import net.aufdemrand.denizencore.objects.dScript;
 import net.aufdemrand.denizencore.objects.aH.Argument;
 import net.aufdemrand.denizencore.scripts.ScriptBuilder;
 import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.core.DetermineCommand;
 import net.aufdemrand.denizencore.scripts.queues.ScriptQueue;
 import net.aufdemrand.denizencore.scripts.queues.core.InstantQueue;
 
@@ -86,14 +84,14 @@ Utils
 				entry=new ScriptEntry(script.getName(),new String[0],script.getContainer());
 				entry.setScript(script_name);
 				entries=script.getContainer().getBaseEntries(entry.entryData.clone());
-			} catch (ScriptEntryCreationException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		
 		if(entries!=null) {
 			String id=ScriptQueue.getNextId(script.getContainer().getName());
-			long req_id=DetermineCommand.getNewId();
+			long req_id=0l;
 			ScriptBuilder.addObjectToEntries(entries,"reqid",req_id);
 
 			HashMap<String,dObject>context=new HashMap<String,dObject>();
@@ -101,7 +99,6 @@ Utils
 			
 			ScriptQueue queue=InstantQueue.getQueue(id).addEntries(entries);
 			queue.setContextSource(new MythicContextSource(context));
-			queue.setReqId(req_id);
 			for(Map.Entry<String,String>item:attributes.entrySet()) {
 				queue.addDefinition(item.getKey(),item.getValue());
 			}

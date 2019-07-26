@@ -20,13 +20,11 @@ import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.exceptions.ScriptEntryCreationException;
 import net.aufdemrand.denizencore.objects.Duration;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.objects.dScript;
 import net.aufdemrand.denizencore.scripts.ScriptBuilder;
 import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.core.DetermineCommand;
 import net.aufdemrand.denizencore.scripts.queues.ScriptQueue;
 import net.aufdemrand.denizencore.scripts.queues.core.InstantQueue;
 import net.aufdemrand.denizencore.scripts.queues.core.TimedQueue;
@@ -76,14 +74,14 @@ ITargetedEntitySkill
 				ScriptEntry entry=new ScriptEntry(script.getName(),new String[0],script.getContainer());
 				entry.setScript(script_name);
 				entries=script.getContainer().getBaseEntries(entry.entryData.clone());
-			} catch (ScriptEntryCreationException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		if(entries==null) return false;
 		ScriptQueue queue;
 		String id=ScriptQueue.getNextId(script.getContainer().getName());
-		long req_id=DetermineCommand.getNewId();
+		long req_id=0l;
 		ScriptBuilder.addObjectToEntries(entries,"reqid",req_id);
 		if(script.getContainer().contains("SPEED")) {
 			long ticks=Duration.valueOf(script.getContainer().getString("SPEED","0")).getTicks();
@@ -95,7 +93,6 @@ ITargetedEntitySkill
 		context.put("data",new dMythicMeta(data));
 		context.put("target",o_target_entity.isPresent()?new dEntity(o_target_entity.get().getBukkitEntity()):o_target_location.isPresent()?new dLocation(BukkitAdapter.adapt(o_target_location.get())):null);
 		queue.setContextSource(new MythicContextSource(context));
-		queue.setReqId(req_id);
 		for(Map.Entry<String,String>item:attributes.entrySet()) {
 			queue.addDefinition(item.getKey(),item.getValue());
 		}

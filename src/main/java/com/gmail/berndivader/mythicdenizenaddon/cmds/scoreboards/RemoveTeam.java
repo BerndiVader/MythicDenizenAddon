@@ -2,9 +2,9 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds.scoreboards;
 
 import org.bukkit.scoreboard.Team;
 
+import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mythicdenizenaddon.ScoreBoardsAddon;
 
-import net.aufdemrand.denizen.utilities.DenizenAPI;
 import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
 import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
 import net.aufdemrand.denizencore.objects.aH;
@@ -21,7 +21,9 @@ public class RemoveTeam extends AbstractCommand {
 				entry.addObject(str_name, arg.asElement());
 			} else arg.reportUnhandled();
 		}
-		if (!entry.hasObject(str_name)) DenizenAPI.getCurrentInstance().debugError("Teamname is required!");
+		if (!entry.hasObject(str_name)) {
+			MythicDenizenPlugin.inst().getLogger().warning("Teamname is required!");
+		}
 	}
 
 	@Override

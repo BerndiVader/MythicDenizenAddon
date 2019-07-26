@@ -16,14 +16,12 @@ import io.lumine.xikage.mythicmobs.drops.IIntangibleDrop;
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import net.aufdemrand.denizen.objects.dEntity;
 import net.aufdemrand.denizen.objects.dPlayer;
-import net.aufdemrand.denizencore.exceptions.ScriptEntryCreationException;
 import net.aufdemrand.denizencore.objects.Duration;
 import net.aufdemrand.denizencore.objects.Element;
 import net.aufdemrand.denizencore.objects.dObject;
 import net.aufdemrand.denizencore.objects.dScript;
 import net.aufdemrand.denizencore.scripts.ScriptBuilder;
 import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.core.DetermineCommand;
 import net.aufdemrand.denizencore.scripts.queues.ScriptQueue;
 import net.aufdemrand.denizencore.scripts.queues.core.InstantQueue;
 import net.aufdemrand.denizencore.scripts.queues.core.TimedQueue;
@@ -57,7 +55,7 @@ IIntangibleDrop
 				ScriptEntry entry=new ScriptEntry(script.getName(),new String[0],script.getContainer());
 				entry.setScript(script_name);
 				entries=script.getContainer().getBaseEntries(entry.entryData.clone());
-			} catch (ScriptEntryCreationException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -65,7 +63,7 @@ IIntangibleDrop
 		if(entries!=null) {
 			ScriptQueue queue;
 			String id=ScriptQueue.getNextId(script.getContainer().getName());
-			long req_id=DetermineCommand.getNewId();
+			long req_id=0l;
 			ScriptBuilder.addObjectToEntries(entries,"reqid",req_id);
 			if(script.getContainer().contains("SPEED")) {
 				long ticks=Duration.valueOf(script.getContainer().getString("SPEED","0")).getTicks();
@@ -79,7 +77,6 @@ IIntangibleDrop
 			context.put("cause",drop_data.getCause().isPresent()?new dEntity(drop_data.getCause().get().getBukkitEntity()):null);
 			context.put("dropper",drop_data.getDropper().isPresent()?new dEntity(drop_data.getDropper().get().getEntity().getBukkitEntity()):null);
 			queue.setContextSource(new MythicContextSource(context));
-			queue.setReqId(req_id);
 			for(Map.Entry<String,String>item:attributes.entrySet()) {
 				queue.addDefinition(item.getKey(),item.getValue());
 			}
