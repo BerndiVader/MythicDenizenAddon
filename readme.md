@@ -1,7 +1,8 @@
-# Denizen Support for MythicMobs 4.0.1 or higher
+# Denizen Support for MythicMobs 4.6.5 or higher
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.600a - Denizen 1.10, MythicMobs 4.6.5 && Spigot 1.14.4
 - Update 0.515d - added dMythicMechanic object
 				- added getmythicmechanic command
 - Update 0.515c - added castmythicskill command
