@@ -2,6 +2,13 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizencore.exceptions.CommandExecutionException;
+import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
+import com.denizenscript.denizencore.utilities.debugging.Debug;
 import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
@@ -10,25 +17,23 @@ import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.skills.SkillTrigger;
 import io.lumine.xikage.mythicmobs.skills.TriggeredSkill;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.utilities.debugging.dB;
-import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
-import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
-public class TriggerSkill extends AbstractCommand {
+public
+class 
+TriggerSkill 
+extends 
+AbstractCommand 
+{
 
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
+		for (Argument arg:entry.getProcessedArgs()) {
 			if (!entry.hasObject(Statics.str_activemob) && arg.matchesPrefix(Statics.str_activemob) && arg.matchesArgumentType(dActiveMob.class))  {
 				entry.addObject(arg.getPrefix().getValue(), arg.asType(dActiveMob.class));
 			} else if (!entry.hasObject(Statics.str_trigger) && arg.matchesPrefix(Statics.str_trigger)) {
 				entry.addObject(arg.getPrefix().getValue(), arg.asElement());
-			} else if (!entry.hasObject(Statics.str_entity) && arg.matchesPrefix(Statics.str_entity) && arg.matchesArgumentType(dEntity.class)) {
-				entry.addObject(arg.getPrefix().getValue(), arg.asType(dEntity.class));
+			} else if (!entry.hasObject(Statics.str_entity) && arg.matchesPrefix(Statics.str_entity) && arg.matchesArgumentType(EntityTag.class)) {
+				entry.addObject(arg.getPrefix().getValue(), arg.asType(EntityTag.class));
 			}
 		}
 	}
@@ -40,11 +45,11 @@ public class TriggerSkill extends AbstractCommand {
 		try {
 			trigger = SkillTrigger.valueOf(entry.getElement(Statics.str_trigger).asString().toUpperCase());
 		} catch (Exception ex) {
-			dB.log(ex.getMessage());
+			Debug.echoError(ex.getMessage());
 			return;
 		}
 		ActiveMob am = ((dActiveMob)entry.getObject(Statics.str_activemob)).getActiveMob();
-		AbstractEntity ae = BukkitAdapter.adapt(((dEntity)entry.getObject(Statics.str_entity)).getBukkitEntity());
+		AbstractEntity ae = BukkitAdapter.adapt(((EntityTag)entry.getObject(Statics.str_entity)).getBukkitEntity());
 		new TriggeredSkill(trigger,am,ae,new Pair[0]);
 	}
 }

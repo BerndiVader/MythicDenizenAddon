@@ -8,11 +8,12 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
+
 import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.objects.dList;
 
 public
 class 
@@ -61,8 +62,8 @@ Event
 	public void addSingleTarget(Location target) {
 		this.targets.add(BukkitAdapter.adapt(target));
 	}
-	public void addTargetList(dList dlist) {
-		List<dLocation>list=dlist.filter(dLocation.class);
+	public void addTargetList(ListTag dlist) {
+		List<LocationTag>list=dlist.filter(LocationTag.class);
 		int size=list.size();
 		for(int i1=0;i1<size;i1++) {
 			targets.add(BukkitAdapter.adapt(list.get(i1)));

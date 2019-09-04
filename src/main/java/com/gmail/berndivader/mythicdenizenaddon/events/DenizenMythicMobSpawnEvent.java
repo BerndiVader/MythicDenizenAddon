@@ -4,24 +4,28 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import com.denizenscript.denizen.events.BukkitScriptEvent;
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizen.utilities.DenizenAPI;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
+import com.denizenscript.denizencore.utilities.CoreUtilities;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMob;
 
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
-import net.aufdemrand.denizen.events.BukkitScriptEvent;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizen.utilities.DenizenAPI;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
-import net.aufdemrand.denizencore.utilities.CoreUtilities;
 
-public class DenizenMythicMobSpawnEvent 
+public 
+class
+DenizenMythicMobSpawnEvent 
 extends
 BukkitScriptEvent
 implements
-Listener {
+Listener
+{
 	public static DenizenMythicMobSpawnEvent instance;
 	public MythicMobSpawnEvent e;
 
@@ -54,31 +58,32 @@ Listener {
     }
     
 	@Override
-    public boolean applyDetermination(ScriptContainer container, String d) {
-		if (aH.Argument.valueOf(d).matchesPrimitive(aH.PrimitiveType.Boolean)&&Boolean.parseBoolean(d)) {
+    public boolean applyDetermination(ScriptPath container, ObjectTag tag) {
+		String d=tag.toString();
+		if (Argument.valueOf(d).matchesPrimitive(PrimitiveType.Boolean)&&Boolean.parseBoolean(d)) {
 			e.setCancelled();
-		} else if(aH.Argument.valueOf(d).matchesPrimitive(aH.PrimitiveType.Integer)) {
+		} else if(Argument.valueOf(d).matchesPrimitive(PrimitiveType.Integer)) {
 			e.setMobLevel(Integer.parseInt(d));
 		}
         return true;
     }
 	
 	@Override
-    public dObject getContext(String name) {
+    public ObjectTag getContext(String name) {
 		switch(name.toLowerCase()) {
 		case "entity":
-			return new dEntity(e.getEntity());
+			return new EntityTag(e.getEntity());
 		case "level":
-			return new Element(e.getMobLevel());
+			return new ElementTag(e.getMobLevel());
 		case "location":
-			return new dLocation(e.getLocation());
+			return new LocationTag(e.getLocation());
 		case "mobtype":
-			return new Element(e.getMobType().getInternalName());
+			return new ElementTag(e.getMobType().getInternalName());
 		case "mythicmob":
 			return new dMythicMob(e.getMobType());
 		case "cancelled":
 		case "iscancelled":
-			return new Element(e.isCancelled());
+			return new ElementTag(e.isCancelled());
 		}
         return super.getContext(name);
     }

@@ -3,6 +3,9 @@ package com.gmail.berndivader.mythicdenizenaddon.targeters;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
 import com.gmail.berndivader.mythicdenizenaddon.Utils;
 
 import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
@@ -10,9 +13,6 @@ import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import io.lumine.xikage.mythicmobs.skills.targeters.ILocationSelector;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.dList;
 
 public 
 class 
@@ -43,12 +43,12 @@ ILocationSelector
 	@Override
 	public HashSet<AbstractLocation> getLocations(SkillMetadata data) {
 		HashSet<AbstractLocation>locations=new HashSet<AbstractLocation>();
-		dList targets=Utils.getTargetsForScriptTargeter(data,script_name,attributes);
+		ListTag targets=Utils.getTargetsForScriptTargeter(data,script_name,attributes);
 		if(targets!=null) {
 			for(int i1=0;i1<targets.size();i1++) {
-				Element e=(Element)targets.getObject(i1);
-				if(e.matchesType(dLocation.class)) {
-					locations.add(BukkitAdapter.adapt(e.asType(dLocation.class)));
+				ElementTag e=(ElementTag)targets.getObject(i1);
+				if(e.matchesType(LocationTag.class)) {
+					locations.add(BukkitAdapter.adapt(e.asType(LocationTag.class)));
 				}
 			}
 		}

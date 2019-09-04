@@ -1,21 +1,27 @@
 package com.gmail.berndivader.mythicdenizenaddon.obj;
 
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizen.objects.WorldTag;
+import com.denizenscript.denizencore.objects.Adjustable;
+import com.denizenscript.denizencore.objects.Fetchable;
+import com.denizenscript.denizencore.objects.Mechanism;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.tags.Attribute;
+import com.denizenscript.denizencore.tags.TagContext;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
 import io.lumine.xikage.mythicmobs.util.types.RandomInt;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizen.objects.dWorld;
-import net.aufdemrand.denizencore.objects.Adjustable;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.Fetchable;
-import net.aufdemrand.denizencore.objects.Mechanism;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.tags.Attribute;
-import net.aufdemrand.denizencore.tags.TagContext;
 
-public class dMythicSpawner implements dObject, Adjustable {
+public 
+class 
+dMythicSpawner 
+implements 
+ObjectTag, 
+Adjustable 
+{
 	static String id="mythicspawner@";
 	private String prefix;
 	MythicSpawner ms;
@@ -34,7 +40,7 @@ public class dMythicSpawner implements dObject, Adjustable {
 
 	@Override
 	public void adjust(Mechanism m) {
-		Element val = m.getValue();
+		ElementTag val = m.getValue();
 		switch(m.getName().toLowerCase()) {
 		case "activate":
 			if (val.asBoolean()) {
@@ -67,7 +73,7 @@ public class dMythicSpawner implements dObject, Adjustable {
 			ms.Spawn();
 			break;
 		case "attachmob":
-			MythicMobsAddon.attachMobToSpawner(ms, val.asType(dActiveMob.class));
+			MythicMobsAddon.attachMobToSpawner(ms,val.asType(dActiveMob.class));
 			break;
 		}
 	}
@@ -76,29 +82,29 @@ public class dMythicSpawner implements dObject, Adjustable {
 	public String getAttribute(Attribute a) {
 		if(a==null) return null;
 		if (a.startsWith("location")) {
-			return new dLocation(BukkitAdapter.adapt(ms.getLocation())).getAttribute(a.fulfill(1));
+			return new LocationTag(BukkitAdapter.adapt(ms.getLocation())).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("world")) {
-			return new dWorld(BukkitAdapter.adapt(ms.getLocation().getWorld())).getAttribute(a.fulfill(1));
+			return new WorldTag(BukkitAdapter.adapt(ms.getLocation().getWorld())).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("allactivemobs")) {
 			return MythicMobsAddon.getActiveMobsFromSpawner(ms).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("mobtype")) {
-			return new Element(ms.getTypeName()).getAttribute(a.fulfill(1));
+			return new ElementTag(ms.getTypeName()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("moblevel")) {
-			return new Element(ms.getMobLevel().get()).getAttribute(a.fulfill(1));
+			return new ElementTag(ms.getMobLevel().get()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("cooldown")) {
-			return new Element(ms.getCooldownSeconds()).getAttribute(a.fulfill(1));
+			return new ElementTag(ms.getCooldownSeconds()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("remainingcooldown")) {
-			return new Element(ms.getRemainingCooldownSeconds()).getAttribute(a.fulfill(1));
+			return new ElementTag(ms.getRemainingCooldownSeconds()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("warmup")) {
-			return new Element(ms.getWarmupSeconds()).getAttribute(a.fulfill(1));
+			return new ElementTag(ms.getWarmupSeconds()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("remainingwarmup")) {
-			return new Element(ms.getRemainingWarmupSeconds()).getAttribute(a.fulfill(1));
+			return new ElementTag(ms.getRemainingWarmupSeconds()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("mobamount")) {
-			return new Element(ms.getNumberOfMobs()).getAttribute(a.fulfill(1));
+			return new ElementTag(ms.getNumberOfMobs()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("maxmobamount")) {
-			return new Element(ms.getMaxMobs()).getAttribute(a.fulfill(1));
+			return new ElementTag(ms.getMaxMobs()).getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new ElementTag(identify()).getAttribute(a);
 	}
 	
 	@Override
@@ -136,7 +142,7 @@ public class dMythicSpawner implements dObject, Adjustable {
 	}
 	
 	@Override
-	public dObject setPrefix(String string) {
+	public ObjectTag setPrefix(String string) {
 		this.prefix = string;
 		return this;
 	}
@@ -162,4 +168,5 @@ public class dMythicSpawner implements dObject, Adjustable {
             return null;
         }
     }
+
 }

@@ -2,22 +2,26 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds.scoreboards;
 
 import org.bukkit.entity.Entity;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizencore.exceptions.CommandExecutionException;
+import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
 import com.gmail.berndivader.mythicdenizenaddon.ScoreBoardsAddon;
 
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
-import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
-
-public class GetEntityByEntry extends AbstractCommand {
+public
+class 
+GetEntityByEntry
+extends 
+AbstractCommand 
+{
 	private static String str_entry="entry";
 
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
+		for (Argument arg:entry.getProcessedArgs()) {
 			if (!entry.hasObject(str_entry) && arg.matchesPrefix(str_entry)) {
 				entry.addObject(str_entry, arg.asElement());
 			} else arg.reportUnhandled();
@@ -29,9 +33,9 @@ public class GetEntityByEntry extends AbstractCommand {
 		String e = entry.getElement(str_entry).asString();
 		Entity entity = ScoreBoardsAddon.getEntityByEntry(e);
 		if (entity!=null) {
-			entry.addObject(str_entry, new dEntity(entity));
+			entry.addObject(str_entry, new EntityTag(entity));
 		} else {
-			entry.addObject(str_entry, new Element(false));
+			entry.addObject(str_entry, new ElementTag(false));
 		}
 	}
 }

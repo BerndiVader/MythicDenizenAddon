@@ -8,27 +8,28 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import com.denizenscript.denizen.BukkitScriptEntryData;
+import com.denizenscript.denizen.events.BukkitScriptEvent;
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.ItemTag;
+import com.denizenscript.denizen.utilities.DenizenAPI;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.scripts.ScriptEntryData;
+import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
-import net.aufdemrand.denizen.BukkitScriptEntryData;
-import net.aufdemrand.denizen.events.BukkitScriptEvent;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dItem;
-import net.aufdemrand.denizen.utilities.DenizenAPI;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.objects.dList;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.objects.aH.PrimitiveType;
-import net.aufdemrand.denizencore.scripts.ScriptEntryData;
-import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
 
 public class DenizenMythicMobDeathEvent 
 extends 
 BukkitScriptEvent 
 implements 
-Listener {
+Listener
+{
 	public static DenizenMythicMobDeathEvent instance;
 	public MythicMobDeathEvent e;
 	
@@ -63,12 +64,13 @@ Listener {
     
     @Override
     public ScriptEntryData getScriptEntryData() {
-    	dEntity killer=new dEntity(e.getEntity());
+    	EntityTag killer=new EntityTag(e.getEntity());
     	return new BukkitScriptEntryData(killer.isPlayer()?killer.getDenizenPlayer():null,killer.isNPC()?killer.getDenizenNPC():null);
     }
 
 	@Override
-    public boolean applyDetermination(ScriptContainer container,String determination) {
+    public boolean applyDetermination(ScriptPath container,ObjectTag tag) {
+		String determination=tag.toString();
 		String[]c=determination.toLowerCase().split(";");
 		for (int a=0;a<c.length;a++) {
 			String[]parse=c[a].split(":");
@@ -76,20 +78,20 @@ Listener {
 			String v=parse[1];
 			switch(d) {
 			case "drops":
-				if (aH.Argument.valueOf(v).matchesArgumentType(dList.class)) {
+				if (Argument.valueOf(v).matchesArgumentType(ListTag.class)) {
 					List<ItemStack>is=new ArrayList<ItemStack>();
-					for(dItem di:aH.Argument.valueOf(v).asType(dList.class).filter(dItem.class)) {
+					for(ItemTag di:Argument.valueOf(v).asType(ListTag.class).filter(ItemTag.class)) {
 						is.add(di.getItemStack());
 					}
 					e.setDrops(is);
 				}
 				break;
 			case "money":
-				if (aH.Argument.valueOf(v).matchesPrimitive(PrimitiveType.Double)) e.setCurrency(Double.parseDouble(v));
+				if (Argument.valueOf(v).matchesPrimitive(PrimitiveType.Double)) e.setCurrency(Double.parseDouble(v));
 				break;
 			case "exp":
 			case "xp":
-				if (aH.Argument.valueOf(v).matchesPrimitive(PrimitiveType.Integer)) e.setExp(Integer.parseInt(v));
+				if (Argument.valueOf(v).matchesPrimitive(PrimitiveType.Integer)) e.setExp(Integer.parseInt(v));
 				break;
 			}
 		}
@@ -97,28 +99,28 @@ Listener {
     }
 	
 	@Override
-    public dObject getContext(String name) {
+    public ObjectTag getContext(String name) {
 		switch(name.toLowerCase()) {
 		case "drops":
-			dList dl=new dList();
+			ListTag dl=new ListTag();
 			for (ItemStack i:e.getDrops()) {
-				dl.add(new dItem(i).identify());
+				dl.add(new ItemTag(i).identify());
 			}
 			return dl;
 		case "killer":
 		case "attacker":
-			return new dEntity(e.getKiller());
+			return new EntityTag(e.getKiller());
 		case "victim":
 		case "entity":
-			return new dEntity(e.getEntity());
+			return new EntityTag(e.getEntity());
 		case "activemob":
 			return new dActiveMob(e.getMob());
 		case "money":
-			return new Element(e.getCurrency());
+			return new ElementTag(e.getCurrency());
 		case "exp":
-			return new Element(e.getExp());
+			return new ElementTag(e.getExp());
 		case "event":
-			return new Element(this.e.toString());
+			return new ElementTag(this.e.toString());
 		}
         return super.getContext(name);
     }

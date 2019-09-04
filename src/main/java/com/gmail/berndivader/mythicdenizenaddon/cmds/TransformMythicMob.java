@@ -6,6 +6,12 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizencore.exceptions.CommandExecutionException;
+import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
@@ -14,18 +20,17 @@ import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
-import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
-public class TransformMythicMob extends AbstractCommand {
+public 
+class 
+TransformMythicMob
+extends
+AbstractCommand 
+{
 	
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
+		for (Argument arg:entry.getProcessedArgs()) {
 			if (!entry.hasObject(Statics.str_activemob) && arg.matchesPrefix(Statics.str_activemob) 
 					&& arg.matchesArgumentType(dActiveMob.class)) {
 				entry.addObject(Statics.str_activemob, arg.asType(dActiveMob.class));
@@ -35,11 +40,11 @@ public class TransformMythicMob extends AbstractCommand {
 	
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		ActiveMob am=((dActiveMob)entry.getdObject(Statics.str_activemob)).getActiveMob();
+		ActiveMob am=((dActiveMob)entry.getObjectTag(Statics.str_activemob)).getActiveMob();
 		if (am!=null) {
 			Entity entity = transformToNormalEntity(am);
 			if (entity!=null) {
-				dEntity dentity = new dEntity(entity);
+				EntityTag dentity = new EntityTag(entity);
 				entry.addObject(Statics.str_entity,dentity);
 			} else {
 				throw new CommandExecutionException("Failed to get Entity from MythicMob");

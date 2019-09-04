@@ -4,16 +4,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import net.aufdemrand.denizen.events.BukkitScriptEvent;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizen.utilities.DenizenAPI;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
+import com.denizenscript.denizen.events.BukkitScriptEvent;
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizen.utilities.DenizenAPI;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
 
-public class DenizenConditionEvent 
+public 
+class
+DenizenConditionEvent 
 extends
 BukkitScriptEvent
 implements 
@@ -22,12 +25,9 @@ Listener {
 	public static DenizenConditionEvent instance;
 	public MMDenizenConditionEvent event;
 	
-	private Element meet;
-	private Element args;
-	private Element type;
-	private Element condition;
-	private dEntity dentity;
-	private dLocation dlocation;
+	private ElementTag meet,args,type,condition;
+	private EntityTag dentity;
+	private LocationTag dlocation;
 	
 	public DenizenConditionEvent() {
 		instance = this;
@@ -59,15 +59,16 @@ Listener {
     }
     
 	@Override
-    public boolean applyDetermination(ScriptContainer container, String d) {
-		if (aH.Argument.valueOf(d).matchesPrimitive(aH.PrimitiveType.Boolean)) {
-			this.meet = new Element(d);
+    public boolean applyDetermination(ScriptPath container, ObjectTag tag) {
+		String d=tag.toString();
+		if (Argument.valueOf(d).matchesPrimitive(PrimitiveType.Boolean)) {
+			this.meet = new ElementTag(d);
 		}
 		return Boolean.parseBoolean(d);
     }
 	
 	@Override
-    public dObject getContext(String name) {
+    public ObjectTag getContext(String name) {
 		switch(name.toLowerCase()) {
 		case "meet":
 			return meet;
@@ -88,12 +89,12 @@ Listener {
     @EventHandler
     public void onMythicMobConditionEvent(MMDenizenConditionEvent e) {
     	this.event=e;
-    	this.condition=new Element(e.getName());
-    	this.args=new Element(e.getArgs());
-    	this.meet=new Element(e.getBool());
-		this.dentity=e.getEntity()!=null?new dEntity(e.getEntity()):null;
-   		this.dlocation=e.getLocation()!=null?new dLocation(e.getLocation()):null;
-   		this.type=e.getEntity()!=null?new Element("e"):e.getLocation()!=null?new Element("l"):new Element("n");
+    	this.condition=new ElementTag(e.getName());
+    	this.args=new ElementTag(e.getArgs());
+    	this.meet=new ElementTag(e.getBool());
+		this.dentity=e.getEntity()!=null?new EntityTag(e.getEntity()):null;
+   		this.dlocation=e.getLocation()!=null?new LocationTag(e.getLocation()):null;
+   		this.type=e.getEntity()!=null?new ElementTag("e"):e.getLocation()!=null?new ElementTag("l"):new ElementTag("n");
         fire();
         e.setBool(this.meet.asBoolean());
     }

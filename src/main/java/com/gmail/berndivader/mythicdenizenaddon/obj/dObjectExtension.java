@@ -1,10 +1,15 @@
 package com.gmail.berndivader.mythicdenizenaddon.obj;
 
-import net.aufdemrand.denizencore.objects.Mechanism;
-import net.aufdemrand.denizencore.objects.properties.Property;
-import net.aufdemrand.denizencore.tags.Attribute;
+import com.denizenscript.denizencore.objects.Mechanism;
+import com.denizenscript.denizencore.objects.properties.Property;
+import com.denizenscript.denizencore.tags.Attribute;
 
-public class dObjectExtension implements Property {
+public 
+class 
+dObjectExtension
+implements
+Property
+{
 
     @Override
     public String getPropertyString() {

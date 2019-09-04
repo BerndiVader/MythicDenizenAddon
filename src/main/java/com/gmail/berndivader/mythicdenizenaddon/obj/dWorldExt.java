@@ -1,26 +1,31 @@
 package com.gmail.berndivader.mythicdenizenaddon.obj;
 
+import com.denizenscript.denizen.objects.WorldTag;
+import com.denizenscript.denizencore.objects.Mechanism;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.tags.Attribute;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 
-import net.aufdemrand.denizen.objects.dWorld;
-import net.aufdemrand.denizencore.objects.Mechanism;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.tags.Attribute;
 
-public class dWorldExt extends dObjectExtension {
-	private dWorld world;
+public 
+class 
+dWorldExt 
+extends 
+dObjectExtension 
+{
+	private WorldTag world;
 	
-	public dWorldExt (dWorld w) {
+	public dWorldExt (WorldTag w) {
 		this.world = w;
 	}
 	
-	public static boolean describes(dObject object) {
-        return object instanceof dWorld;
+	public static boolean describes(ObjectTag object) {
+        return object instanceof WorldTag;
     }
     
-    public static dWorldExt getFrom(dObject o) {
+    public static dWorldExt getFrom(ObjectTag o) {
     	if (!describes(o)) return null;
-    	return new dWorldExt((dWorld)o);
+    	return new dWorldExt((WorldTag)o);
     }
     
     @Override

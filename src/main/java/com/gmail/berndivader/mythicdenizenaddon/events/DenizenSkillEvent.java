@@ -4,25 +4,31 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import com.denizenscript.denizen.events.BukkitScriptEvent;
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizen.utilities.DenizenAPI;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
+import com.denizenscript.denizencore.utilities.CoreUtilities;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 
-import net.aufdemrand.denizen.events.BukkitScriptEvent;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizen.utilities.DenizenAPI;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
-import net.aufdemrand.denizencore.utilities.CoreUtilities;
-
-public class DenizenSkillEvent extends BukkitScriptEvent implements Listener {
+public 
+class
+DenizenSkillEvent
+extends
+BukkitScriptEvent 
+implements
+Listener
+{
 	
 	public static DenizenSkillEvent instance;
 	public MMDenizenCustomSkill event;
 	
-	private Element skill, args, targetType;
-	private dEntity caster, target, trigger;
-	private dLocation targetLoc;
+	private ElementTag skill, args, targetType;
+	private EntityTag caster, target, trigger;
+	private LocationTag targetLoc;
 	dMythicMeta data;
 	
 	public DenizenSkillEvent() {
@@ -45,7 +51,7 @@ public class DenizenSkillEvent extends BukkitScriptEvent implements Listener {
 	}
 
 	public void init() {
-		Bukkit.getServer().getPluginManager().registerEvents(this, DenizenAPI.getCurrentInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(this,DenizenAPI.getCurrentInstance());
 	}
 	
     @Override
@@ -54,12 +60,12 @@ public class DenizenSkillEvent extends BukkitScriptEvent implements Listener {
     }
     
 	@Override
-    public boolean applyDetermination(ScriptContainer container, String d) {
-		return Boolean.parseBoolean(d);
+    public boolean applyDetermination(ScriptPath container, ObjectTag d) {
+		return Boolean.parseBoolean(d.toString());
     }
 	
 	@Override
-    public dObject getContext(String name) {
+    public ObjectTag getContext(String name) {
 		switch(name.toLowerCase()) {
 		case "skill":
 			return skill;
@@ -84,13 +90,13 @@ public class DenizenSkillEvent extends BukkitScriptEvent implements Listener {
 	
     @EventHandler
     public void onMythicDenizenSkillEvent(MMDenizenCustomSkill e) {
-    	this.skill=new Element(e.getSkill());
-    	this.args=new Element(e.getArgs());
-    	this.caster=e.getCaster()!=null?new dEntity(e.getCaster()):null;
-    	this.target=e.getTargetEntity()!=null?new dEntity(e.getTargetEntity()):null;
-    	this.targetLoc=e.getTargetLocation()!=null?new dLocation(e.getTargetLocation()):null;
-    	this.targetType=new Element(e.getTargetType());
-    	this.trigger=e.getTrigger()!=null?new dEntity(e.getTrigger()):null;
+    	this.skill=new ElementTag(e.getSkill());
+    	this.args=new ElementTag(e.getArgs());
+    	this.caster=e.getCaster()!=null?new EntityTag(e.getCaster()):null;
+    	this.target=e.getTargetEntity()!=null?new EntityTag(e.getTargetEntity()):null;
+    	this.targetLoc=e.getTargetLocation()!=null?new LocationTag(e.getTargetLocation()):null;
+    	this.targetType=new ElementTag(e.getTargetType());
+    	this.trigger=e.getTrigger()!=null?new EntityTag(e.getTrigger()):null;
     	this.data=new dMythicMeta(e.getMetadata());
     	this.event=e;
         fire();

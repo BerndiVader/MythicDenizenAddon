@@ -3,6 +3,12 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizencore.exceptions.CommandExecutionException;
+import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
@@ -10,20 +16,19 @@ import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
-import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
-public class TransformToMythicMob extends AbstractCommand {
+public 
+class
+TransformToMythicMob
+extends
+AbstractCommand
+{
 
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (aH.Argument arg:aH.interpret(entry.getArguments())) {
-			if (!entry.hasObject(Statics.str_entity)&&arg.matchesPrefix(Statics.str_entity)&&arg.matchesArgumentType(dEntity.class)) {
-				entry.addObject(Statics.str_entity,arg.asType(dEntity.class));
+		for (Argument arg:entry.getProcessedArgs()) {
+			if (!entry.hasObject(Statics.str_entity)&&arg.matchesPrefix(Statics.str_entity)&&arg.matchesArgumentType(EntityTag.class)) {
+				entry.addObject(Statics.str_entity,arg.asType(EntityTag.class));
 			} else if (!entry.hasObject(Statics.str_mobtype) && arg.matchesPrefix(Statics.str_mobtype)) {
 				entry.addObject(Statics.str_mobtype, arg.asElement());
 			} else if (!entry.hasObject(Statics.str_level) && arg.matchesPrefix(Statics.str_level)) {
@@ -35,7 +40,7 @@ public class TransformToMythicMob extends AbstractCommand {
 	
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		Entity entity = ((dEntity)entry.getdObject(Statics.str_entity)).getBukkitEntity();
+		Entity entity = ((EntityTag)entry.getObjectTag(Statics.str_entity)).getBukkitEntity();
 		String mmName = entry.getElement(Statics.str_mobtype).asString();
 		MythicMob mm = MythicMobsAddon.mythicmobs.getMobManager().getMythicMob(mmName);
 		int level = entry.getElement(Statics.str_level).asInt();

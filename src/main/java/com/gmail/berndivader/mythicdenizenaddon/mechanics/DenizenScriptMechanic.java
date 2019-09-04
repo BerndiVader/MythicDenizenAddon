@@ -5,6 +5,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.DurationTag;
+import com.denizenscript.denizencore.objects.core.ScriptTag;
+import com.denizenscript.denizencore.scripts.ScriptBuilder;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.queues.ScriptQueue;
+import com.denizenscript.denizencore.scripts.queues.core.InstantQueue;
+import com.denizenscript.denizencore.scripts.queues.core.TimedQueue;
 import com.gmail.berndivader.mythicdenizenaddon.Utils;
 import com.gmail.berndivader.mythicdenizenaddon.context.MythicContextSource;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
@@ -18,16 +28,6 @@ import io.lumine.xikage.mythicmobs.skills.ITargetedEntitySkill;
 import io.lumine.xikage.mythicmobs.skills.ITargetedLocationSkill;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.objects.Duration;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.objects.dScript;
-import net.aufdemrand.denizencore.scripts.ScriptBuilder;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.queues.ScriptQueue;
-import net.aufdemrand.denizencore.scripts.queues.core.InstantQueue;
-import net.aufdemrand.denizencore.scripts.queues.core.TimedQueue;
 
 public
 class
@@ -67,7 +67,7 @@ ITargetedEntitySkill
 	}
 	
 	boolean _cast(SkillMetadata data,Optional<AbstractEntity>o_target_entity,Optional<AbstractLocation>o_target_location) {
-		dScript script=new dScript(script_name);
+		ScriptTag script=new ScriptTag(script_name);
 		List<ScriptEntry>entries=null;
 		if(script!=null&&script.isValid()) {
 			try {
@@ -84,14 +84,14 @@ ITargetedEntitySkill
 		long req_id=0l;
 		ScriptBuilder.addObjectToEntries(entries,"reqid",req_id);
 		if(script.getContainer().contains("SPEED")) {
-			long ticks=Duration.valueOf(script.getContainer().getString("SPEED","0")).getTicks();
+			long ticks=DurationTag.valueOf(script.getContainer().getString("SPEED","0")).getTicks();
 			queue=ticks>0?((TimedQueue)TimedQueue.getQueue(id).addEntries(entries)).setSpeed(ticks):InstantQueue.getQueue(id).addEntries(entries);
 		} else {
 			queue=TimedQueue.getQueue(id).addEntries(entries);
 		}
-		HashMap<String,dObject>context=new HashMap<String,dObject>();
+		HashMap<String,ObjectTag>context=new HashMap<String,ObjectTag>();
 		context.put("data",new dMythicMeta(data));
-		context.put("target",o_target_entity.isPresent()?new dEntity(o_target_entity.get().getBukkitEntity()):o_target_location.isPresent()?new dLocation(BukkitAdapter.adapt(o_target_location.get())):null);
+		context.put("target",o_target_entity.isPresent()?new EntityTag(o_target_entity.get().getBukkitEntity()):o_target_location.isPresent()?new LocationTag(BukkitAdapter.adapt(o_target_location.get())):null);
 		queue.setContextSource(new MythicContextSource(context));
 		for(Map.Entry<String,String>item:attributes.entrySet()) {
 			queue.addDefinition(item.getKey(),item.getValue());

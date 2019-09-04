@@ -24,7 +24,7 @@ repositories {
 dependencies {
 	compileOnly "org.spigotmc:spigot:+"
     compileOnly "io.lumine.xikage:mythicmobs:+"
-	compileOnly "net.aufdemrand:denizen:1.0.6"
+	compileOnly "net.aufdemrand:denizen:+"
 }
 
 processResources {

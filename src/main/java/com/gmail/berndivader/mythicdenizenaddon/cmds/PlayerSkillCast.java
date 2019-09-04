@@ -7,6 +7,15 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizencore.exceptions.CommandExecutionException;
+import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
 import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.ActivePlayer;
@@ -18,62 +27,59 @@ import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.skills.Skill;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import io.lumine.xikage.mythicmobs.skills.SkillTrigger;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
-import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
-public class PlayerSkillCast extends AbstractCommand {
+public 
+class 
+PlayerSkillCast
+extends 
+AbstractCommand
+{
 	private boolean bool;
 
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
+		for (Argument arg:entry.getProcessedArgs()) {
 			if (!entry.hasObject(Statics.str_caster) && arg.matchesPrefix(Statics.str_caster) 
-					&& arg.matchesArgumentType(dEntity.class)) {
-				entry.addObject(Statics.str_caster, arg.asType(dEntity.class));
+					&& arg.matchesArgumentType(EntityTag.class)) {
+				entry.addObject(Statics.str_caster, arg.asType(EntityTag.class));
 			} else if (!entry.hasObject(Statics.str_skill) && arg.matchesPrefix(Statics.str_skill)) {
 				entry.addObject(Statics.str_skill, arg.asElement());
 			} else if (!entry.hasObject(Statics.str_target) && arg.matchesPrefix(Statics.str_target)) {
 				bool=!arg.getValue().toLowerCase().startsWith("l@");
-				entry.addObject(Statics.str_target,bool?arg.asType(dEntity.class):arg.asType(dLocation.class));
+				entry.addObject(Statics.str_target,bool?arg.asType(EntityTag.class):arg.asType(LocationTag.class));
 			} else if (!entry.hasObject(Statics.str_trigger) && arg.matchesPrefix(Statics.str_trigger)) {
-				entry.addObject(Statics.str_trigger, arg.asType(dEntity.class));
+				entry.addObject(Statics.str_trigger, arg.asType(EntityTag.class));
 			} else if (!entry.hasObject(Statics.str_repeat) && arg.matchesPrefix(Statics.str_repeat) 
-					&& arg.matchesPrimitive(aH.PrimitiveType.Integer)) {
+					&& arg.matchesPrimitive(PrimitiveType.Integer)) {
 				entry.addObject(Statics.str_repeat, arg.asElement());
 			} else if (!entry.hasObject(Statics.str_delay) && arg.matchesPrefix(Statics.str_delay) 
-					&& arg.matchesPrimitive(aH.PrimitiveType.Integer)) {
+					&& arg.matchesPrimitive(PrimitiveType.Integer)) {
 				entry.addObject(Statics.str_delay, arg.asElement());
 			}
 		}
 		if (!entry.hasObject(Statics.str_trigger)) {
-			entry.addObject(Statics.str_trigger, (dEntity)entry.getdObject(Statics.str_caster));
+			entry.addObject(Statics.str_trigger, (EntityTag)entry.getObjectTag(Statics.str_caster));
 		}
 		if (!entry.hasObject(Statics.str_repeat)) {
-			entry.addObject(Statics.str_repeat, new Element("0"));
+			entry.addObject(Statics.str_repeat, new ElementTag("0"));
 		}
 		if (!entry.hasObject(Statics.str_delay)) {
-			entry.addObject(Statics.str_delay, new Element("0"));
+			entry.addObject(Statics.str_delay, new ElementTag("0"));
 		}
 	}
 
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		Entity caster = ((dEntity)entry.getdObject(Statics.str_caster)).getBukkitEntity();
-		Entity trigger = ((dEntity)entry.getdObject(Statics.str_trigger)).getBukkitEntity();
+		Entity caster = ((EntityTag)entry.getObjectTag(Statics.str_caster)).getBukkitEntity();
+		Entity trigger = ((EntityTag)entry.getObjectTag(Statics.str_trigger)).getBukkitEntity();
 		int ttimer = entry.getElement(Statics.str_repeat).asInt();
 		long tdelay = entry.getElement(Statics.str_delay).asLong();
 		Entity etarget = null;
 		Location ltarget = null;
 		if (bool) {
-			etarget = ((dEntity)entry.getdObject(Statics.str_target)).getBukkitEntity();
+			etarget = ((EntityTag)entry.getObjectTag(Statics.str_target)).getBukkitEntity();
 		} else {
-			ltarget = ((dLocation)entry.getdObject(Statics.str_target));
+			ltarget = ((LocationTag)entry.getObjectTag(Statics.str_target));
 		}
 		String skill = entry.getElement(Statics.str_skill).asString();
         HashSet<AbstractEntity> eTargets = new HashSet<AbstractEntity>();

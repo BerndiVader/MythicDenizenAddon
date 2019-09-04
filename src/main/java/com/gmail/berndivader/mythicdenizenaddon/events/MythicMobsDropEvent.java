@@ -10,6 +10,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import com.denizenscript.denizen.BukkitScriptEntryData;
+import com.denizenscript.denizen.events.BukkitScriptEvent;
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.ItemTag;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.scripts.ScriptEntryData;
+import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
+import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
@@ -24,24 +36,13 @@ import io.lumine.xikage.mythicmobs.drops.IMessagingDrop;
 import io.lumine.xikage.mythicmobs.drops.IMultiDrop;
 import io.lumine.xikage.mythicmobs.drops.LootBag;
 import io.lumine.xikage.mythicmobs.drops.droppables.ItemDrop;
-import net.aufdemrand.denizen.BukkitScriptEntryData;
-import net.aufdemrand.denizen.events.BukkitScriptEvent;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dItem;
-import net.aufdemrand.denizen.utilities.DenizenAPI;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.objects.aH.PrimitiveType;
-import net.aufdemrand.denizencore.objects.dList;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.scripts.ScriptEntryData;
-import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
 
 public class MythicMobsDropEvent 
 extends 
 BukkitScriptEvent 
 implements 
-Listener {
+Listener 
+{
 	public static MythicMobsDropEvent instance;
 	public MythicMobLootDropEvent e;
 	private LootBag lootBag;
@@ -67,7 +68,7 @@ Listener {
 	}
 
 	public void init() {
-		Bukkit.getServer().getPluginManager().registerEvents(this, DenizenAPI.getCurrentInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(this, MythicMobsAddon.denizen);
 	}
 	
     @Override
@@ -77,31 +78,32 @@ Listener {
     
     @Override
     public ScriptEntryData getScriptEntryData() {
-    	dEntity dropper=new dEntity(e.getEntity());
+    	EntityTag dropper=new EntityTag(e.getEntity());
     	return new BukkitScriptEntryData(dropper.isPlayer()?dropper.getDenizenPlayer():null,dropper.isNPC()?dropper.getDenizenNPC():null);
     }
 
 	@Override
-    public boolean applyDetermination(ScriptContainer container,String determination) {
-		if(aH.Argument.valueOf(determination).matchesArgumentType(dList.class)) {
-			setDrops(lootBag,aH.Argument.valueOf(determination).asType(dList.class),e);
+    public boolean applyDetermination(ScriptPath container,ObjectTag tag) {
+		String determination=tag.toString();
+		if(Argument.valueOf(determination).matchesArgumentType(ListTag.class)) {
+			setDrops(lootBag,Argument.valueOf(determination).asType(ListTag.class),e);
 		}
 		return true;
     }
 	
 	@Override
-    public dObject getContext(String name) {
+    public ObjectTag getContext(String name) {
 		switch(name.toLowerCase()) {
 		case "drops":
 			return getDrops(e,lootBag);
 		case "money":
-			return new Element(e.getMoney());
+			return new ElementTag(e.getMoney());
 		case "exp":
-			return new Element(e.getExp());
+			return new ElementTag(e.getExp());
 		case "activemob":
 			return new dActiveMob(e.getMob());
 		case "killer":
-			return new dEntity(e.getKiller());
+			return new EntityTag(e.getKiller());
 		}
         return super.getContext(name);
     }
@@ -113,16 +115,16 @@ Listener {
 		fire();
 	}
 	
-	private static void setDrops(LootBag lootBag,dList dropList,MythicMobLootDropEvent e) {
+	private static void setDrops(LootBag lootBag,ListTag dropList,MythicMobLootDropEvent e) {
 		Map<Class,Drop>intangibleDrops=new HashMap<Class,Drop>();
 		List<Drop>itemDrops=new ArrayList<Drop>();
 		for(String type:dropList) {
-			if (aH.Argument.valueOf(type).matchesArgumentType(dItem.class)) {
-				BukkitItemStack bit=(BukkitItemStack)BukkitAdapter.adapt(aH.Argument.valueOf(type).asType(dItem.class).getItemStack());
+			if (Argument.valueOf(type).matchesArgumentType(ItemTag.class)) {
+				BukkitItemStack bit=(BukkitItemStack)BukkitAdapter.adapt(Argument.valueOf(type).asType(ItemTag.class).getItemStack());
 				ItemDrop drop=new ItemDrop("MMDA",null,bit);
 				drop.setAmount(bit.getAmount());
 				itemDrops.add(drop);
-			}else if (aH.Argument.valueOf(type).matchesPrimitive(PrimitiveType.String)) {
+			}else if (Argument.valueOf(type).matchesPrimitive(PrimitiveType.String)) {
 				Drop drop=Drop.getDrop("mmda_drop",type);
 				if(drop instanceof IMultiDrop) {
 					LootBag loot=((IMultiDrop)drop).get(new DropMetadata(e.getMob(),BukkitAdapter.adapt(e.getKiller())));
@@ -144,12 +146,12 @@ Listener {
 		lootBag.setLootTableIntangible(intangibleDrops);
 	}
 	
-	private static dList getDrops(MythicMobLootDropEvent e,LootBag lootBag) {
-		dList dropList=new dList();
+	private static ListTag getDrops(MythicMobLootDropEvent e,LootBag lootBag) {
+		ListTag dropList=new ListTag();
 		for(Drop drop:lootBag.getDrops()) {
 			if(drop instanceof IItemDrop) {
 				ItemStack item=BukkitAdapter.adapt(((IItemDrop) drop).getDrop(new DropMetadata(e.getMob(),BukkitAdapter.adapt(e.getKiller()))));
-				dropList.add(new dItem(item).identify());
+				dropList.add(new ItemTag(item).identify());
 				continue;
 			}
 			if(drop instanceof ILocationDrop||drop instanceof IIntangibleDrop||drop instanceof IMessagingDrop) {

@@ -8,13 +8,16 @@ import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
+
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizencore.objects.dList;
 
-public class MMDenizenEntityTargeterEvent
+public
+class
+MMDenizenEntityTargeterEvent
 extends
 Event 
 {
@@ -59,8 +62,8 @@ Event
 	public void addSingleTarget(Entity target) {
 		this.targets.add(BukkitAdapter.adapt(target));
 	}
-	public void addTargetList(dList dlist) {
-		List<dEntity>list=dlist.filter(dEntity.class);
+	public void addTargetList(ListTag dlist) {
+		List<EntityTag>list=dlist.filter(EntityTag.class);
 		int size=list.size();
 		for(int i1=0;i1<size;i1++) {
 			targets.add(BukkitAdapter.adapt(list.get(i1).getBukkitEntity()));

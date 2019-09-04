@@ -1,18 +1,18 @@
 package com.gmail.berndivader.mythicdenizenaddon.cmds;
 
+import com.denizenscript.denizencore.exceptions.CommandExecutionException;
+import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
+import com.denizenscript.denizencore.utilities.debugging.Debug;
 import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMechanic;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.mobs.MobManager;
-import net.aufdemrand.denizen.utilities.debugging.dB;
-import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
-import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
 public 
 class
@@ -32,7 +32,7 @@ AbstractCommand
 	
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (aH.Argument arg:aH.interpret(entry.getArguments())) {
+		for (Argument arg:entry.getProcessedArgs()) {
 			if(!entry.hasObject(Statics.str_name)&&arg.matchesPrefix(Statics.str_name)) {
 				entry.addObject(Statics.str_name,arg.asElement());
 			} else if(!entry.hasObject(Statics.str_line)&&arg.matchesPrefix(Statics.str_line)) {
@@ -43,24 +43,24 @@ AbstractCommand
 		}
 	
 		if(!entry.hasObject(Statics.str_name)) {
-			if(!entry.hasObject(Statics.str_name)) dB.echoError(entry.getResidingQueue(),String.format(str_error_parse,Statics.str_name));
+			if(!entry.hasObject(Statics.str_name)) Debug.echoError(entry.getResidingQueue(),String.format(str_error_parse,Statics.str_name));
 		}
 	}
 	
 	@Override
 	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		Element dmechanic_name=entry.getElement(Statics.str_name);
-		Element dline=entry.getElement(Statics.str_line);
+		ElementTag dmechanic_name=entry.getElement(Statics.str_name);
+		ElementTag dline=entry.getElement(Statics.str_line);
 		
 		String line=dline!=null?dline.asString():null;
 		String mechanic_name=dline!=null?dmechanic_name.asString():null;
 		
 		if(mechanic_name!=null) {
 			dMythicMechanic dmechanic=new dMythicMechanic(mechanic_name,line);
-			if(!dmechanic.isPresent()) dB.echoError(entry.getResidingQueue(),String.format(str_error_execute,mechanic_name));
+			if(!dmechanic.isPresent()) Debug.echoError(entry.getResidingQueue(),String.format(str_error_execute,mechanic_name));
 			entry.addObject(Statics.str_mechanic,dmechanic);
 		} else {
-			dB.echoError(entry.getResidingQueue(),String.format(str_error_parse,Statics.str_name));
+			Debug.echoError(entry.getResidingQueue(),String.format(str_error_parse,Statics.str_name));
 		}
 	}
 }

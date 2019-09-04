@@ -1,15 +1,16 @@
 package com.gmail.berndivader.mythicdenizenaddon.conditions;
 
+import com.denizenscript.denizen.objects.EntityTag;
+
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import io.lumine.xikage.mythicmobs.skills.conditions.IEntityComparisonCondition;
-import net.aufdemrand.denizen.objects.dEntity;
 
 public
 class 
 EntityCompareScriptCondition 
 extends
-ScriptCondition<dEntity>
+ScriptCondition<EntityTag>
 implements
 IEntityComparisonCondition
 {
@@ -19,7 +20,7 @@ IEntityComparisonCondition
 
 	@Override
 	public boolean check(AbstractEntity source, AbstractEntity target) {
-		return __check(new dEntity(source.getBukkitEntity()),new dEntity(target.getBukkitEntity()));
+		return __check(new EntityTag(source.getBukkitEntity()),new EntityTag(target.getBukkitEntity()));
 	}
 
 }

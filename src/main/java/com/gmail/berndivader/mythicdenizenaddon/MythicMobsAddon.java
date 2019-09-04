@@ -11,6 +11,16 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.denizenscript.denizen.Denizen;
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizen.objects.WorldTag;
+import com.denizenscript.denizen.utilities.DenizenAPI;
+import com.denizenscript.denizencore.events.ScriptEvent;
+import com.denizenscript.denizencore.objects.ObjectFetcher;
+import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.objects.properties.PropertyParser;
+import com.denizenscript.denizencore.scripts.commands.CommandRegistry;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.ActiveMobSkillCast;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.CreateMythicMeta;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.CreateMythicSpawner;
@@ -64,51 +74,56 @@ import io.lumine.xikage.mythicmobs.skills.targeters.ILocationSelector;
 import io.lumine.xikage.mythicmobs.skills.targeters.MTOrigin;
 import io.lumine.xikage.mythicmobs.skills.targeters.MTTriggerLocation;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizen.objects.dWorld;
-import net.aufdemrand.denizencore.objects.dList;
 
-public class MythicMobsAddon extends Support {
+public 
+class 
+MythicMobsAddon 
+{
 	
 	public static MythicMobs mythicmobs=MythicMobs.inst();
+	public static Denizen denizen=DenizenAPI.getCurrentInstance();
+	static CommandRegistry commandregistry=denizen.getCommandRegistry();
 	
-	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
 		
-		Reflections.init();
+		ObjectFetcher.registerWithObjectFetcher(dMythicSpawner.class);
+		ObjectFetcher.registerWithObjectFetcher(dActiveMob.class);
+		ObjectFetcher.registerWithObjectFetcher(dMythicMob.class);
+		ObjectFetcher.registerWithObjectFetcher(dMythicItem.class);
+		ObjectFetcher.registerWithObjectFetcher(dMythicMechanic.class);
+		ObjectFetcher.registerWithObjectFetcher(dMythicMeta.class);
+		ObjectFetcher.registerWithObjectFetcher(dMythicSkill.class);
 		
-		registerObjects(dMythicSpawner.class,dActiveMob.class,dMythicMob.class,dMythicItem.class,dMythicMechanic.class,dMythicSkill.class,dMythicMeta.class);
-		registerProperty(dEntityExt.class,dEntity.class);
-		registerProperty(dWorldExt.class,dWorld.class);
-		registerProperty(dLocationExt.class,dLocation.class);
-		registerProperty(dListExt.class,dList.class);
+		PropertyParser.registerProperty(dEntityExt.class,EntityTag.class);
+		PropertyParser.registerProperty(dWorldExt.class,WorldTag.class);
+		PropertyParser.registerProperty(dLocationExt.class,LocationTag.class);
+		PropertyParser.registerProperty(dListExt.class,ListTag.class);
 		
-		registerScriptEvents(new DenizenConditionEvent());
-		registerScriptEvents(new DenizenSkillEvent());
-		registerScriptEvents(new DenizenMythicMobSpawnEvent());
-		registerScriptEvents(new DenizenMythicMobDeathEvent());
-		registerScriptEvents(new DenizenTargetConditionEvent());
-		registerScriptEvents(new DenizenEntityTargeterEvent());
-		registerScriptEvents(new DenizenLocationTargeterEvent());
-		registerScriptEvents(new MythicMobsDropEvent());
+		ScriptEvent.registerScriptEvent(new DenizenConditionEvent());
+		ScriptEvent.registerScriptEvent(new DenizenSkillEvent());
+		ScriptEvent.registerScriptEvent(new DenizenMythicMobSpawnEvent());
+		ScriptEvent.registerScriptEvent(new DenizenMythicMobDeathEvent());
+		ScriptEvent.registerScriptEvent(new DenizenTargetConditionEvent());
+		ScriptEvent.registerScriptEvent(new DenizenEntityTargeterEvent());
+		ScriptEvent.registerScriptEvent(new DenizenLocationTargeterEvent());
+		ScriptEvent.registerScriptEvent(new MythicMobsDropEvent());
 		
-		new ExecuteMythicMobsSkill().activate().as("castmythicskill").withOptions("- castmythicskill [skill:string||dMythicSkill] [data:dMythicMeta]||[caster:dEntity] (cause:string) (trigger:dEntity) (origin:dLocation) (power:float) (targets:dList)", 1);
-		new GetMythicMobConfig().activate().as("getmythicmob").withOptions("- getmythicmob mythicmob_type",0);
-		new FireCustomObjectiveEvent().activate().as("firequestobjective").withOptions("- firequestobjective",1);
-		new MythicMobsSpawn().activate().as("mmspawnmob").withOptions("- mmspawnmob [mobtype:string] [location] (world:string) (level:integer)", 2);
-		new ActiveMobSkillCast().activate().as("mmcastmob").withOptions("- mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);
-		new PlayerSkillCast().activate().as("mmcastplayer").withOptions("- mmcastplayer [player:dPlayer] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)", 3);
-		new MythicMobSkillCast().activate().as("mmskillcast").withOptions("- mmskillcast [caster:dEntity] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)", 3);
-		new SendSignal().activate().as("mmsignal").withOptions("- mmsignal [activemob:dActiveMob] [signal:string] (trigger:dEntity)", 2);
-		new TriggerSkill().activate().as("mmtrigger").withOptions("- mmtrigger [activemob:dActiveMob] [trigger:string] [entity:dEntity]", 3);
-		new CreateMythicSpawner().activate().as("mmcreatespawner").withOptions("- mmcreatespawner [string:uniquename] [location:dLocation] [string:mobtype]", 3);
-		new TransformToMythicMob().activate().as("mmapplymythic").withOptions("- mmapplymythic [entity:dEntity] [mobtype:string] [level:integer]", 2);
-		new TransformMythicMob().activate().as("mmremovemythic").withOptions("- mmremovemythic [activemob:dActiveMob]", 1);
-		new GetMythicItems().activate().as("getmythicitems").withOptions("- getmythicitems (filter:regex) (strict:boolean)",0);
-		new GetMythicSkills().activate().as("getmythicskills").withOptions("- getmythicskills (filter:regex) (strict:boolean>",0);
-		new GetMythicMechanic().activate().as("getmythicmechanic").withOptions("- getmythicmechanic [name:string] (data:dMythicMeta) (line:string)",1);
-		new CreateMythicMeta().activate().as("createmythicmeta").withOptions("- createmythicmeta",0);
+		commandregistry.registerCoreMember(ExecuteMythicMobsSkill.class,"castmythicskill","castmythicskill [skill:string||dMythicSkill] [data:dMythicMeta]||[caster:dEntity] (cause:string) (trigger:dEntity) (origin:dLocation) (power:float) (targets:dList)\"",1);
+		commandregistry.registerCoreMember(GetMythicMobConfig.class,"getmythicmob","getmythicmob mythicmob_type",0);
+		commandregistry.registerCoreMember(FireCustomObjectiveEvent.class,"firequestobjective","firequestobjective",1);
+		commandregistry.registerCoreMember(MythicMobsSpawn.class,"mmspawnmob","mmspawnmob [mobtype:string] [location] (world:string) (level:integer)",2);
+		commandregistry.registerCoreMember(ActiveMobSkillCast.class,"mmcastmob","mmcastmob [caster:dActiveMob] [target:dEntity||dLocation] [skill:string] (trigger:dEntity) (power:float)",3);
+		commandregistry.registerCoreMember(PlayerSkillCast.class,"mmcastplayer","mmcastplayer [player:dPlayer] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)",3);
+		commandregistry.registerCoreMember(MythicMobSkillCast.class,"mmskillcast","mmskillcast [caster:dEntity] [skill:string] [target:dEntity||dLocation] (trigger:dEntity) (repeat:integer) (delay:integer)",3);
+		commandregistry.registerCoreMember(SendSignal.class,"mmsignal","mmsignal [activemob:dActiveMob] [signal:string] (trigger:dEntity)",2);
+		commandregistry.registerCoreMember(TriggerSkill.class,"mmtrigger","mmtrigger [activemob:dActiveMob] [trigger:string] [entity:dEntity]",3);
+		commandregistry.registerCoreMember(CreateMythicSpawner.class,"mmcreatespawner","mmcreatespawner [string:uniquename] [location:dLocation] [string:mobtype]",3);
+		commandregistry.registerCoreMember(TransformToMythicMob.class,"mmapplymythic","mmapplymythic [entity:dEntity] [mobtype:string] [level:integer]",2);
+		commandregistry.registerCoreMember(TransformMythicMob.class,"mmremovemythic","mmremovemythic [activemob:dActiveMob]",1);
+		commandregistry.registerCoreMember(GetMythicItems.class,"getmythicitems","getmythicitems (filter:regex) (strict:boolean)",0);
+		commandregistry.registerCoreMember(GetMythicSkills.class,"getmythicskills","getmythicskills (filter:regex) (strict:boolean>",0);
+		commandregistry.registerCoreMember(GetMythicMechanic.class,"getmythicmechanic","getmythicmechanic [name:string] (data:dMythicMeta) (line:string)",1);
+		commandregistry.registerCoreMember(CreateMythicMeta.class,"createmythicmeta","createmythicmeta",0);
 	}
 	
 	public static boolean isActiveMob(UUID uuid) {
@@ -173,7 +188,7 @@ public class MythicMobsAddon extends Support {
 	public static Entity getOwner(ActiveMob am) {
 		if (am.getOwner().isPresent()) {
 			UUID uuid = am.getOwner().get();
-			return dEntity.getEntityForID(uuid);
+			return EntityTag.getEntityForID(uuid);
 		}
 		return null;
 	}
@@ -211,8 +226,8 @@ public class MythicMobsAddon extends Support {
 		}
 	}
 
-	public static dList allActiveMobs(World world) {
-		dList ams = new dList();
+	public static ListTag allActiveMobs(World world) {
+		ListTag ams = new ListTag();
 		for (ActiveMob am : mythicmobs.getMobManager().getActiveMobs()) {
 			if (am.getLocation().getWorld().getName().equals(world.getName())) {
 				ams.add(new dActiveMob(am).identify());
@@ -229,8 +244,8 @@ public class MythicMobsAddon extends Support {
 		return MythicMobs.inst().getSpawnerManager().getSpawnerByName(uniqueName);
 	}
 
-	public static dList allMythicSpawners(World world) {
-		dList mss = new dList();
+	public static ListTag allMythicSpawners(World world) {
+		ListTag mss = new ListTag();
 		for (MythicSpawner ms : MythicMobs.inst().getSpawnerManager().listSpawners) {
 			if (ms.getLocation().getWorld().getName().equals(world.getName())) {
 				mss.add(new dMythicSpawner(ms).identify());
@@ -239,8 +254,8 @@ public class MythicMobsAddon extends Support {
 		return mss;
 	}
 
-	public static dList getActiveMobsFromSpawner(MythicSpawner ms) {
-		dList ams = new dList();
+	public static ListTag getActiveMobsFromSpawner(MythicSpawner ms) {
+		ListTag ams = new ListTag();
 		for (UUID uuid : ms.getAssociatedMobs()) {
 			if (MythicMobs.inst().getMobManager().getActiveMob(uuid).isPresent()) {
 				ams.add(new dActiveMob(MythicMobs.inst().getMobManager().getActiveMob(uuid).get()).identify());
@@ -259,18 +274,18 @@ public class MythicMobsAddon extends Support {
 		return MythicMobs.inst().getMobManager().getMythicMob(uniqueName);
 	}
 
-	public static dList getThreatTable(ActiveMob am) {
+	public static ListTag getThreatTable(ActiveMob am) {
 		if (!am.hasThreatTable()) return null;
-		dList tt = new dList();
+		ListTag tt = new ListTag();
 		Iterator<AbstractEntity> it = am.getThreatTable().getAllThreatTargets().iterator();
 		while (it.hasNext()) {
 			AbstractEntity ae = it.next();
-			tt.add(new dEntity(ae.getBukkitEntity()).identify());
+			tt.add(new EntityTag(ae.getBukkitEntity()).identify());
 		}
 		return tt;
 	}
 
-	public static double getThreatValueOf(ActiveMob am, dEntity dentity) {
+	public static double getThreatValueOf(ActiveMob am, EntityTag dentity) {
 		AbstractEntity ae = BukkitAdapter.adapt(dentity.getBukkitEntity());
 		if (am.hasThreatTable() && am.getThreatTable().getAllThreatTargets().contains(ae)) {
 			return am.getThreatTable().getThreat(ae);
@@ -278,7 +293,7 @@ public class MythicMobsAddon extends Support {
 		return 0;
 	}
 
-	public static void modThreatOfEntity(ActiveMob am, dEntity dentity, double amount, String action) {
+	public static void modThreatOfEntity(ActiveMob am, EntityTag dentity, double amount, String action) {
 		AbstractEntity ae = BukkitAdapter.adapt(dentity.getBukkitEntity());
 		if (action.equals("incthreat")) {
 			am.getThreatTable().threatGain(ae, amount);
@@ -288,17 +303,17 @@ public class MythicMobsAddon extends Support {
 		return;
 	}
 
-	public static void removeThreatOfEntity(ActiveMob am, dEntity dentity) {
+	public static void removeThreatOfEntity(ActiveMob am, EntityTag dentity) {
 		AbstractEntity ae = BukkitAdapter.adapt(dentity.getBukkitEntity());
 		am.getThreatTable().getAllThreatTargets().remove(ae);
 	}
 
-	public static dList getTargetsFor(Entity bukkitEntity, String targeter) {
+	public static ListTag getTargetsFor(Entity bukkitEntity, String targeter) {
 		SkillTargeter st = getSkillTargeter(targeter);
 		return getTargetsForTargeter(bukkitEntity,null,st);
 	}
 	
-	public static dList getTargetsFor(Location bukkitLocation, String targeter) {
+	public static ListTag getTargetsFor(Location bukkitLocation, String targeter) {
 		SkillTargeter st = getSkillTargeter(targeter);
 		return getTargetsForTargeter(null,bukkitLocation,st);
 	}
@@ -306,14 +321,15 @@ public class MythicMobsAddon extends Support {
 	private static SkillTargeter getSkillTargeter(String targeterName) {
 	    Optional<SkillTargeter> maybeTargeter = Optional.empty();
 		targeterName = targeterName.startsWith("@")?targeterName:"@"+targeterName;
-		maybeTargeter = Optional.of((SkillTargeter)Reflections.parseSkillTargeter(targeterName));
+		System.err.print(targeterName);
+		maybeTargeter = Optional.of((SkillTargeter)Utils.parseSkillTargeter(targeterName));
 		if (!maybeTargeter.isPresent()) return null;
         SkillTargeter targeter = maybeTargeter.get();
         return targeter;
 	}
 	
-	private static dList getTargetsForTargeter(Entity entity,Location l1,SkillTargeter targeter) {
-		dList targetList = new dList();
+	private static ListTag getTargetsForTargeter(Entity entity,Location l1,SkillTargeter targeter) {
+		ListTag targetList = new ListTag();
 		SkillCaster caster=null;
 		AbstractEntity trigger=null;
 		AbstractLocation location=BukkitAdapter.adapt(l1);
@@ -327,7 +343,7 @@ public class MythicMobsAddon extends Support {
             data.setEntityTargets(((IEntitySelector)targeter).getEntities(data));
             ((IEntitySelector)targeter).filter(data, false);
             for (AbstractEntity ae:data.getEntityTargets()) {
-            	targetList.add(new dEntity(ae.getBukkitEntity()).identify());
+            	targetList.add(new EntityTag(ae.getBukkitEntity()).identify());
             }
         }
         if (targeter instanceof ILocationSelector) {
@@ -335,13 +351,13 @@ public class MythicMobsAddon extends Support {
             ((ILocationSelector)targeter).filter(data);
             for (AbstractLocation al:data.getLocationTargets()) {
             	Location l = BukkitAdapter.adapt(al);
-            	targetList.add(new dLocation(l).identify());
+            	targetList.add(new LocationTag(l).identify());
             }
         } else if (targeter instanceof MTOrigin) {
             data.setLocationTargets(((MTOrigin)targeter).getLocation(data.getOrigin()));
             for (AbstractLocation al : data.getLocationTargets()) {
             	Location l = BukkitAdapter.adapt(al);
-            	targetList.add(new dLocation(l).identify());
+            	targetList.add(new LocationTag(l).identify());
             }
         } else if (targeter instanceof MTTriggerLocation) {
             HashSet<AbstractLocation> lTargets = new HashSet<AbstractLocation>();
@@ -349,7 +365,7 @@ public class MythicMobsAddon extends Support {
             data.setLocationTargets(lTargets);
             for (AbstractLocation al : data.getLocationTargets()) {
             	Location l = BukkitAdapter.adapt(al);
-            	targetList.add(new dLocation(l).identify());
+            	targetList.add(new LocationTag(l).identify());
             }
         }
         if (targeter instanceof ConsoleTargeter) {

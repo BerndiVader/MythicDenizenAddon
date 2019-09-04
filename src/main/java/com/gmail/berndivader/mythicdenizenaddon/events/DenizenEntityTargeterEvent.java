@@ -6,18 +6,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import com.denizenscript.denizen.events.BukkitScriptEvent;
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizen.utilities.DenizenAPI;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
+import com.denizenscript.denizencore.utilities.CoreUtilities;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
-
-import net.aufdemrand.denizen.events.BukkitScriptEvent;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizen.utilities.DenizenAPI;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.objects.dList;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.scripts.containers.ScriptContainer;
-import net.aufdemrand.denizencore.utilities.CoreUtilities;
 
 public
 class
@@ -29,12 +28,11 @@ Listener
 {
 	public static DenizenEntityTargeterEvent instance;
 	public MMDenizenEntityTargeterEvent event;
-	private dEntity caster;
-	private dEntity trigger;
-	private Element targeter,cause;
-	private dLocation origin;
+	private EntityTag caster,trigger;
+	private ElementTag targeter,cause;
+	private LocationTag origin;
 	private dMythicMeta metaData;
-	private dList args=new dList();
+	private ListTag args=new ListTag();
 	
 	public DenizenEntityTargeterEvent() {
 		instance=this;
@@ -43,10 +41,12 @@ Listener
 	public void init() {
 		Bukkit.getServer().getPluginManager().registerEvents(this, DenizenAPI.getCurrentInstance());
 	}
+	
 	@Override
 	public boolean couldMatch(ScriptContainer container, String s) {
 		return CoreUtilities.toLowerCase(s).startsWith("mythicmobs entitytargeter");
 	}
+	
 	@Override
 	public boolean matches(ScriptContainer container, String s) {
 		return true;
@@ -61,15 +61,16 @@ Listener
     }
     
 	@Override
-    public boolean applyDetermination(ScriptContainer container,String determination) {
-		if(aH.Argument.valueOf(determination).matchesArgumentType(dList.class)) {
-			event.addTargetList((aH.Argument.valueOf(determination).asType(dList.class)));
+    public boolean applyDetermination(ScriptPath container,ObjectTag tag) {
+		String determination=tag.toString();
+		if(Argument.valueOf(determination).matchesArgumentType(ListTag.class)) {
+			event.addTargetList((Argument.valueOf(determination).asType(ListTag.class)));
 		}
 		return true;
     }    
     
     @Override
-    public dObject getContext(String name) {
+    public ObjectTag getContext(String name) {
     	switch(name.toLowerCase()) {
     	case "caster":
     	case "entity":
@@ -92,11 +93,11 @@ Listener
     
 	@EventHandler
     public void onDenizenEntityTargetEvent(MMDenizenEntityTargeterEvent e) {
-    	this.caster=e.getCaster()!=null?new dEntity(e.getCaster()):null;
-    	this.trigger=e.getTrigger()!=null?new dEntity(e.getTrigger()):null;
-    	this.targeter=e.getTargeterName()!=null?new Element(e.getTargeterName()):null;
-    	this.cause=e.getCause()!=null?new Element(e.getCause()):null;
-    	this.origin=e.getOrigin()!=null?new dLocation(e.getOrigin()):null;
+    	this.caster=e.getCaster()!=null?new EntityTag(e.getCaster()):null;
+    	this.trigger=e.getTrigger()!=null?new EntityTag(e.getTrigger()):null;
+    	this.targeter=e.getTargeterName()!=null?new ElementTag(e.getTargeterName()):null;
+    	this.cause=e.getCause()!=null?new ElementTag(e.getCause()):null;
+    	this.origin=e.getOrigin()!=null?new LocationTag(e.getOrigin()):null;
     	this.metaData=new dMythicMeta(e.getSkillMetadata());
     	this.args.addAll(Arrays.asList(e.getArgs()));
     	this.event=e;

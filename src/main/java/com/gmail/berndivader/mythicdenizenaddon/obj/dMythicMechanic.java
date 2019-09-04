@@ -2,25 +2,26 @@ package com.gmail.berndivader.mythicdenizenaddon.obj;
 
 import java.util.Optional;
 
+import com.denizenscript.denizencore.objects.Adjustable;
+import com.denizenscript.denizencore.objects.Fetchable;
+import com.denizenscript.denizencore.objects.Mechanism;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.tags.Attribute;
+import com.denizenscript.denizencore.tags.TagContext;
+import com.denizenscript.denizencore.utilities.debugging.Debug;
+
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import io.lumine.xikage.mythicmobs.skills.SkillManager;
 import io.lumine.xikage.mythicmobs.skills.SkillMechanic;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
-import net.aufdemrand.denizen.utilities.debugging.dB;
-import net.aufdemrand.denizencore.objects.Adjustable;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.Fetchable;
-import net.aufdemrand.denizencore.objects.Mechanism;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.tags.Attribute;
-import net.aufdemrand.denizencore.tags.TagContext;
 
 public 
 class 
 dMythicMechanic 
 implements
-dObject,
+ObjectTag,
 Adjustable
 {
 	
@@ -50,7 +51,7 @@ Adjustable
 	public dMythicMechanic(String name,String meta_hash,String line) {
 		this.name=name;
 		
-		if((mechanic=skillmanager.getSkillMechanic(parseLine(line)))==null) dB.echoError("MythicMechanic "+name+" not present!");
+		if((mechanic=skillmanager.getSkillMechanic(parseLine(line)))==null) Debug.echoError("MythicMechanic "+name+" not present!");
 		if (((this.metaId=Optional.ofNullable(meta_hash)).isPresent())&&dMythicMeta.objects.containsKey(this.metaId.get())) {
 			data=new dMythicMeta(dMythicMeta.objects.get(this.metaId.get()));
 		}
@@ -107,9 +108,9 @@ Adjustable
 		if(a==null) return null;
 		int i1=1;
 		if(a.startsWith("present")||a.startsWith("ispresent")) {
-			return new Element(isPresent()).getAttribute(a.fulfill(i1));
+			return new ElementTag(isPresent()).getAttribute(a.fulfill(i1));
 		} else if(a.startsWith("type")) {
-			return new Element(isPresent()?name:null).getAttribute(a.fulfill(i1));
+			return new ElementTag(isPresent()?name:null).getAttribute(a.fulfill(i1));
 		} else if(a.startsWith("data")) {
 			if(this.data!=null) return this.data.getAttribute(a.fulfill(i1));
 			return null;
@@ -119,21 +120,21 @@ Adjustable
 			if(a.hasContext(i1)&&dMythicMeta.matches(a.getContext(i1))) {
 				data=((dMythicMeta)a.getContextObject(i1)).meta;
 			}
-			return new Element(mechanic.usable(data)).getAttribute(a.fulfill(i1));
+			return new ElementTag(mechanic.usable(data)).getAttribute(a.fulfill(i1));
 		} else if(a.startsWith("execute")) {
 			SkillMetadata data=null;
 			if(this.data!=null) data=this.data.meta;
 			if(a.hasContext(i1)&&dMythicMeta.matches(a.getContext(i1))) {
 				data=((dMythicMeta)a.getContextObject(i1)).meta;
 			}
-			return new Element(mechanic.execute(data)).getAttribute(a.fulfill(i1));
+			return new ElementTag(mechanic.execute(data)).getAttribute(a.fulfill(i1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new ElementTag(identify()).getAttribute(a);
 	}
 	
 	@Override
 	public void adjust(Mechanism m) {
-		Element element=m.getValue();
+		ElementTag element=m.getValue();
 		switch (m.getName().toLowerCase()) {
 			case "data":
 				if (element.matchesType(dMythicMeta.class)) this.data=element.asType(dMythicMeta.class);
@@ -176,7 +177,7 @@ Adjustable
 	}
 	
 	@Override
-	public dObject setPrefix(String string) {
+	public ObjectTag setPrefix(String string) {
 		this.prefix = string;
 		return this;
 	}
@@ -200,12 +201,14 @@ Adjustable
             return new dMythicMechanic(name,metaId);
         }
         catch (Exception e) {
-        	dB.echoError(e.getMessage());
+        	Debug.echoError(e.getMessage());
         }
         return null;
     }
 
 	@Override
 	public void applyProperty(Mechanism arg0) {
+		// TODO Auto-generated method stub
 	}
+
 }

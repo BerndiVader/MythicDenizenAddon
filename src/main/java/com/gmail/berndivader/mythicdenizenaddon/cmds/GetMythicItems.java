@@ -3,33 +3,35 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
+import com.denizenscript.denizencore.exceptions.CommandExecutionException;
+import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicItem;
 
-import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
-import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.objects.dList;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
-
-public class GetMythicItems
+public
+class
+GetMythicItems
 extends
-AbstractCommand {
+AbstractCommand 
+{
 
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (aH.Argument arg:aH.interpret(entry.getArguments())) {
+		for (Argument arg:entry.getProcessedArgs()) {
 			if(!entry.hasObject(Statics.str_filter)&&arg.matchesPrefix(Statics.str_filter)) {
 				entry.addObject(Statics.str_filter,arg.asElement());
 			} else if(!entry.hasObject(Statics.str_strict)&&arg.matchesPrefix(Statics.str_strict)) {
 				entry.addObject(Statics.str_strict,arg.asElement());
 			}
 		}
-		if (!entry.hasObject(Statics.str_filter)) entry.addObject(Statics.str_filter,new Element(new String("")));
-		if (!entry.hasObject(Statics.str_strict)) entry.addObject(Statics.str_strict,new Element(false));
+		if (!entry.hasObject(Statics.str_filter)) entry.addObject(Statics.str_filter,new ElementTag(new String("")));
+		if (!entry.hasObject(Statics.str_strict)) entry.addObject(Statics.str_strict,new ElementTag(false));
 	}
 	
 	@Override
@@ -37,7 +39,7 @@ AbstractCommand {
 		Pattern p=Pattern.compile(entry.getElement(Statics.str_filter).asString());
 		if (!entry.getElement(Statics.str_strict).asBoolean()) {
 			Iterator<String>it=MythicMobsAddon.mythicmobs.getItemManager().getItemNames().iterator();
-			dList list=new dList();
+			ListTag list=new ListTag();
 			while(it.hasNext()) {
 				String s1=it.next();
 				if (p.matcher(s1).find()) list.add(new dMythicItem(s1).identify());

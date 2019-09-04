@@ -8,25 +8,26 @@ import java.util.Map;
 
 import org.bukkit.Location;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.objects.core.ScriptTag;
+import com.denizenscript.denizencore.scripts.ScriptBuilder;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.queues.ScriptQueue;
+import com.denizenscript.denizencore.scripts.queues.core.InstantQueue;
 import com.gmail.berndivader.mythicdenizenaddon.context.MythicContextSource;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
+import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.objects.dList;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.objects.dScript;
-import net.aufdemrand.denizencore.objects.aH.Argument;
-import net.aufdemrand.denizencore.scripts.ScriptBuilder;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.queues.ScriptQueue;
-import net.aufdemrand.denizencore.scripts.queues.core.InstantQueue;
+import io.lumine.xikage.mythicmobs.skills.SkillTargeter;
 
 public 
 class 
@@ -43,16 +44,16 @@ Utils
 		return result;
 	}
 	
-	public static AbstractMap.SimpleEntry<HashSet<AbstractEntity>,HashSet<AbstractLocation>> split_target_list(dList list) {
+	public static AbstractMap.SimpleEntry<HashSet<AbstractEntity>,HashSet<AbstractLocation>> split_target_list(ListTag list) {
 		HashSet<AbstractLocation>location_targets=new HashSet<>();
 		HashSet<AbstractEntity>entity_targets=new HashSet<>();
 		int size=list.size();
 		for(int i1=0;i1<size;i1++) {
-			Element e=(Element)list.getObject(i1);
-			if(e.matchesType(dLocation.class)) {
-				location_targets.add(BukkitAdapter.adapt((Location)e.asType(dLocation.class)));
-			} else if (e.matchesType(dEntity.class)) {
-				entity_targets.add(BukkitAdapter.adapt(((dEntity)e.asType(dEntity.class)).getBukkitEntity()));
+			ElementTag e=(ElementTag)list.getObject(i1);
+			if(e.matchesType(LocationTag.class)) {
+				location_targets.add(BukkitAdapter.adapt((Location)e.asType(LocationTag.class)));
+			} else if (e.matchesType(EntityTag.class)) {
+				entity_targets.add(BukkitAdapter.adapt(((EntityTag)e.asType(EntityTag.class)).getBukkitEntity()));
 			}
 		}
 		return new AbstractMap.SimpleEntry<HashSet<AbstractEntity>, HashSet<AbstractLocation>>(entity_targets,location_targets);
@@ -75,10 +76,10 @@ Utils
 	
 	static String str_determination="_determination";
 	
-	public static dList getTargetsForScriptTargeter(SkillMetadata data,String script_name,HashMap<String,String>attributes) {
+	public static ListTag getTargetsForScriptTargeter(SkillMetadata data,String script_name,HashMap<String,String>attributes) {
 		ScriptEntry entry=null;
 		List<ScriptEntry>entries=null;
-		dScript script=new dScript(script_name);
+		ScriptTag script=new ScriptTag(script_name);
 		if(script!=null&&script.isValid()) {
 			try {
 				entry=new ScriptEntry(script.getName(),new String[0],script.getContainer());
@@ -94,7 +95,7 @@ Utils
 			long req_id=0l;
 			ScriptBuilder.addObjectToEntries(entries,"reqid",req_id);
 
-			HashMap<String,dObject>context=new HashMap<String,dObject>();
+			HashMap<String,ObjectTag>context=new HashMap<String,ObjectTag>();
 			context.put("data",new dMythicMeta(data));
 			
 			ScriptQueue queue=InstantQueue.getQueue(id).addEntries(entries);
@@ -122,10 +123,9 @@ Utils
 			
 			Object o=queue.getLastEntryExecuted().getArguments();
 			if(o!=null&&o instanceof List) {
-				@SuppressWarnings("unchecked")
-				List<Argument>args=aH.interpret((List<String>)o);
-				for(Argument arg:args) {
-					if (arg.matchesArgumentType(dList.class)) {
+				for(String s1:(List<String>)o) {
+					Argument arg=new Argument(s1);
+					if (arg.matchesArgumentType(ListTag.class)) {
 						return arg.getList();
 					}
 				}
@@ -134,6 +134,20 @@ Utils
 		}
 		return null;
 	}
+	
+	/**
+	 * 
+	 * @param targeter_string {@link String}
+	 * @return skill_targeter {@link SkillTargeter}
+	 */
+	
+	public static SkillTargeter parseSkillTargeter(String targeter_string) {
+        String search = targeter_string.substring(1);
+        MythicLineConfig mlc = new MythicLineConfig(search);
+        String name = search.contains("{") ? search.substring(0, search.indexOf("{")) : search;
+        return SkillTargeter.getMythicTargeter(name, mlc);
+	}
+	
 	
 
 }

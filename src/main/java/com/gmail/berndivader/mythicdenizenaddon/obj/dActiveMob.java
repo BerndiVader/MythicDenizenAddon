@@ -4,23 +4,29 @@ import java.util.UUID;
 
 import org.bukkit.entity.Entity;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizen.objects.WorldTag;
+import com.denizenscript.denizencore.objects.Adjustable;
+import com.denizenscript.denizencore.objects.Fetchable;
+import com.denizenscript.denizencore.objects.Mechanism;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.tags.Attribute;
+import com.denizenscript.denizencore.tags.TagContext;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizen.objects.dWorld;
-import net.aufdemrand.denizencore.objects.Adjustable;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.Fetchable;
-import net.aufdemrand.denizencore.objects.Mechanism;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.tags.Attribute;
-import net.aufdemrand.denizencore.tags.TagContext;
 
-public class dActiveMob implements dObject, Adjustable {
+public 
+class 
+dActiveMob 
+implements
+ObjectTag, 
+Adjustable 
+{
 	
 	static String id="activemob@";
 	private String prefix;
@@ -50,7 +56,7 @@ public class dActiveMob implements dObject, Adjustable {
 	
 	@Override
 	public void adjust(Mechanism m) {
-		Element val=m.getValue();
+		ElementTag val=m.getValue();
 		switch(m.getName().toLowerCase()) {
 		case "gcd":
 			this.am.setGlobalCooldown(val.asInt());
@@ -62,10 +68,10 @@ public class dActiveMob implements dObject, Adjustable {
 			MythicMobsAddon.setCustomName(am,val.asString());
 			break;
 		case "owner":
-			am.setOwner(val.asType(dEntity.class).getUUID());
+			am.setOwner(val.asType(EntityTag.class).getUUID());
 			break;
 		case "target":
-			MythicMobsAddon.setTarget(am, val.asType(dEntity.class).getBukkitEntity());
+			MythicMobsAddon.setTarget(am, val.asType(EntityTag.class).getBukkitEntity());
 			break;
 		case "faction":
 			am.setFaction(val.asString());
@@ -89,9 +95,9 @@ public class dActiveMob implements dObject, Adjustable {
 		case "decthreat":
 			String[]parse=val.asString().split("\\|");
 			if(parse.length>1) {
-				Element entity=new Element(parse[0]);
-				Element value=new Element(parse[1]);
-				if (entity.matchesType(dEntity.class) && value.isDouble()) MythicMobsAddon.modThreatOfEntity(am, entity.asType(dEntity.class), value.asDouble(), m.getName());
+				ElementTag entity=new ElementTag(parse[0]);
+				ElementTag value=new ElementTag(parse[1]);
+				if (entity.matchesType(EntityTag.class) && value.isDouble()) MythicMobsAddon.modThreatOfEntity(am, entity.asType(EntityTag.class), value.asDouble(), m.getName());
 			}
 			break;
 		case "clearthreat":
@@ -100,7 +106,7 @@ public class dActiveMob implements dObject, Adjustable {
 			break;
 		case "removethreat":
 		case "delththreat":
-			if (val.matchesType(dEntity.class)) MythicMobsAddon.removeThreatOfEntity(am, val.asType(dEntity.class));
+			if (val.matchesType(EntityTag.class)) MythicMobsAddon.removeThreatOfEntity(am, val.asType(EntityTag.class));
 			break;
 		case "newtargetthreattable":
 			am.getThreatTable().clearTarget();
@@ -111,7 +117,7 @@ public class dActiveMob implements dObject, Adjustable {
 			am.getNewTarget();
 			break;
 		case "setimmunitycooldown":
-			if (m.requireObject(dEntity.class)) am.getImmunityTable().setCooldown(BukkitAdapter.adapt(val.asType(dEntity.class).getBukkitEntity()));
+			if (m.requireObject(EntityTag.class)) am.getImmunityTable().setCooldown(BukkitAdapter.adapt(val.asType(EntityTag.class).getBukkitEntity()));
 			break;
 		}
 	}
@@ -120,66 +126,66 @@ public class dActiveMob implements dObject, Adjustable {
 	public String getAttribute(Attribute a) {
 		if (a==null) return null;
 		if (a.startsWith("isdead")) {
-			return new Element(MythicMobsAddon.isDead(entity)).getAttribute(a.fulfill(1));
+			return new ElementTag(MythicMobsAddon.isDead(entity)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("entity")) {
-			return new dEntity(this.am.getEntity().getBukkitEntity()).getAttribute(a.fulfill(1));
+			return new EntityTag(this.am.getEntity().getBukkitEntity()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hasthreattable")) {
-			return new Element(MythicMobsAddon.hasThreatTable(entity)).getAttribute(a.fulfill(1));
+			return new ElementTag(MythicMobsAddon.hasThreatTable(entity)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("threattable")) {
 			return MythicMobsAddon.getThreatTable(am).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("threatvalueof") && a.hasContext(1)) {
-			return new Element(MythicMobsAddon.getThreatValueOf(am, dEntity.valueOf(a.getContext(1)))).getAttribute(a.fulfill(1));
+			return new ElementTag(MythicMobsAddon.getThreatValueOf(am,EntityTag.valueOf(a.getContext(1)))).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hastarget")) {
-			return new Element(MythicMobsAddon.hasTarget(am)).getAttribute(a.fulfill(1));
+			return new ElementTag(MythicMobsAddon.hasTarget(am)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hasmythicspawner")) {
-			return new Element(MythicMobsAddon.hasMythicSpawner(entity)).getAttribute(a.fulfill(1));
+			return new ElementTag(MythicMobsAddon.hasMythicSpawner(entity)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("mythicspawner")) {
 			return new dMythicSpawner(am.getSpawner()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("mobtype")) {
-			return new Element(am.getType().getInternalName()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getType().getInternalName()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("displayname")) {
-			return new Element(am.getType().getDisplayName().get()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getType().getDisplayName().get()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("location")) {
-			return new dLocation(BukkitAdapter.adapt(am.getLocation())).getAttribute(a.fulfill(1));
+			return new LocationTag(BukkitAdapter.adapt(am.getLocation())).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("world")) {
-			return new dWorld(BukkitAdapter.adapt(am.getLocation().getWorld())).getAttribute(a.fulfill(1));
+			return new WorldTag(BukkitAdapter.adapt(am.getLocation().getWorld())).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("owner")) {
-			return new dEntity(MythicMobsAddon.getOwner(am)).getAttribute(a.fulfill(1));
+			return new EntityTag(MythicMobsAddon.getOwner(am)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("lastaggro")) {
-			return new dEntity(MythicMobsAddon.getLastAggro(am)).getAttribute(a.fulfill(1));
+			return new EntityTag(MythicMobsAddon.getLastAggro(am)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("toptarget")) {
-			return new dEntity(MythicMobsAddon.getTopTarget(am)).getAttribute(a.fulfill(1));
+			return new EntityTag(MythicMobsAddon.getTopTarget(am)).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("uuid")) {
-			return new Element(am.getUniqueId().toString()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getUniqueId().toString()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("health")) {
-			return new Element(am.getEntity().getHealth()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getEntity().getHealth()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("maxhealth")) {
-			return new Element(am.getEntity().getMaxHealth()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getEntity().getMaxHealth()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("faction")) {
-			return new Element(am.getFaction()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getFaction()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("stance")) {
-			return new Element(am.getStance()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getStance()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("level")) {
-			return new Element(am.getLevel()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getLevel()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("playerkills")) {
-			return new Element(am.getPlayerKills()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getPlayerKills()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("lastsignal")) {
-			return new Element(am.getLastSignal()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getLastSignal()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("type")) {
-			return new Element("ActiveMob").getAttribute(a.fulfill(1));
+			return new ElementTag("ActiveMob").getAttribute(a.fulfill(1));
 		} else if (a.startsWith("damage")) {
-			return new Element(am.getDamage()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getDamage()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("power")) {
-			return new Element(am.getPower()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getPower()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("lastdamageskillamount")) {
-			return new Element(am.getLastDamageSkillAmount()).getAttribute(a.fulfill(1));
+			return new ElementTag(am.getLastDamageSkillAmount()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("hasimmunitytable")) {
-				return new Element(this.am.hasImmunityTable()).getAttribute(a.fulfill(1));
+				return new ElementTag(this.am.hasImmunityTable()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("isonimmunitycooldown") && a.hasContext(1)) {
-			AbstractEntity ae = BukkitAdapter.adapt(dEntity.valueOf(a.getContext(1)).getBukkitEntity());
-			return new Element(am.getImmunityTable().onCooldown(ae)).getAttribute(a.fulfill(1));
+			AbstractEntity ae = BukkitAdapter.adapt(EntityTag.valueOf(a.getContext(1)).getBukkitEntity());
+			return new ElementTag(am.getImmunityTable().onCooldown(ae)).getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new ElementTag(identify()).getAttribute(a);
 	}
 
 	@Override
@@ -217,7 +223,7 @@ public class dActiveMob implements dObject, Adjustable {
 	}
 
 	@Override
-	public dObject setPrefix(String string) {
+	public ObjectTag setPrefix(String string) {
 		this.prefix = string;
 		return this;
 	}
@@ -236,10 +242,11 @@ public class dActiveMob implements dObject, Adjustable {
             if (!MythicMobsAddon.isActiveMob(uuid)) {
                 return null;
             }
-            return new dActiveMob(MythicMobsAddon.getActiveMob(dEntity.getEntityForID(uuid)));
+            return new dActiveMob(MythicMobsAddon.getActiveMob(EntityTag.getEntityForID(uuid)));
         }
         catch (Exception e) {
             return null;
         }
     }
+
 }

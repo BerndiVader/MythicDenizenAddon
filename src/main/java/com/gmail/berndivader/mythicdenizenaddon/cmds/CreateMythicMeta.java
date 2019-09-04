@@ -3,6 +3,15 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 import java.util.AbstractMap;
 import java.util.HashSet;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizencore.exceptions.CommandExecutionException;
+import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
+import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
 import com.gmail.berndivader.mythicdenizenaddon.Statics;
 import com.gmail.berndivader.mythicdenizenaddon.Utils;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
@@ -14,15 +23,6 @@ import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.GenericCaster;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import io.lumine.xikage.mythicmobs.skills.SkillTrigger;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
-import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.objects.aH.PrimitiveType;
-import net.aufdemrand.denizencore.objects.dList;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
 
 public 
 class
@@ -32,21 +32,21 @@ AbstractCommand
 {
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (aH.Argument arg:aH.interpret(entry.getArguments())) {
+		for (Argument arg:entry.getProcessedArgs()) {
 			if(!entry.hasObject(Statics.str_cause)&&arg.matchesPrefix(Statics.str_cause)) {
 				entry.addObject(Statics.str_cause,arg.asElement());
 			} else if(!entry.hasObject(Statics.str_caster)&&arg.matchesPrefix(Statics.str_caster)) {
-				entry.addObject(Statics.str_caster,arg.matchesArgumentType(dEntity.class)
-						?arg.asType(dEntity.class)
+				entry.addObject(Statics.str_caster,arg.matchesArgumentType(EntityTag.class)
+						?arg.asType(EntityTag.class)
 								:arg.matchesArgumentType(dActiveMob.class)
 								?arg.asType(dActiveMob.class)
 										:null);
-			} else if(!entry.hasObject(Statics.str_trigger)&&arg.matchesPrefix(Statics.str_trigger)&&arg.matchesArgumentType(dEntity.class)) {
-				entry.addObject(Statics.str_trigger,arg.asType(dEntity.class));
-			} else if(!entry.hasObject(Statics.str_origin)&&arg.matchesPrefix(Statics.str_origin)&&arg.matchesArgumentType(dLocation.class)) {
-				entry.addObject(Statics.str_origin,arg.asType(dLocation.class));
-			} else if(!entry.hasObject(Statics.str_targets)&&arg.matchesPrefix(Statics.str_targets)&&arg.matchesArgumentType(dList.class)) {
-				entry.addObject(Statics.str_targets,arg.asType(dList.class));
+			} else if(!entry.hasObject(Statics.str_trigger)&&arg.matchesPrefix(Statics.str_trigger)&&arg.matchesArgumentType(EntityTag.class)) {
+				entry.addObject(Statics.str_trigger,arg.asType(EntityTag.class));
+			} else if(!entry.hasObject(Statics.str_origin)&&arg.matchesPrefix(Statics.str_origin)&&arg.matchesArgumentType(LocationTag.class)) {
+				entry.addObject(Statics.str_origin,arg.asType(LocationTag.class));
+			} else if(!entry.hasObject(Statics.str_targets)&&arg.matchesPrefix(Statics.str_targets)&&arg.matchesArgumentType(ListTag.class)) {
+				entry.addObject(Statics.str_targets,arg.asType(ListTag.class));
 			} else if(!entry.hasObject(Statics.str_power)&&arg.matchesPrefix(Statics.str_power)&&arg.matchesPrimitive(PrimitiveType.Float)) {
 				entry.addObject(Statics.str_power,arg.asElement());
 			} else if(!entry.hasObject(Statics.str_result)&&arg.matchesPrefix(Statics.str_result)) {
@@ -70,19 +70,19 @@ AbstractCommand
 			if((cause=Utils.enum_lookup(SkillTrigger.class,entry.getElement(Statics.str_cause).asString().toUpperCase()))==null) cause=SkillTrigger.API;
 		}
 		if(entry.hasObject(Statics.str_caster)) {
-			caster=new GenericCaster(BukkitAdapter.adapt(((dEntity)entry.getdObject(Statics.str_caster)).getBukkitEntity()));
+			caster=new GenericCaster(BukkitAdapter.adapt(((EntityTag)entry.getObjectTag(Statics.str_caster)).getBukkitEntity()));
 		}
 		if(entry.hasObject(Statics.str_trigger)) {
-			trigger=BukkitAdapter.adapt(((dEntity)entry.getdObject(Statics.str_trigger)).getBukkitEntity());
+			trigger=BukkitAdapter.adapt(((EntityTag)entry.getObjectTag(Statics.str_trigger)).getBukkitEntity());
 		}
 		if(entry.hasObject(Statics.str_origin)) {
-			origin=BukkitAdapter.adapt(((dLocation)entry.getdObject(Statics.str_origin)));
+			origin=BukkitAdapter.adapt(((LocationTag)entry.getObjectTag(Statics.str_origin)));
 		}
 		if(entry.hasObject(Statics.str_power)) {
 			power=entry.getElement(Statics.str_power).asFloat();
 		}
 		if(entry.hasObject(Statics.str_targets)) {
-			AbstractMap.SimpleEntry<HashSet<AbstractEntity>,HashSet<AbstractLocation>>pair=Utils.split_target_list((dList)entry.getObject(Statics.str_targets));
+			AbstractMap.SimpleEntry<HashSet<AbstractEntity>,HashSet<AbstractLocation>>pair=Utils.split_target_list((ListTag)entry.getObject(Statics.str_targets));
 			entity_targets=pair.getKey();
 			location_targets=pair.getValue();
 			if(entity_targets.size()>0) location_targets=null;

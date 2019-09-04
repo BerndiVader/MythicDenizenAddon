@@ -16,8 +16,9 @@ MythicDenizenPlugin
 extends
 JavaPlugin 
 {
-	static MythicDenizenPlugin plugin;
-    static SupportManager supportManager;
+	static MythicDenizenPlugin instance;
+	MythicMobsAddon addon;
+	
     enum Dependings {
     	MythicMobs,
     	Denizen,
@@ -25,12 +26,12 @@ JavaPlugin
     }
     
 	public static MythicDenizenPlugin inst() {
-		return plugin;
+		return instance;
 	}
 	
 	@Override
 	public void onEnable() {
-		plugin = this;
+		instance=this;
 		PluginManager pm = getServer().getPluginManager();
 		if (pm.getPlugin(Dependings.Denizen.toString()) == null) {
 			initFail("Denizen not found!");
@@ -47,16 +48,13 @@ JavaPlugin
 			initFail("Only for MythicMobs 4 or higher!");
 			return;
 		}
-		new RegisterEvents();
-        supportManager = new SupportManager(plugin);
         try {
-			supportManager.register(Support.setPlugin(MythicMobsAddon.class, pm.getPlugin(Dependings.MythicMobs.toString())));
-			supportManager.register(Support.setPlugin(ScoreBoardsAddon.class, pm.getPlugin(Dependings.MythicMobs.toString())));
+    		addon=new MythicMobsAddon();
+    		new RegisterEvents();
 		} catch (Exception e) {
 			initError(e);
 			return;
 		}
-        supportManager.registerNewObjects();
 	}
 	
 	private void initFail(String reason) {
@@ -71,9 +69,9 @@ JavaPlugin
 	}
 	
 	static void writeDenizenCustomObjective() {
-		File target=new File(plugin.getDataFolder().toString().replace("\\"+plugin.getName(),"")+"/Quests/modules/DenizenCustomQuestsObjective.jar");
+		File target=new File(instance.getDataFolder().toString().replace("\\"+instance.getName(),"")+"/Quests/modules/DenizenCustomQuestsObjective.jar");
 		if(!target.exists()) {
-			URL url=plugin.getClassLoader().getResource("DenizenCustomQuestsObjective.jar");
+			URL url=instance.getClassLoader().getResource("DenizenCustomQuestsObjective.jar");
 			try {
 				InputStream in_stream=url.openStream();
 				try (FileOutputStream out_stream=new FileOutputStream(target)){
@@ -91,6 +89,6 @@ JavaPlugin
 
 	@Override
 	public void onDisable() {
-		plugin = null;
+		instance=null;
 	}
 }

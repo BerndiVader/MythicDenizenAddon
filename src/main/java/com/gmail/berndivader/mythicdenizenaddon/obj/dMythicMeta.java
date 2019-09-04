@@ -8,6 +8,16 @@ import java.util.Map;
 
 import org.bukkit.Location;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizencore.objects.Adjustable;
+import com.denizenscript.denizencore.objects.Fetchable;
+import com.denizenscript.denizencore.objects.Mechanism;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.tags.Attribute;
+import com.denizenscript.denizencore.tags.TagContext;
 import com.gmail.berndivader.mythicdenizenaddon.Utils;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
@@ -16,20 +26,12 @@ import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.GenericCaster;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.objects.Adjustable;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.Fetchable;
-import net.aufdemrand.denizencore.objects.Mechanism;
-import net.aufdemrand.denizencore.objects.dList;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.tags.Attribute;
-import net.aufdemrand.denizencore.tags.TagContext;
 
-public class dMythicMeta 
+public
+class
+dMythicMeta 
 implements
-dObject,
+ObjectTag,
 Adjustable
 {
 	static Map<String,SkillMetadata>objects;
@@ -53,18 +55,18 @@ Adjustable
 		if(data!=null) dMythicMeta.objects.put(this.identify(),this.meta);
 	}
 	
-	public static dList getEntityTargets(HashSet<AbstractEntity>entities) {
-		dList list=new dList();
+	public static ListTag getEntityTargets(HashSet<AbstractEntity>entities) {
+		ListTag list=new ListTag();
 		for(AbstractEntity e:entities) {
-			list.add(new dEntity(e.getBukkitEntity()).identify());
+			list.add(new EntityTag(e.getBukkitEntity()).identify());
 		}
 		return list;
 	}
 	
-	public static dList getLocationTargets(HashSet<AbstractLocation>locations) {
-		dList list=new dList();
+	public static ListTag getLocationTargets(HashSet<AbstractLocation>locations) {
+		ListTag list=new ListTag();
 		for(AbstractLocation l:locations) {
-			list.add(new dLocation(BukkitAdapter.adapt(l)).identify());
+			list.add(new LocationTag(BukkitAdapter.adapt(l)).identify());
 		}
 		return list;
 	}
@@ -78,31 +80,31 @@ Adjustable
 		if(a==null) return null;
 		int i1=1;
 		if (a.startsWith("caster")) {
-			return new dEntity(this.meta.getCaster().getEntity().getBukkitEntity()).getAttribute(a.fulfill(i1));
+			return new EntityTag(this.meta.getCaster().getEntity().getBukkitEntity()).getAttribute(a.fulfill(i1));
 		} else if(a.startsWith("cause")) {
-			return new Element(this.meta.getCause().toString()).getAttribute(a.fulfill(i1));
+			return new ElementTag(this.meta.getCause().toString()).getAttribute(a.fulfill(i1));
 		} else if(a.startsWith("trigger")) {
-			return new dEntity(this.meta.getTrigger().getBukkitEntity()).getAttribute(a.fulfill(i1));
+			return new EntityTag(this.meta.getTrigger().getBukkitEntity()).getAttribute(a.fulfill(i1));
 		} else if(a.startsWith("origin")) {
-			return new dLocation(BukkitAdapter.adapt(this.meta.getOrigin())).getAttribute(a.fulfill(i1));
+			return new LocationTag(BukkitAdapter.adapt(this.meta.getOrigin())).getAttribute(a.fulfill(i1));
 		} else if(a.startsWith("targets")) {
-			dList targets=new dList();
+			ListTag targets=new ListTag();
 			if(this.meta.getEntityTargets()!=null&&!this.meta.getEntityTargets().isEmpty()) {
 				Iterator<AbstractEntity> it=this.meta.getEntityTargets().iterator();
 				while(it.hasNext()) {
-					targets.addObject(new dEntity(it.next().getBukkitEntity()));
+					targets.addObject(new EntityTag(it.next().getBukkitEntity()));
 				}
 			} else if(this.meta.getLocationTargets()!=null&&!this.meta.getLocationTargets().isEmpty()) {
 				Iterator<AbstractLocation>it=this.meta.getLocationTargets().iterator();
 				while(it.hasNext()) {
-					targets.addObject(new dLocation(BukkitAdapter.adapt(it.next())));
+					targets.addObject(new LocationTag(BukkitAdapter.adapt(it.next())));
 				}
 			}
 			return targets.getAttribute(a.fulfill(i1));
 		} else if(a.startsWith("power")) {
-			return new Element(this.meta.getPower()).getAttribute(a.fulfill(i1));
+			return new ElementTag(this.meta.getPower()).getAttribute(a.fulfill(i1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new ElementTag(identify()).getAttribute(a);
 	}
 	
 	@Override
@@ -112,26 +114,26 @@ Adjustable
 				if(m.requireFloat()) this.meta.setPower(m.getValue().asFloat());
 				break;
 			case "origin":
-				if(m.requireObject(dLocation.class)) this.meta.setOrigin(BukkitAdapter.adapt((Location)m.getValue().asType(dLocation.class)));
+				if(m.requireObject(LocationTag.class)) this.meta.setOrigin(BukkitAdapter.adapt((Location)m.getValue().asType(LocationTag.class)));
 				break;
 			case "cancel":
 				this.meta.cancelEvent();
 				break;
 			case "caster":
-				if(m.requireObject(dEntity.class)) {
-					this.meta.setCaster(new GenericCaster(BukkitAdapter.adapt(m.getValue().asType(dEntity.class).getBukkitEntity())));
+				if(m.requireObject(EntityTag.class)) {
+					this.meta.setCaster(new GenericCaster(BukkitAdapter.adapt(m.getValue().asType(EntityTag.class).getBukkitEntity())));
 				}
 				break;
 			case "trigger":
-				if(m.requireObject(dEntity.class)) {
-					this.meta.setCaster(new GenericCaster(BukkitAdapter.adapt(m.getValue().asType(dEntity.class).getBukkitEntity())));
+				if(m.requireObject(EntityTag.class)) {
+					this.meta.setCaster(new GenericCaster(BukkitAdapter.adapt(m.getValue().asType(EntityTag.class).getBukkitEntity())));
 				}
 				break;
 			case "targets":
-				if(m.requireObject(dList.class)) {
+				if(m.requireObject(ListTag.class)) {
 					HashSet<AbstractLocation>locations=new HashSet<>();
 					HashSet<AbstractEntity>entities=new HashSet<>();
-					dList list=m.getValue().asType(dList.class);
+					ListTag list=m.getValue().asType(ListTag.class);
 					AbstractMap.SimpleEntry<HashSet<AbstractEntity>,HashSet<AbstractLocation>>pair=Utils.split_target_list(list);
 					locations=pair.getValue();
 					entities=pair.getKey();
@@ -176,7 +178,7 @@ Adjustable
 	}
 	
 	@Override
-	public dObject setPrefix(String string) {
+	public ObjectTag setPrefix(String string) {
 		this.prefix=string;
 		return this;
 	}
@@ -212,6 +214,8 @@ Adjustable
 
 	@Override
 	public void applyProperty(Mechanism arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

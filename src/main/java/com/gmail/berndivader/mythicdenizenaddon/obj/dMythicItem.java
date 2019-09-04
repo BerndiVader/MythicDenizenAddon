@@ -1,20 +1,23 @@
 package com.gmail.berndivader.mythicdenizenaddon.obj;
 
+import com.denizenscript.denizen.objects.ItemTag;
+import com.denizenscript.denizencore.objects.Fetchable;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.tags.Attribute;
+import com.denizenscript.denizencore.tags.TagContext;
+import com.denizenscript.denizencore.utilities.debugging.Debug;
+
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.items.MythicItem;
-import net.aufdemrand.denizen.objects.dItem;
-import net.aufdemrand.denizen.utilities.debugging.dB;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.Fetchable;
-import net.aufdemrand.denizencore.objects.dList;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.tags.Attribute;
-import net.aufdemrand.denizencore.tags.TagContext;
 
-public class dMythicItem 
+public 
+class
+dMythicItem 
 implements
-dObject
+ObjectTag
 {
 	public static String id="mythicitem@";
 	private String prefix;
@@ -42,33 +45,33 @@ dObject
 	public String getAttribute(Attribute a) {
 		if(a==null) return null;
 		if(a.startsWith("internalname")||a.startsWith("type")) {
-			return new Element(mi.getInternalName()).getAttribute(a.fulfill(1));
+			return new ElementTag(mi.getInternalName()).getAttribute(a.fulfill(1));
 		} else if(a.startsWith("amount")) {
-			return new Element(mi.getAmount()).getAttribute(a.fulfill(1));
+			return new ElementTag(mi.getAmount()).getAttribute(a.fulfill(1));
 		} else if(a.startsWith("displayname")) {
-			return new Element(mi.getDisplayName()).getAttribute(a.fulfill(1));
+			return new ElementTag(mi.getDisplayName()).getAttribute(a.fulfill(1));
 		} else if(a.startsWith("lore")) {
-			dList dl=new dList();
+			ListTag dl=new ListTag();
 			dl.addAll(mi.getLore());
 			return dl.getAttribute(a.fulfill(1));
 		} else if(a.startsWith("materialname")) {
-			return new Element(mi.getMaterialName()).getAttribute(a.fulfill(1));
+			return new ElementTag(mi.getMaterialName()).getAttribute(a.fulfill(1));
 		} else if(a.startsWith("materialdata")) {
-			return new Element(mi.getMaterialData()).getAttribute(a.fulfill(1));
+			return new ElementTag(mi.getMaterialData()).getAttribute(a.fulfill(1));
 		} else if(a.startsWith("itemstack")||a.startsWith("get_item")) {
 			return getItemstack().getAttribute(a.fulfill(1));
 		} else if(a.startsWith("ispresent")) {
-			return new Element(isPresent()).getAttribute(a.fulfill(1));
+			return new ElementTag(isPresent()).getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new ElementTag(identify()).getAttribute(a);
 	}
 	
 	public boolean isPresent() {
 		return this.mi!=null;
 	}
 	
-	private dItem getItemstack() {
-		return new dItem(BukkitAdapter.adapt(mi.generateItemStack(1)));
+	private ItemTag getItemstack() {
+		return new ItemTag(BukkitAdapter.adapt(mi.generateItemStack(1)));
 	}
 
 	@Override
@@ -102,7 +105,7 @@ dObject
 	}
 	
 	@Override
-	public dObject setPrefix(String string) {
+	public ObjectTag setPrefix(String string) {
 		this.prefix = string;
 		return this;
 	}
@@ -114,7 +117,7 @@ dObject
             return new dMythicItem(name.replace(id,""));
         }
         catch (Exception e) {
-        	dB.echoError(e.getMessage());
+        	Debug.echoError(e.getMessage());
         }
         return null;
     }

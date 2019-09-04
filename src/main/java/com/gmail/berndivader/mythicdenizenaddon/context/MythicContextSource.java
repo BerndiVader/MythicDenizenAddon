@@ -2,8 +2,8 @@ package com.gmail.berndivader.mythicdenizenaddon.context;
 
 import java.util.HashMap;
 
-import net.aufdemrand.denizencore.interfaces.ContextSource;
-import net.aufdemrand.denizencore.objects.dObject;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.scripts.queues.ContextSource;
 
 public 
 class 
@@ -11,15 +11,15 @@ MythicContextSource
 implements
 ContextSource
 {
-	HashMap<String,dObject>context_map;
+	HashMap<String,ObjectTag>context_map;
 	
-	public MythicContextSource(HashMap<String,dObject>context_map) {
+	public MythicContextSource(HashMap<String,ObjectTag>context_map) {
 		this.context_map=new HashMap<>();
 		this.context_map.putAll(context_map);
 	}
 	
 	@Override
-	public dObject getContext(String id) {
+	public ObjectTag getContext(String id) {
 		id=id.toLowerCase();
 		if(this.context_map.containsKey(id.toLowerCase())) {
 			return this.context_map.get(id);
@@ -32,7 +32,7 @@ ContextSource
 		return false;
 	}
 	
-	public HashMap<String,dObject> getContexts() {
+	public HashMap<String,ObjectTag> getContexts() {
 		return this.context_map;
 	}
 

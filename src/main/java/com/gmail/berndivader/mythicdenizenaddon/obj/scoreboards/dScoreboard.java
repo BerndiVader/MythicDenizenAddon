@@ -2,16 +2,22 @@ package com.gmail.berndivader.mythicdenizenaddon.obj.scoreboards;
 
 import org.bukkit.scoreboard.Scoreboard;
 
-import net.aufdemrand.denizen.utilities.ScoreboardHelper;
-import net.aufdemrand.denizencore.objects.Adjustable;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.Fetchable;
-import net.aufdemrand.denizencore.objects.Mechanism;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.tags.Attribute;
-import net.aufdemrand.denizencore.tags.TagContext;
+import com.denizenscript.denizen.utilities.ScoreboardHelper;
+import com.denizenscript.denizencore.objects.Adjustable;
+import com.denizenscript.denizencore.objects.Fetchable;
+import com.denizenscript.denizencore.objects.Mechanism;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.tags.Attribute;
+import com.denizenscript.denizencore.tags.TagContext;
 
-public class dScoreboard implements dObject, Adjustable {
+public 
+class 
+dScoreboard
+implements
+ObjectTag, 
+Adjustable 
+{
 	private String prefix;
 	private String id;
 	private Scoreboard sb;
@@ -32,16 +38,16 @@ public class dScoreboard implements dObject, Adjustable {
 	
 	@Override
 	public void adjust(Mechanism m) {
-		Element val = m.getValue();
+		ElementTag val = m.getValue();
 	}
 
 	@Override
 	public String getAttribute(Attribute a) {
 		if (a==null) return null;
 		if (a.matches("id")) {
-			return new Element(this.id).getAttribute(a.fulfill(1));
+			return new ElementTag(this.id).getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new ElementTag(identify()).getAttribute(a);
 	}
 
 	@Override
@@ -79,7 +85,7 @@ public class dScoreboard implements dObject, Adjustable {
 	}
 
 	@Override
-	public dObject setPrefix(String string) {
+	public ObjectTag setPrefix(String string) {
 		this.prefix = string;
 		return this;
 	}

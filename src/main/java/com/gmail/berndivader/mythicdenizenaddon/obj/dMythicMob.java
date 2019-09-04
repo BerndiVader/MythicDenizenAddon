@@ -1,22 +1,22 @@
 package com.gmail.berndivader.mythicdenizenaddon.obj;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizencore.objects.Fetchable;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.tags.Attribute;
+import com.denizenscript.denizencore.tags.TagContext;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 
 import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.MobManager;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.Fetchable;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.tags.Attribute;
-import net.aufdemrand.denizencore.tags.TagContext;
 
 public class dMythicMob 
 implements 
-dObject
+ObjectTag
 {
 	static String id="mythicmob@";
 	static MythicMobs mythicmobs;
@@ -54,14 +54,14 @@ dObject
 	public String getAttribute(Attribute a) {
 		if (a==null) return null;
 		if(a.startsWith("spawn")&&a.hasContext(1)) {
-			dObject o=a.getContextObject(1);
-			if(dLocation.matches(o.identify())) {
-				return new dActiveMob(mm.spawn(BukkitAdapter.adapt((dLocation)dLocation.valueOf(o.identify())),1)).getAttribute(a.fulfill(1));
-			} else if(dEntity.matches(o.identify())) {
-				return new dActiveMob(mm.spawn(BukkitAdapter.adapt(((dEntity)o).getBukkitEntity().getLocation()),1)).getAttribute(a.fulfill(1));
+			ObjectTag o=a.getContextObject(1);
+			if(LocationTag.matches(o.identify())) {
+				return new dActiveMob(mm.spawn(BukkitAdapter.adapt((LocationTag)LocationTag.valueOf(o.identify())),1)).getAttribute(a.fulfill(1));
+			} else if(EntityTag.matches(o.identify())) {
+				return new dActiveMob(mm.spawn(BukkitAdapter.adapt(((EntityTag)o).getBukkitEntity().getLocation()),1)).getAttribute(a.fulfill(1));
 			}
 		}
-		return new Element(identify()).getAttribute(a);
+		return new ElementTag(identify()).getAttribute(a);
 	}
 	
 	@Override
@@ -95,7 +95,7 @@ dObject
 	}
 
 	@Override
-	public dObject setPrefix(String string) {
+	public ObjectTag setPrefix(String string) {
 		this.prefix = string;
 		return this;
 	}

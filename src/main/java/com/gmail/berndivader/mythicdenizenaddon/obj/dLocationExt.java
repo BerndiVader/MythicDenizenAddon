@@ -1,26 +1,30 @@
 package com.gmail.berndivader.mythicdenizenaddon.obj;
 
+import com.denizenscript.denizen.objects.LocationTag;
+import com.denizenscript.denizencore.objects.Mechanism;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.tags.Attribute;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 
-import net.aufdemrand.denizen.objects.dLocation;
-import net.aufdemrand.denizencore.objects.Mechanism;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.tags.Attribute;
-
-public class dLocationExt extends dObjectExtension {
-	private dLocation location;
+public 
+class
+dLocationExt
+extends 
+dObjectExtension 
+{
+	private LocationTag location;
 	
-	public dLocationExt (dLocation l) {
+	public dLocationExt (LocationTag l) {
 		this.location=l;
 	}
 	
-	public static boolean describes(dObject object) {
-        return object instanceof dLocation;
+	public static boolean describes(ObjectTag object) {
+        return object instanceof LocationTag;
     }
     
-    public static dLocationExt getFrom(dObject o) {
+    public static dLocationExt getFrom(ObjectTag o) {
     	if (!describes(o)) return null;
-    	return new dLocationExt((dLocation)o);
+    	return new dLocationExt((LocationTag)o);
     }
     
     @Override

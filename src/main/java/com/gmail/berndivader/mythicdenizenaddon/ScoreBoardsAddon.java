@@ -8,6 +8,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import com.denizenscript.denizen.Denizen;
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizen.utilities.DenizenAPI;
+import com.denizenscript.denizencore.objects.ObjectFetcher;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.objects.properties.PropertyParser;
+import com.denizenscript.denizencore.scripts.commands.CommandRegistry;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.scoreboards.CreateTeam;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.scoreboards.GetAllTeams;
 import com.gmail.berndivader.mythicdenizenaddon.cmds.scoreboards.GetEntityByEntry;
@@ -16,43 +24,43 @@ import com.gmail.berndivader.mythicdenizenaddon.cmds.scoreboards.RemoveTeam;
 import com.gmail.berndivader.mythicdenizenaddon.obj.scoreboards.dEntityTeamExt;
 import com.gmail.berndivader.mythicdenizenaddon.obj.scoreboards.dTeam;
 
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.dList;
-
-public class ScoreBoardsAddon extends Support {
-	
+public
+class
+ScoreBoardsAddon
+{
 	public static Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+	public static Denizen denizen=DenizenAPI.getCurrentInstance();
+	static CommandRegistry commandregistry=denizen.getCommandRegistry();
 	
-	@SuppressWarnings("unchecked")
 	public ScoreBoardsAddon() {
-
-		registerObjects(dTeam.class);
-		registerProperty(dEntityTeamExt.class, dEntity.class);
 		
-		new CreateTeam().activate().as("createteam").withOptions("- createteam [name:string]", 1);
-		new RemoveTeam().activate().as("removeteam").withOptions("- removeteam [name:string]", 1);
-		new GetAllTeams().activate().as("getallteams").withOptions("- getallteams", 0);
-		new GetTeam().activate().as("getteam").withOptions("- getteam [name:string]", 1);
-		new GetEntityByEntry().as("getentitybyentry").withOptions("- getentitybyentry [entry:string]", 1);
+		ObjectFetcher.registerWithObjectFetcher(dTeam.class);
+		
+		PropertyParser.registerProperty(dEntityTeamExt.class,EntityTag.class);
+		
+		commandregistry.registerCoreMember(CreateTeam.class,"createteam","createteam [name:string]",1);
+		commandregistry.registerCoreMember(GetAllTeams.class,"getallteams","getallteams",0);
+		commandregistry.registerCoreMember(RemoveTeam.class,"removeteam","removeteam [name:string]",1);
+		commandregistry.registerCoreMember(GetTeam.class,"getteam","getteam [name:string]",1);
+		commandregistry.registerCoreMember(GetEntityByEntry.class,"getentitybyentry","getentitybyentry [entry:string]",1);
 	}
 
-	public static dList getAllMembersOfTeam(Team team) {
-		dList list = new dList();
+	public static ListTag getAllMembersOfTeam(Team team) {
+		ListTag list = new ListTag();
 		for (String s : team.getEntries()) {
 			try {
 				UUID uuid = UUID.fromString(s);
-				dEntity.getEntityForID(uuid);
+				EntityTag.getEntityForID(uuid);
 			} catch (Exception ex) {
 				
 			}
-			list.add(new Element(s).identify());
+			list.add(new ElementTag(s).identify());
 		}
 		return list;
 	}
 
-	public static dList getAllTeamsOf(Scoreboard sb) {
-		dList list = new dList();
+	public static ListTag getAllTeamsOf(Scoreboard sb) {
+		ListTag list = new ListTag();
 		for (Team t : sb.getTeams()) {
 			list.add(new dTeam(t).identify());
 		}
@@ -76,21 +84,21 @@ public class ScoreBoardsAddon extends Support {
 		Entity entity = null;
 		try {
 			UUID uuid = UUID.fromString(entry);
-			entity = dEntity.getEntityForID(uuid);
+			entity = EntityTag.getEntityForID(uuid);
 		} catch (Exception ex) {
 			entity = (Entity)Bukkit.getPlayer(entry);
 		}
 		return entity;
 	}
 
-	public static void EntityJoinTeam(dEntity de, String tname) {
+	public static void EntityJoinTeam(EntityTag de, String tname) {
 		Entity entity = de.getBukkitEntity();
 		Team team = scoreboard.getTeam(tname);
 		if (team==null) return;
 		team.addEntry((entity instanceof Player)?entity.getName():entity.getUniqueId().toString());
 	}
 
-	public static void EntityLeaveTeam(dEntity de) {
+	public static void EntityLeaveTeam(EntityTag de) {
 		Entity entity = de.getBukkitEntity();
 		String entry = (entity instanceof Player)?entity.getName():entity.getUniqueId().toString();
 		Team team = scoreboard.getEntryTeam(entry);

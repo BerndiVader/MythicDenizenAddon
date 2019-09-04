@@ -6,18 +6,22 @@ import org.bukkit.scoreboard.Team;
 import org.bukkit.scoreboard.Team.Option;
 import org.bukkit.scoreboard.Team.OptionStatus;
 
+import com.denizenscript.denizen.objects.EntityTag;
+import com.denizenscript.denizencore.objects.Adjustable;
+import com.denizenscript.denizencore.objects.Fetchable;
+import com.denizenscript.denizencore.objects.Mechanism;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.tags.Attribute;
+import com.denizenscript.denizencore.tags.TagContext;
 import com.gmail.berndivader.mythicdenizenaddon.ScoreBoardsAddon;
 
-import net.aufdemrand.denizen.objects.dEntity;
-import net.aufdemrand.denizencore.objects.Adjustable;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.Fetchable;
-import net.aufdemrand.denizencore.objects.Mechanism;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.tags.Attribute;
-import net.aufdemrand.denizencore.tags.TagContext;
-
-public class dTeam implements dObject, Adjustable {
+public
+class 
+dTeam
+implements
+ObjectTag,
+Adjustable {
 
 	private static String id="team@";
 	private String prefix=id;
@@ -39,11 +43,11 @@ public class dTeam implements dObject, Adjustable {
 	
 	@Override
 	public void adjust(Mechanism m) {
-		Element val = m.getValue();
+		ElementTag val = m.getValue();
 		switch(m.getName().toLowerCase()) {
 		case "addmember":
-			if (m.requireObject(dEntity.class)) {
-				Entity entity = val.asType(dEntity.class).getBukkitEntity();
+			if (m.requireObject(EntityTag.class)) {
+				Entity entity = val.asType(EntityTag.class).getBukkitEntity();
 				team.addEntry((entity instanceof Player)?entity.getName():entity.getUniqueId().toString());
 			}
 			break;
@@ -85,30 +89,30 @@ public class dTeam implements dObject, Adjustable {
 	public String getAttribute(Attribute a) {
 		if (a==null) return null;
 		if (a.startsWith("name")) {
-			return new Element(this.team.getName()).getAttribute(a.fulfill(1));
+			return new ElementTag(this.team.getName()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("displayname")) {
-			return new Element(this.team.getDisplayName()).getAttribute(a.fulfill(1));
+			return new ElementTag(this.team.getDisplayName()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("members")) {
 			return ScoreBoardsAddon.getAllMembersOfTeam(this.team).getAttribute(a.fulfill(1)); 
 		} else if (a.startsWith("collision")) {
 			OptionStatus oStat = this.team.getOption(Option.COLLISION_RULE);
-			return new Element(oStat.toString()).getAttribute(a.fulfill(1));
+			return new ElementTag(oStat.toString()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("deathmessage")) {
 			OptionStatus oStat = this.team.getOption(Option.DEATH_MESSAGE_VISIBILITY);
-			return new Element(oStat.toString()).getAttribute(a.fulfill(1));
+			return new ElementTag(oStat.toString()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("nametag")) {
 			OptionStatus oStat = this.team.getOption(Option.NAME_TAG_VISIBILITY);
-			return new Element(oStat.toString()).getAttribute(a.fulfill(1));
+			return new ElementTag(oStat.toString()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("friendlyfire")) {
-			return new Element(this.team.allowFriendlyFire()).getAttribute(a.fulfill(1));
+			return new ElementTag(this.team.allowFriendlyFire()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("friendlyinvisibles")) {
-			return new Element(this.team.canSeeFriendlyInvisibles()).getAttribute(a.fulfill(1));
+			return new ElementTag(this.team.canSeeFriendlyInvisibles()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("prefix")) {
-			return new Element(this.team.getPrefix()).getAttribute(a.fulfill(1));
+			return new ElementTag(this.team.getPrefix()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("suffix")) {
-			return new Element(this.team.getSuffix()).getAttribute(a.fulfill(1));
+			return new ElementTag(this.team.getSuffix()).getAttribute(a.fulfill(1));
 		}
-		return new Element(identify()).getAttribute(a);
+		return new ElementTag(identify()).getAttribute(a);
 	}
 
 	@Override
@@ -146,7 +150,7 @@ public class dTeam implements dObject, Adjustable {
 	}
 
 	@Override
-	public dObject setPrefix(String string) {
+	public ObjectTag setPrefix(String string) {
 		this.prefix = string;
 		return this;
 	}

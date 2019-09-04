@@ -4,22 +4,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
+import com.denizenscript.denizencore.objects.ObjectTag;
+import com.denizenscript.denizencore.objects.core.ScriptTag;
+import com.denizenscript.denizencore.scripts.ScriptBuilder;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.queues.ScriptQueue;
+import com.denizenscript.denizencore.scripts.queues.core.InstantQueue;
 import com.gmail.berndivader.mythicdenizenaddon.context.MythicContextSource;
 
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.objects.aH.Argument;
-import net.aufdemrand.denizencore.objects.aH.PrimitiveType;
-import net.aufdemrand.denizencore.objects.dObject;
-import net.aufdemrand.denizencore.objects.dScript;
-import net.aufdemrand.denizencore.scripts.ScriptBuilder;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.queues.ScriptQueue;
-import net.aufdemrand.denizencore.scripts.queues.core.InstantQueue;
 
 public
 class 
-ScriptCondition<E extends dObject>
+ScriptCondition<E extends ObjectTag>
 extends
 AbstractCustomCondition
 {
@@ -53,7 +52,7 @@ AbstractCustomCondition
 		boolean match=false;
 		ScriptEntry entry=null;
 		List<ScriptEntry>entries=null;
-		dScript script=new dScript(script_name);
+		ScriptTag script=new ScriptTag(script_name);
 		if(script!=null&&script.isValid()) {
 			try {
 				entry=new ScriptEntry(script.getName(),new String[0],script.getContainer());
@@ -69,7 +68,7 @@ AbstractCustomCondition
 			long req_id=0l;
 			ScriptBuilder.addObjectToEntries(entries,"reqid",req_id);
 
-			HashMap<String,dObject>context=new HashMap<String,dObject>();
+			HashMap<String,ObjectTag>context=new HashMap<String,ObjectTag>();
 			context.put("source",denizen_source);
 			if(denizen_target!=null) context.put("target",denizen_target);
 			
@@ -91,9 +90,8 @@ AbstractCustomCondition
 			
 			Object o=queue.getLastEntryExecuted().getArguments();
 			if(o!=null&&o instanceof List) {
-				@SuppressWarnings("unchecked")
-				List<Argument>args=aH.interpret((List<String>)o);
-				for(Argument arg:args) {
+				for(String s1:(List<String>)o) {
+					Argument arg=new Argument(s1);
 					if(arg.matchesPrimitive(PrimitiveType.Boolean)) {
 						match=arg.asElement().asBoolean();
 						break;

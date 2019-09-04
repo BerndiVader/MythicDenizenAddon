@@ -1,16 +1,17 @@
 package com.gmail.berndivader.mythicdenizenaddon.conditions;
 
+import com.denizenscript.denizen.objects.LocationTag;
+
 import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import io.lumine.xikage.mythicmobs.skills.conditions.ILocationCondition;
-import net.aufdemrand.denizen.objects.dLocation;
 
 public
 class 
 LocationScriptCondition 
 extends
-ScriptCondition<dLocation>
+ScriptCondition<LocationTag>
 implements
 ILocationCondition
 {
@@ -20,7 +21,7 @@ ILocationCondition
 
 	@Override
 	public boolean check(AbstractLocation location) {
-		return __check(new dLocation(BukkitAdapter.adapt(location)));
+		return __check(new LocationTag(BukkitAdapter.adapt(location)));
 	}
 
 }

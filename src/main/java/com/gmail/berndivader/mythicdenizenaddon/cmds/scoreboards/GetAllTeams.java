@@ -5,12 +5,12 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import com.gmail.berndivader.mythicdenizenaddon.ScoreBoardsAddon;
 
-import net.aufdemrand.denizencore.exceptions.CommandExecutionException;
-import net.aufdemrand.denizencore.exceptions.InvalidArgumentsException;
-import net.aufdemrand.denizencore.objects.Element;
-import net.aufdemrand.denizencore.objects.aH;
-import net.aufdemrand.denizencore.scripts.ScriptEntry;
-import net.aufdemrand.denizencore.scripts.commands.AbstractCommand;
+import com.denizenscript.denizencore.exceptions.CommandExecutionException;
+import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
+import com.denizenscript.denizencore.objects.Argument;
+import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.denizenscript.denizencore.scripts.ScriptEntry;
+import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
 
 public class GetAllTeams extends AbstractCommand {
 	private static String str_board="board";
@@ -19,13 +19,13 @@ public class GetAllTeams extends AbstractCommand {
 
 	@Override
 	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (aH.Argument arg : aH.interpret(entry.getArguments())) {
+		for (Argument arg:entry.getProcessedArgs()) {
 			if (!entry.hasObject(str_board) && arg.matchesPrefix(str_board)) {
-				entry.addObject(str_board, new Element(arg.getValue().toLowerCase().equals(str_main)?str_main:str_custom));
+				entry.addObject(str_board, new ElementTag(arg.getValue().toLowerCase().equals(str_main)?str_main:str_custom));
 			} else arg.reportUnhandled();
 		}
 		if (!entry.hasObject(str_board)) {
-			entry.addObject(str_board, new Element(str_custom));
+			entry.addObject(str_board, new ElementTag(str_custom));
 		}
 	}
 	
