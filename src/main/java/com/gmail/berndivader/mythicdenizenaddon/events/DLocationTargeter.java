@@ -19,7 +19,7 @@ ILocationSelector
 	private String[] args;
 
 	public DLocationTargeter(MythicLineConfig mlc) {
-		super();
+		super(mlc);
 		this.targeter=mlc.getString(new String[] {"targeter","name","type","t","n"},"");
 		this.args=mlc.getString(new String[] {"args","a"},"").split(",");
 	}

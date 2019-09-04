@@ -24,7 +24,7 @@ ILocationSelector
 	HashMap<String,String>attributes;
 
 	public LocationTargeter(String targeter,MythicLineConfig mlc) {
-		super();
+		super(mlc);
 		
 		script_name=mlc.getString("script","");
 

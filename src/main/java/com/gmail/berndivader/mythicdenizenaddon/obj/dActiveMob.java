@@ -138,7 +138,7 @@ public class dActiveMob implements dObject, Adjustable {
 		} else if (a.startsWith("mobtype")) {
 			return new Element(am.getType().getInternalName()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("displayname")) {
-			return new Element(am.getType().getDisplayName()).getAttribute(a.fulfill(1));
+			return new Element(am.getType().getDisplayName().get()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("location")) {
 			return new dLocation(BukkitAdapter.adapt(am.getLocation())).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("world")) {

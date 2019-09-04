@@ -23,8 +23,8 @@ repositories {
 
 dependencies {
 	compileOnly "org.spigotmc:spigot:+"
-    compileOnly "io.lumine.xikage:mythicmobs:4.5.7"
-	compileOnly "net.aufdemrand:denizen:+"
+    compileOnly "io.lumine.xikage:mythicmobs:+"
+	compileOnly "net.aufdemrand:denizen:1.0.6"
 }
 
 processResources {

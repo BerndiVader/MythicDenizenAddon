@@ -54,7 +54,6 @@ import io.lumine.xikage.mythicmobs.adapters.AbstractLocation;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
-import io.lumine.xikage.mythicmobs.skills.AbstractSkill;
 import io.lumine.xikage.mythicmobs.skills.SkillCaster;
 import io.lumine.xikage.mythicmobs.skills.SkillMetadata;
 import io.lumine.xikage.mythicmobs.skills.SkillTargeter;
@@ -76,6 +75,8 @@ public class MythicMobsAddon extends Support {
 	
 	@SuppressWarnings("unchecked")
 	public MythicMobsAddon() {
+		
+		Reflections.init();
 		
 		registerObjects(dMythicSpawner.class,dActiveMob.class,dMythicMob.class,dMythicItem.class,dMythicMechanic.class,dMythicSkill.class,dMythicMeta.class);
 		registerProperty(dEntityExt.class,dEntity.class);
@@ -305,7 +306,7 @@ public class MythicMobsAddon extends Support {
 	private static SkillTargeter getSkillTargeter(String targeterName) {
 	    Optional<SkillTargeter> maybeTargeter = Optional.empty();
 		targeterName = targeterName.startsWith("@")?targeterName:"@"+targeterName;
-		maybeTargeter = Optional.of(AbstractSkill.parseSkillTargeter(targeterName));
+		maybeTargeter = Optional.of((SkillTargeter)Reflections.parseSkillTargeter(targeterName));
 		if (!maybeTargeter.isPresent()) return null;
         SkillTargeter targeter = maybeTargeter.get();
         return targeter;
