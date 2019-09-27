@@ -2,15 +2,15 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 task processbuildnumber {
-	Properties p1=new Properties()
-	def d1=project.projectDir
-	def d2="${d1}/gradle.properties"
-	File pf1=new File(d2)
-	p1.load(pf1.newDataInputStream())
-	Integer i1=(((p1.getProperty('artbuild')) as BigDecimal) + 1 )
-	p1.setProperty('artbuild', i1.toString())
-	p1.store(pf1.newWriter(), null)
-	p1.load(pf1.newDataInputStream())
+	Properties props = new Properties()
+	def projDir = project.projectDir
+	def gradPropFilePath = "${projDir}/gradle.properties"
+	File gradPropFile = new File(gradPropFilePath)
+	props.load(gradPropFile.newDataInputStream())
+	Integer buildNum = (((props.getProperty('artbuild')) as BigDecimal) + 1 )
+	props.setProperty('artbuild', buildNum.toString())
+	props.store(gradPropFile.newWriter(), null)
+	props.load(gradPropFile.newDataInputStream())
 	version = artver
 	group = "com.gmail.berndivader"
 }
@@ -46,7 +46,6 @@ processResources {
 	      	into "$buildDir/resources/main"
 	    }
 	}
-	
 }
 
 task createPom  {

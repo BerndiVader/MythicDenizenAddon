@@ -1,11 +1,5 @@
 package com.gmail.berndivader.mythicdenizenaddon.cmds;
 
-import java.util.UUID;
-
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-
 import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
@@ -13,66 +7,66 @@ import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
 import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
-import com.gmail.berndivader.mythicdenizenaddon.Statics;
+import com.gmail.berndivader.mythicdenizenaddon.StaticStrings;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
-
-import io.lumine.xikage.mythicmobs.MythicMobs;
 import io.lumine.xikage.mythicmobs.adapters.AbstractEntity;
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.mobs.ActiveMob;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 
-public 
-class 
-TransformMythicMob
-extends
-AbstractCommand 
-{
-	
-	@Override
-	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (Argument arg:entry.getProcessedArgs()) {
-			if (!entry.hasObject(Statics.str_activemob) && arg.matchesPrefix(Statics.str_activemob) 
-					&& arg.matchesArgumentType(dActiveMob.class)) {
-				entry.addObject(Statics.str_activemob, arg.asType(dActiveMob.class));
-			}
-		}
-	}
-	
-	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		ActiveMob am=((dActiveMob)entry.getObjectTag(Statics.str_activemob)).getActiveMob();
-		if (am!=null) {
-			Entity entity = transformToNormalEntity(am);
-			if (entity!=null) {
-				EntityTag dentity = new EntityTag(entity);
-				entry.addObject(Statics.str_entity,dentity);
-			} else {
-				throw new CommandExecutionException("Failed to get Entity from MythicMob");
-			}
-		}
-	}
-	
-	private static Entity transformToNormalEntity(ActiveMob am) {
-		Entity entity=am.getEntity().getBukkitEntity();
-		entity.removeMetadata("Faction", MythicMobsAddon.mythicmobs);
-		Location l=am.getEntity().getBukkitEntity().getLocation().clone();
-		am.setDead();
-		ureg(am.getUniqueId());
-		l.setY(0);
-		AbstractEntity d=BukkitAdapter.adapt(l.getWorld().spawnEntity(l,EntityType.BAT));
-		am.setEntity(d);
-		ureg(am);
-		MythicMobs.inst().getMobManager().getVoidList().remove(entity.getUniqueId());
-		d.remove();
-		return entity;
-	}
-	
-    private static void ureg(ActiveMob o) {
-    	if (o!=null) MythicMobsAddon.mythicmobs.getMobManager().unregisterActiveMob(((ActiveMob)o));
+import java.util.UUID;
+
+public class TransformMythicMob extends AbstractCommand {
+
+    private Entity transformToNormalEntity(ActiveMob am) {
+        Entity entity = am.getEntity().getBukkitEntity();
+        entity.removeMetadata("Faction", MythicMobsAddon.mythicMobsInstance);
+        Location l = am.getEntity().getBukkitEntity().getLocation().clone();
+
+        am.setDead();
+        unregister(am.getUniqueId());
+
+        l.setY(0);
+        AbstractEntity fakeActiveMob = BukkitAdapter.adapt(l.getWorld().spawnEntity(l, EntityType.BAT));
+        am.setEntity(fakeActiveMob);
+        unregister(am);
+
+        MythicMobsAddon.mythicMobManager.getVoidList().remove(entity.getUniqueId());
+        fakeActiveMob.remove();
+        return entity;
     }
-    private static void ureg(UUID o) {
-    	if (o!=null) MythicMobsAddon.mythicmobs.getMobManager().unregisterActiveMob(((UUID)o));
+
+    private void unregister(ActiveMob activeMob) {
+        if (activeMob != null) {
+            MythicMobsAddon.mythicMobManager.unregisterActiveMob(activeMob);
+        }
     }
-	
-	
+
+    private void unregister(UUID uuid) {
+        if (uuid != null) {
+            MythicMobsAddon.mythicMobManager.unregisterActiveMob(uuid);
+        }
+    }
+
+    @Override
+    public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
+        for (Argument arg : entry.getProcessedArgs()) {
+            if (!entry.hasObject(StaticStrings.ACTIVE_MOB) && arg.matchesPrefix(StaticStrings.ACTIVE_MOB)
+                    && arg.matchesArgumentType(dActiveMob.class)) {
+                entry.addObject(StaticStrings.ACTIVE_MOB, arg.asType(dActiveMob.class));
+            }
+        }
+    }
+
+    @Override
+    public void execute(ScriptEntry entry) throws CommandExecutionException {
+        ActiveMob am = ((dActiveMob) entry.getObjectTag(StaticStrings.ACTIVE_MOB)).getActiveMob();
+        if (am != null) {
+            Entity entity = transformToNormalEntity(am);
+            EntityTag dentity = new EntityTag(entity);
+            entry.addObject(StaticStrings.ENTITY, dentity);
+        }
+    }
 }

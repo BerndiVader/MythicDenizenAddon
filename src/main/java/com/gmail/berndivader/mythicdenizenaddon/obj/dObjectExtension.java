@@ -4,12 +4,7 @@ import com.denizenscript.denizencore.objects.Mechanism;
 import com.denizenscript.denizencore.objects.properties.Property;
 import com.denizenscript.denizencore.tags.Attribute;
 
-public 
-class 
-dObjectExtension
-implements
-Property
-{
+public class dObjectExtension implements Property {
 
     @Override
     public String getPropertyString() {
@@ -29,5 +24,4 @@ Property
     @Override
     public void adjust(Mechanism mechanism) {
     }
-
 }

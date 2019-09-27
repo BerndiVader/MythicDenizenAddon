@@ -9,32 +9,31 @@ import com.denizenscript.denizencore.utilities.debugging.Debug;
 import com.gmail.berndivader.mythicdenizenaddon.ScoreBoardsAddon;
 import com.gmail.berndivader.mythicdenizenaddon.obj.scoreboards.dTeam;
 
-public 
-class
-GetTeam
-extends 
-AbstractCommand 
-{
-	private static String str_name="name";
+public class GetTeam extends AbstractCommand {
 
-	@Override
-	public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
-		for (Argument arg:entry.getProcessedArgs()) {
-			if (!entry.hasObject(str_name) && arg.matchesPrefix(str_name)) {
-				entry.addObject(str_name, arg.asElement());
-			} else arg.reportUnhandled();
-		}
-		if (!entry.hasObject(str_name)) {
-			Debug.echoError("Teamname is required! for getteam command");
-		}
-		
-	}
+    private static String teamName = "name";
 
-	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
-		String teamName = entry.getElement(str_name).asString();
-		dTeam team=new dTeam(null);
-		if (ScoreBoardsAddon.scoreBoardHasTeam(teamName)) team = ScoreBoardsAddon.getTeam(teamName);
-		entry.addObject("team", team);
-	}
+    @Override
+    public void parseArgs(ScriptEntry entry) throws InvalidArgumentsException {
+        for (Argument arg : entry.getProcessedArgs()) {
+            if (!entry.hasObject(teamName) && arg.matchesPrefix(teamName)) {
+                entry.addObject(teamName, arg.asElement());
+            }
+        }
+
+        if (!entry.hasObject(teamName)) {
+            Debug.echoError("Teamname is required! for getteam command");
+        }
+
+    }
+
+    @Override
+    public void execute(ScriptEntry entry) throws CommandExecutionException {
+        String teamName = entry.getElement(GetTeam.teamName).asString();
+        dTeam team = new dTeam(null);
+        if (ScoreBoardsAddon.scoreBoardHasTeam(teamName)) {
+            team = ScoreBoardsAddon.getTeam(teamName);
+        }
+        entry.addObject("team", team);
+    }
 }
