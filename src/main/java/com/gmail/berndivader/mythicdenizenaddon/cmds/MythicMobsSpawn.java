@@ -3,7 +3,6 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 import org.bukkit.Bukkit;
 
 import com.denizenscript.denizen.objects.LocationTag;
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
@@ -51,10 +50,10 @@ AbstractCommand
 		}
 	}
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		String mobtype = entry.getElement(Statics.str_mobtype).asString();
 		if (mobmanager.getMythicMob(mobtype)==null) {
-			throw new CommandExecutionException("No MythicMobType found!");
+			System.err.println("No MythicMobType found!");
 		}
 		int level = entry.getElement(Statics.str_level).asInt();
 		LocationTag loc = entry.getObjectTag(Statics.str_location);
@@ -66,8 +65,6 @@ AbstractCommand
 		ActiveMob am;
 		if ((am=mobmanager.spawnMob(mobtype,sl,level))!=null) {
 			entry.addObject("activemob", new dActiveMob(am));
-		} else {
-			throw new CommandExecutionException("Failed to spawn MythicMob");
 		}
 	}
 }

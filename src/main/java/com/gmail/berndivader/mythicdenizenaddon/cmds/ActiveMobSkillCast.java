@@ -7,7 +7,6 @@ import org.bukkit.entity.Entity;
 
 import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.LocationTag;
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
@@ -63,7 +62,7 @@ AbstractCommand
 	
 	
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		HashSet<Entity> etargets = new HashSet<Entity>();
 		HashSet<Location> ltargets = new HashSet<Location>();
 		if (bool) {

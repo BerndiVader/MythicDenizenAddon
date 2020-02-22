@@ -63,7 +63,7 @@ Event
 		this.targets.add(BukkitAdapter.adapt(target));
 	}
 	public void addTargetList(ListTag dlist) {
-		List<EntityTag>list=dlist.filter(EntityTag.class);
+		List<EntityTag>list=dlist.filter(EntityTag.class,null,false);
 		int size=list.size();
 		for(int i1=0;i1<size;i1++) {
 			targets.add(BukkitAdapter.adapt(list.get(i1).getBukkitEntity()));

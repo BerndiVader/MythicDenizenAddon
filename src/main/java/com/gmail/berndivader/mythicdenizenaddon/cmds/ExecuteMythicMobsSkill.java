@@ -5,7 +5,6 @@ import java.util.HashSet;
 
 import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.LocationTag;
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
@@ -75,7 +74,7 @@ AbstractCommand
 	}
 	
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		SkillMetadata meta=null;
 		dMythicSkill dskill=entry.getObjectTag(Statics.str_skill);
 		if(entry.hasObject(Statics.str_data)) {

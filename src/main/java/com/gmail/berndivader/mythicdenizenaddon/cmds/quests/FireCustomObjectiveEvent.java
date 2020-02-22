@@ -7,7 +7,6 @@ import com.gmail.berndivader.mythicdenizenaddon.Utils;
 import com.gmail.berndivader.mythicdenizenaddon.events.CustomObjectiveEvent;
 import com.gmail.berndivader.mythicdenizenaddon.events.CustomObjectiveEvent.Action;
 import com.denizenscript.denizen.objects.PlayerTag;
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.core.ElementTag;
@@ -40,7 +39,7 @@ AbstractCommand
 	}
 
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		if(entry.hasObject(str_player)) {
 			Action action=Utils.enum_lookup(Action.class,entry.getElement(str_action).asString().toUpperCase());
 			Player player=((PlayerTag)entry.getObject(str_player)).getPlayerEntity();

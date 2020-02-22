@@ -1,6 +1,5 @@
 package com.gmail.berndivader.mythicdenizenaddon.cmds;
 
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
@@ -23,7 +22,7 @@ AbstractCommand
 	}
 	
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		// TODO Auto-generated method stub
 	}
 }

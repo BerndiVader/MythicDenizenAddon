@@ -48,7 +48,7 @@ ILocationSelector
 			for(int i1=0;i1<targets.size();i1++) {
 				ElementTag e=(ElementTag)targets.getObject(i1);
 				if(e.matchesType(LocationTag.class)) {
-					locations.add(BukkitAdapter.adapt(e.asType(LocationTag.class)));
+					locations.add(BukkitAdapter.adapt(e.asType(LocationTag.class,null)));
 				}
 			}
 		}

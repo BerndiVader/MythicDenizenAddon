@@ -9,7 +9,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.LocationTag;
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
@@ -69,7 +68,7 @@ AbstractCommand
 	}
 
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		Entity caster = ((EntityTag)entry.getObjectTag(Statics.str_caster)).getBukkitEntity();
 		Entity trigger = ((EntityTag)entry.getObjectTag(Statics.str_trigger)).getBukkitEntity();
 		int ttimer = entry.getElement(Statics.str_repeat).asInt();

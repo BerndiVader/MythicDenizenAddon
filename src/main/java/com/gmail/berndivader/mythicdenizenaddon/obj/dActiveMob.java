@@ -68,10 +68,10 @@ Adjustable
 			MythicMobsAddon.setCustomName(am,val.asString());
 			break;
 		case "owner":
-			am.setOwner(val.asType(EntityTag.class).getUUID());
+			am.setOwner(val.asType(EntityTag.class,m.context).getUUID());
 			break;
 		case "target":
-			MythicMobsAddon.setTarget(am, val.asType(EntityTag.class).getBukkitEntity());
+			MythicMobsAddon.setTarget(am, val.asType(EntityTag.class,m.context).getBukkitEntity());
 			break;
 		case "faction":
 			am.setFaction(val.asString());
@@ -97,7 +97,7 @@ Adjustable
 			if(parse.length>1) {
 				ElementTag entity=new ElementTag(parse[0]);
 				ElementTag value=new ElementTag(parse[1]);
-				if (entity.matchesType(EntityTag.class) && value.isDouble()) MythicMobsAddon.modThreatOfEntity(am, entity.asType(EntityTag.class), value.asDouble(), m.getName());
+				if (entity.matchesType(EntityTag.class) && value.isDouble()) MythicMobsAddon.modThreatOfEntity(am, entity.asType(EntityTag.class,m.context), value.asDouble(), m.getName());
 			}
 			break;
 		case "clearthreat":
@@ -106,7 +106,7 @@ Adjustable
 			break;
 		case "removethreat":
 		case "delththreat":
-			if (val.matchesType(EntityTag.class)) MythicMobsAddon.removeThreatOfEntity(am, val.asType(EntityTag.class));
+			if (val.matchesType(EntityTag.class)) MythicMobsAddon.removeThreatOfEntity(am, val.asType(EntityTag.class,m.context));
 			break;
 		case "newtargetthreattable":
 			am.getThreatTable().clearTarget();
@@ -117,7 +117,7 @@ Adjustable
 			am.getNewTarget();
 			break;
 		case "setimmunitycooldown":
-			if (m.requireObject(EntityTag.class)) am.getImmunityTable().setCooldown(BukkitAdapter.adapt(val.asType(EntityTag.class).getBukkitEntity()));
+			if (m.requireObject(EntityTag.class)) am.getImmunityTable().setCooldown(BukkitAdapter.adapt(val.asType(EntityTag.class,m.context).getBukkitEntity()));
 			break;
 		}
 	}

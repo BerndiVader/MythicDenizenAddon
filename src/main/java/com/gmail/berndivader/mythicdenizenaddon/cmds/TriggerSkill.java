@@ -3,7 +3,6 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.denizenscript.denizen.objects.EntityTag;
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
@@ -39,7 +38,7 @@ AbstractCommand
 	}
 	
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		if (!entry.hasObject(Statics.str_activemob) || !entry.hasObject(Statics.str_entity) || !entry.hasObject(Statics.str_trigger)) return;
 		SkillTrigger trigger = SkillTrigger.API;
 		try {

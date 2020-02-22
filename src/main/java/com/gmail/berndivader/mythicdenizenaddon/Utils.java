@@ -51,9 +51,9 @@ Utils
 		for(int i1=0;i1<size;i1++) {
 			ElementTag e=(ElementTag)list.getObject(i1);
 			if(e.matchesType(LocationTag.class)) {
-				location_targets.add(BukkitAdapter.adapt((Location)e.asType(LocationTag.class)));
+				location_targets.add(BukkitAdapter.adapt((Location)e.asType(LocationTag.class,null)));
 			} else if (e.matchesType(EntityTag.class)) {
-				entity_targets.add(BukkitAdapter.adapt(((EntityTag)e.asType(EntityTag.class)).getBukkitEntity()));
+				entity_targets.add(BukkitAdapter.adapt(((EntityTag)e.asType(EntityTag.class,null)).getBukkitEntity()));
 			}
 		}
 		return new AbstractMap.SimpleEntry<HashSet<AbstractEntity>, HashSet<AbstractLocation>>(entity_targets,location_targets);

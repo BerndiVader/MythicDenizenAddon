@@ -3,7 +3,6 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.core.ElementTag;
@@ -41,7 +40,7 @@ AbstractCommand
 	}
 	
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		Pattern p=Pattern.compile(entry.getElement(Statics.str_filter).asString());
 		String metaId=entry.hasObject(Statics.str_data)?entry.getObjectTag(Statics.str_data).identify():null;
 		if (!entry.getElement(Statics.str_strict).asBoolean()) {
@@ -59,8 +58,6 @@ AbstractCommand
 			dMythicSkill skill=new dMythicSkill(p.pattern(),metaId);
 			if(skill.isPresent()) {
 				entry.addObject("skill",skill);
-			} else {
-				throw new CommandExecutionException("Failed to create "+dMythicSkill.class.getSimpleName());
 			}
 		}
 	}

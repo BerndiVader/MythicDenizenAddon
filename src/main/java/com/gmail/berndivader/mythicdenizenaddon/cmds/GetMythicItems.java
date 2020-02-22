@@ -3,7 +3,6 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.core.ElementTag;
@@ -35,7 +34,7 @@ AbstractCommand
 	}
 	
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		Pattern p=Pattern.compile(entry.getElement(Statics.str_filter).asString());
 		if (!entry.getElement(Statics.str_strict).asBoolean()) {
 			Iterator<String>it=MythicMobsAddon.mythicmobs.getItemManager().getItemNames().iterator();
@@ -49,8 +48,6 @@ AbstractCommand
 			dMythicItem mi=new dMythicItem(p.pattern());
 			if(mi.isPresent()) {
 				entry.addObject("mythicitem",mi);
-			} else {
-				throw new CommandExecutionException("Failed to create "+dMythicItem.class.getSimpleName());
 			}
 		}
 	}

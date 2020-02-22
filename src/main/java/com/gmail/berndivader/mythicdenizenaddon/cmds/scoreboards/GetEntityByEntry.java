@@ -3,7 +3,6 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds.scoreboards;
 import org.bukkit.entity.Entity;
 
 import com.denizenscript.denizen.objects.EntityTag;
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.core.ElementTag;
@@ -29,7 +28,7 @@ AbstractCommand
 	}
 	
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		String e = entry.getElement(str_entry).asString();
 		Entity entity = ScoreBoardsAddon.getEntityByEntry(e);
 		if (entity!=null) {

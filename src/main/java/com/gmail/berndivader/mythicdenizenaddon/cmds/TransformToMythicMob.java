@@ -4,7 +4,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.denizenscript.denizen.objects.EntityTag;
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
@@ -39,7 +38,7 @@ AbstractCommand
 	}
 	
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		Entity entity = ((EntityTag)entry.getObjectTag(Statics.str_entity)).getBukkitEntity();
 		String mmName = entry.getElement(Statics.str_mobtype).asString();
 		MythicMob mm = MythicMobsAddon.mythicmobs.getMobManager().getMythicMob(mmName);
@@ -48,8 +47,6 @@ AbstractCommand
 		if (mm!=null) am=TransformToMythicMob.transformEntityToMythicMob(entity,mm,level);
 		if(am!=null) {
 			entry.addObject(Statics.str_activemob,new dActiveMob(am));
-		} else {
-			throw new CommandExecutionException("Failed to transfrom Entity to MythicMobs!");
 		}
 	}
 	
@@ -63,7 +60,7 @@ AbstractCommand
 	public static void addActiveMobToFaction(MythicMob mm, ActiveMob am) {
         if (mm.hasFaction()) {
             am.setFaction(mm.getFaction());
-            am.getLivingEntity().setMetadata("Faction", new FixedMetadataValue(MythicMobsAddon.mythicmobs,mm.getFaction()));
+            am.getEntity().setMetadata("Faction", new FixedMetadataValue(MythicMobsAddon.mythicmobs,mm.getFaction()));
         }
 	}	
 	

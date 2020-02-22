@@ -1,6 +1,5 @@
 package com.gmail.berndivader.mythicdenizenaddon.cmds.scoreboards;
 
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
@@ -31,7 +30,7 @@ AbstractCommand
 	}
 
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		String teamName = entry.getElement(str_name).asString();
 		dTeam team=new dTeam(null);
 		if (ScoreBoardsAddon.scoreBoardHasTeam(teamName)) team = ScoreBoardsAddon.getTeam(teamName);

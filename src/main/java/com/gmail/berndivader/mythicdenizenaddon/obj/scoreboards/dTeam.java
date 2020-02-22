@@ -47,7 +47,7 @@ Adjustable {
 		switch(m.getName().toLowerCase()) {
 		case "addmember":
 			if (m.requireObject(EntityTag.class)) {
-				Entity entity = val.asType(EntityTag.class).getBukkitEntity();
+				Entity entity = val.asType(EntityTag.class,m.context).getBukkitEntity();
 				team.addEntry((entity instanceof Player)?entity.getName():entity.getUniqueId().toString());
 			}
 			break;

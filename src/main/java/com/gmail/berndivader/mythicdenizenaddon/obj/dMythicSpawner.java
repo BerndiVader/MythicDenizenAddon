@@ -73,7 +73,7 @@ Adjustable
 			ms.Spawn();
 			break;
 		case "attachmob":
-			MythicMobsAddon.attachMobToSpawner(ms,val.asType(dActiveMob.class));
+			MythicMobsAddon.attachMobToSpawner(ms,val.asType(dActiveMob.class,m.context));
 			break;
 		}
 	}

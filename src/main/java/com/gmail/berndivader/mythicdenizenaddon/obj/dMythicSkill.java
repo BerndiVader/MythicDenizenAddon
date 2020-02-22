@@ -121,7 +121,7 @@ Adjustable
 		ElementTag element=m.getValue();
 		switch (m.getName().toLowerCase()) {
 			case "data":
-				if (element.matchesType(dMythicMeta.class)) this.data=element.asType(dMythicMeta.class);
+				if (element.matchesType(dMythicMeta.class)) this.data=element.asType(dMythicMeta.class,m.context);
 				break;
 		}
 	}

@@ -5,7 +5,6 @@ import org.bukkit.scoreboard.Scoreboard;
 
 import com.gmail.berndivader.mythicdenizenaddon.ScoreBoardsAddon;
 
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.core.ElementTag;
@@ -30,7 +29,7 @@ public class GetAllTeams extends AbstractCommand {
 	}
 	
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		String board = entry.getElement(str_board).asString();
 		Scoreboard sb = board.toLowerCase().equals(str_main)?Bukkit.getScoreboardManager().getMainScoreboard():ScoreBoardsAddon.scoreboard;
 		entry.addObject("teamlist", ScoreBoardsAddon.getAllTeamsOf(sb));

@@ -5,7 +5,6 @@ import org.bukkit.scoreboard.Team;
 import com.gmail.berndivader.mythicdenizenaddon.ScoreBoardsAddon;
 import com.gmail.berndivader.mythicdenizenaddon.obj.scoreboards.dTeam;
 
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
@@ -26,7 +25,7 @@ public class CreateTeam extends AbstractCommand {
 	}
 
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		Team team;
 		String name =ScoreBoardsAddon.trimmedTeamName(entry.getElement(str_name).asString());
 		team = ScoreBoardsAddon.scoreboard.getTeam(name)==null?ScoreBoardsAddon.scoreboard.registerNewTeam(name)

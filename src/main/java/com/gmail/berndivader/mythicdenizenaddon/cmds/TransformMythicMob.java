@@ -7,7 +7,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import com.denizenscript.denizen.objects.EntityTag;
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
@@ -39,15 +38,13 @@ AbstractCommand
 	}
 	
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		ActiveMob am=((dActiveMob)entry.getObjectTag(Statics.str_activemob)).getActiveMob();
 		if (am!=null) {
 			Entity entity = transformToNormalEntity(am);
 			if (entity!=null) {
 				EntityTag dentity = new EntityTag(entity);
 				entry.addObject(Statics.str_entity,dentity);
-			} else {
-				throw new CommandExecutionException("Failed to get Entity from MythicMob");
 			}
 		}
 	}

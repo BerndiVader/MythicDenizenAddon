@@ -8,11 +8,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import com.denizenscript.denizen.BukkitScriptEntryData;
 import com.denizenscript.denizen.events.BukkitScriptEvent;
 import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.ItemTag;
 import com.denizenscript.denizen.utilities.DenizenAPI;
+import com.denizenscript.denizen.utilities.implementation.BukkitScriptEntryData;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.ObjectTag;
@@ -80,7 +80,7 @@ Listener
 			case "drops":
 				if (Argument.valueOf(v).matchesArgumentType(ListTag.class)) {
 					List<ItemStack>is=new ArrayList<ItemStack>();
-					for(ItemTag di:Argument.valueOf(v).asType(ListTag.class).filter(ItemTag.class)) {
+					for(ItemTag di:Argument.valueOf(v).asType(ListTag.class).filter(ItemTag.class,null,false)) {
 						is.add(di.getItemStack());
 					}
 					e.setDrops(is);

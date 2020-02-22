@@ -114,26 +114,26 @@ Adjustable
 				if(m.requireFloat()) this.meta.setPower(m.getValue().asFloat());
 				break;
 			case "origin":
-				if(m.requireObject(LocationTag.class)) this.meta.setOrigin(BukkitAdapter.adapt((Location)m.getValue().asType(LocationTag.class)));
+				if(m.requireObject(LocationTag.class)) this.meta.setOrigin(BukkitAdapter.adapt((Location)m.getValue().asType(LocationTag.class,m.context)));
 				break;
 			case "cancel":
 				this.meta.cancelEvent();
 				break;
 			case "caster":
 				if(m.requireObject(EntityTag.class)) {
-					this.meta.setCaster(new GenericCaster(BukkitAdapter.adapt(m.getValue().asType(EntityTag.class).getBukkitEntity())));
+					this.meta.setCaster(new GenericCaster(BukkitAdapter.adapt(m.getValue().asType(EntityTag.class,m.context).getBukkitEntity())));
 				}
 				break;
 			case "trigger":
 				if(m.requireObject(EntityTag.class)) {
-					this.meta.setCaster(new GenericCaster(BukkitAdapter.adapt(m.getValue().asType(EntityTag.class).getBukkitEntity())));
+					this.meta.setCaster(new GenericCaster(BukkitAdapter.adapt(m.getValue().asType(EntityTag.class,m.context).getBukkitEntity())));
 				}
 				break;
 			case "targets":
 				if(m.requireObject(ListTag.class)) {
 					HashSet<AbstractLocation>locations=new HashSet<>();
 					HashSet<AbstractEntity>entities=new HashSet<>();
-					ListTag list=m.getValue().asType(ListTag.class);
+					ListTag list=m.getValue().asType(ListTag.class,m.context);
 					AbstractMap.SimpleEntry<HashSet<AbstractEntity>,HashSet<AbstractLocation>>pair=Utils.split_target_list(list);
 					locations=pair.getValue();
 					entities=pair.getKey();

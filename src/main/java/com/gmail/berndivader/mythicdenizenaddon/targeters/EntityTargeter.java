@@ -48,7 +48,7 @@ IEntitySelector
 			for(int i1=0;i1<targets.size();i1++) {
 				ElementTag e=(ElementTag)targets.getObject(i1);
 				if(e.matchesType(EntityTag.class)) {
-					entities.add(BukkitAdapter.adapt(e.asType(EntityTag.class).getBukkitEntity()));
+					entities.add(BukkitAdapter.adapt(e.asType(EntityTag.class,null).getBukkitEntity()));
 				}
 			}
 		}

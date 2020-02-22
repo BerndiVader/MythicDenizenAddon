@@ -3,6 +3,7 @@ package com.gmail.berndivader.mythicdenizenaddon.conditions;
 import io.lumine.xikage.mythicmobs.io.MythicLineConfig;
 import io.lumine.xikage.mythicmobs.skills.SkillCondition;
 import io.lumine.xikage.mythicmobs.skills.conditions.ConditionAction;
+import io.lumine.xikage.mythicmobs.skills.placeholders.parsers.PlaceholderString;
 
 public
 class 
@@ -28,7 +29,7 @@ SkillCondition
 		}
 		try {
 			this.ACTION = ConditionAction.valueOf(action.toUpperCase());
-			this.actionVar=actionVar;
+			this.actionVar=new PlaceholderString(actionVar);
 		} catch (Exception ex) {
 			this.ACTION = ConditionAction.TRUE;
 		}

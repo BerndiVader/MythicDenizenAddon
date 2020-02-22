@@ -3,7 +3,6 @@ package com.gmail.berndivader.mythicdenizenaddon.cmds;
 import org.bukkit.entity.Entity;
 
 import com.denizenscript.denizen.objects.EntityTag;
-import com.denizenscript.denizencore.exceptions.CommandExecutionException;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
@@ -40,7 +39,7 @@ AbstractCommand
 		}
 	}
 	@Override
-	public void execute(ScriptEntry entry) throws CommandExecutionException {
+	public void execute(ScriptEntry entry) {
 		ActiveMob am = ((dActiveMob)entry.getObject(Statics.str_activemob)).getActiveMob();
 		String signal = entry.getElement(Statics.str_signal).asString();
 		Entity trigger = ((EntityTag)entry.getObject(Statics.str_trigger)).getBukkitEntity();

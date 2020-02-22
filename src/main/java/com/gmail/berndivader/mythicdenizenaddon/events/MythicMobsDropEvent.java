@@ -10,7 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import com.denizenscript.denizen.BukkitScriptEntryData;
 import com.denizenscript.denizen.events.BukkitScriptEvent;
 import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.ItemTag;
@@ -79,7 +78,7 @@ Listener
     @Override
     public ScriptEntryData getScriptEntryData() {
     	EntityTag dropper=new EntityTag(e.getEntity());
-    	return new BukkitScriptEntryData(dropper.isPlayer()?dropper.getDenizenPlayer():null,dropper.isNPC()?dropper.getDenizenNPC():null);
+    	return new com.denizenscript.denizen.utilities.implementation.BukkitScriptEntryData(dropper.isPlayer()?dropper.getDenizenPlayer():null,dropper.isNPC()?dropper.getDenizenNPC():null);
     }
 
 	@Override
