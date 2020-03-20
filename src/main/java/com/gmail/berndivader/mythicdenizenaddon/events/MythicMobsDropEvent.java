@@ -13,13 +13,13 @@ import org.bukkit.inventory.ItemStack;
 import com.denizenscript.denizen.events.BukkitScriptEvent;
 import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.ItemTag;
+import com.denizenscript.denizen.utilities.implementation.BukkitScriptEntryData;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.objects.core.ListTag;
 import com.denizenscript.denizencore.scripts.ScriptEntryData;
-import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
@@ -51,14 +51,13 @@ Listener
 	}
 
 	@Override
-	public boolean couldMatch(ScriptContainer container, String s) {
-		String s1=s.toLowerCase();
-		return s1.startsWith("mm lootdrop")||s1.startsWith("mythicmobs lootdrop");
+	public boolean couldMatch(ScriptPath path) {
+		return path.eventLower.startsWith("mm lootdrop")||path.eventLower.startsWith("mythicmobs lootdrop");
 	}
 	
 	@Override
-	public boolean matches(ScriptContainer container, String s) {
-		return true;
+	public boolean matches(ScriptPath path) {
+		return super.couldMatch(path);
 	}
 
 	@Override
@@ -78,16 +77,19 @@ Listener
     @Override
     public ScriptEntryData getScriptEntryData() {
     	EntityTag dropper=new EntityTag(e.getEntity());
-    	return new com.denizenscript.denizen.utilities.implementation.BukkitScriptEntryData(dropper.isPlayer()?dropper.getDenizenPlayer():null,dropper.isNPC()?dropper.getDenizenNPC():null);
+    	return new BukkitScriptEntryData(dropper.isPlayer()?dropper.getDenizenPlayer():null,dropper.isNPC()?dropper.getDenizenNPC():null);
     }
 
 	@Override
-    public boolean applyDetermination(ScriptPath container,ObjectTag tag) {
-		String determination=tag.toString();
-		if(Argument.valueOf(determination).matchesArgumentType(ListTag.class)) {
-			setDrops(lootBag,Argument.valueOf(determination).asType(ListTag.class),e);
+    public boolean applyDetermination(ScriptPath path,ObjectTag tag) {
+		if(isDefaultDetermination(tag)) {
+			String determination=tag.toString();
+			if(Argument.valueOf(determination).matchesArgumentType(ListTag.class)) {
+				setDrops(lootBag,Argument.valueOf(determination).asType(ListTag.class),e);
+			}
+			return true;
 		}
-		return true;
+		return super.applyDetermination(path, tag);
     }
 	
 	@Override
@@ -111,7 +113,7 @@ Listener
 	public void onMythicMobLootDrop(MythicMobLootDropEvent ev) {
 		this.e=ev;
 		this.lootBag=ev.getDrops();
-		fire();
+		fire(e);
 	}
 	
 	private static void setDrops(LootBag lootBag,ListTag dropList,MythicMobLootDropEvent e) {

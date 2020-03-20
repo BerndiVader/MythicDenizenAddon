@@ -12,8 +12,6 @@ import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
-import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
-import com.denizenscript.denizencore.utilities.CoreUtilities;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMob;
 
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
@@ -34,13 +32,13 @@ Listener
 	}
 	
 	@Override
-	public boolean couldMatch(ScriptContainer container, String s) {
-		return CoreUtilities.toLowerCase(s).startsWith("mm denizen spawn")||CoreUtilities.toLowerCase(s).startsWith("mythicmobs spawn");
+	public boolean couldMatch(ScriptPath path) {
+		return path.eventLower.startsWith("mm denizen spawn")||path.eventLower.startsWith("mythicmobs spawn");
 	}
 	
 	@Override
-	public boolean matches(ScriptContainer container, String a) {
-		return true;
+	public boolean matches(ScriptPath path) {
+		return super.matches(path);
 	}
 
 	@Override
@@ -58,14 +56,17 @@ Listener
     }
     
 	@Override
-    public boolean applyDetermination(ScriptPath container, ObjectTag tag) {
-		String d=tag.toString();
-		if (Argument.valueOf(d).matchesPrimitive(PrimitiveType.Boolean)&&Boolean.parseBoolean(d)) {
-			e.setCancelled();
-		} else if(Argument.valueOf(d).matchesPrimitive(PrimitiveType.Integer)) {
-			e.setMobLevel(Integer.parseInt(d));
+    public boolean applyDetermination(ScriptPath path, ObjectTag tag) {
+		if(isDefaultDetermination(tag)) {
+			String d=tag.toString();
+			if (Argument.valueOf(d).matchesPrimitive(PrimitiveType.Boolean)&&Boolean.parseBoolean(d)) {
+				e.setCancelled();
+			} else if(Argument.valueOf(d).matchesPrimitive(PrimitiveType.Integer)) {
+				e.setMobLevel(Integer.parseInt(d));
+			}
+	        return true;
 		}
-        return true;
+		return super.applyDetermination(path, tag);
     }
 	
 	@Override
@@ -91,6 +92,6 @@ Listener
     @EventHandler
     public void onMythicMobsSpawnEvent(MythicMobSpawnEvent e) {
     	this.e=e;
-        fire();
+        fire(e);
     }
 }

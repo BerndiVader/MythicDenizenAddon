@@ -14,8 +14,6 @@ import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.objects.core.ListTag;
-import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
-import com.denizenscript.denizencore.utilities.CoreUtilities;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 
 public
@@ -43,30 +41,35 @@ Listener
 	}
 	
 	@Override
-	public boolean couldMatch(ScriptContainer container, String s) {
-		return CoreUtilities.toLowerCase(s).startsWith("mythicmobs entitytargeter");
+	public boolean couldMatch(ScriptPath path) {
+		return path.eventLower.startsWith("mythicmobs entitytargeter");
 	}
 	
 	@Override
-	public boolean matches(ScriptContainer container, String s) {
-		return true;
+	public boolean matches(ScriptPath path) {
+		return super.matches(path);
 	}
+	
 	@Override
 	public String getName() {
 		return "DenizenEntityTargeterEvent";
 	}
+	
     @Override
     public void destroy() {
     	MMDenizenEntityTargeterEvent.getHandlerList().unregister(this);
     }
     
 	@Override
-    public boolean applyDetermination(ScriptPath container,ObjectTag tag) {
-		String determination=tag.toString();
-		if(Argument.valueOf(determination).matchesArgumentType(ListTag.class)) {
-			event.addTargetList((Argument.valueOf(determination).asType(ListTag.class)));
+    public boolean applyDetermination(ScriptPath path,ObjectTag tag) {
+		if(isDefaultDetermination(tag)) {
+			String determination=tag.toString();
+			if(Argument.valueOf(determination).matchesArgumentType(ListTag.class)) {
+				event.addTargetList((Argument.valueOf(determination).asType(ListTag.class)));
+			}
+			return true;
 		}
-		return true;
+		return super.applyDetermination(path, tag);
     }    
     
     @Override
@@ -101,7 +104,7 @@ Listener
     	this.metaData=new dMythicMeta(e.getSkillMetadata());
     	this.args.addAll(Arrays.asList(e.getArgs()));
     	this.event=e;
-        fire();
+        fire(e);
     }
     
 

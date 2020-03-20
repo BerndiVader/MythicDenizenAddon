@@ -10,8 +10,6 @@ import com.denizenscript.denizen.objects.LocationTag;
 import com.denizenscript.denizen.utilities.DenizenAPI;
 import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
-import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
-import com.denizenscript.denizencore.utilities.CoreUtilities;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 
 public 
@@ -36,13 +34,13 @@ Listener
 	}
 
 	@Override
-	public boolean couldMatch(ScriptContainer container, String s) {
-		String s1=CoreUtilities.toLowerCase(s);
-		return s1.startsWith("mm denizen mechanic")||s1.startsWith("mythicmobs skill");
+	public boolean couldMatch(ScriptPath path) {
+		return path.eventLower.startsWith("mm denizen mechanic")||path.eventLower.startsWith("mythicmobs skill");
 	}
+	
 	@Override
-	public boolean matches(ScriptContainer container, String a) {
-		return true;
+	public boolean matches(ScriptPath path) {
+		return super.matches(path);
 	}
 
 	@Override
@@ -60,30 +58,33 @@ Listener
     }
     
 	@Override
-    public boolean applyDetermination(ScriptPath container, ObjectTag d) {
-		return Boolean.parseBoolean(d.toString());
+    public boolean applyDetermination(ScriptPath path, ObjectTag tag) {
+		if(isDefaultDetermination(tag)) {
+			return Boolean.parseBoolean(tag.toString());
+		}
+		return super.applyDetermination(path, tag);
     }
 	
 	@Override
     public ObjectTag getContext(String name) {
 		switch(name.toLowerCase()) {
-		case "skill":
-			return skill;
-		case "args":
-			return args;
-		case "caster":
-		case "entity":
-			return caster;
-		case "target":
-			return target;
-		case "targetlocation":
-			return targetLoc;
-		case "trigger":
-			return trigger;
-		case "targettype":
-			return targetType;
-		case "data":
-			return data;
+			case "skill":
+				return skill;
+			case "args":
+				return args;
+			case "caster":
+			case "entity":
+				return caster;
+			case "target":
+				return target;
+			case "targetlocation":
+				return targetLoc;
+			case "trigger":
+				return trigger;
+			case "targettype":
+				return targetType;
+			case "data":
+				return data;
 		}
         return super.getContext(name);
     }
@@ -99,7 +100,7 @@ Listener
     	this.trigger=e.getTrigger()!=null?new EntityTag(e.getTrigger()):null;
     	this.data=new dMythicMeta(e.getMetadata());
     	this.event=e;
-        fire();
+        fire(e);
     }
 
 }

@@ -1,7 +1,11 @@
-# Denizen Support for MythicMobs 4.6.5 or higher
+# Denizen Support for MythicMobs 4.7.2
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.601	- Denizen 1.1.2, MythicMobs 4.7.2 && Spigot 1.15.2 support
+				- fix for issue with events on reload
+				- fix for bukkit entity not avail in mythicmobsdeath event
+				- removed currency & xp from mythicmobsdeathevent, use mythicmobslootdrop event instead
 - Update 0.600a - Denizen 1.10, MythicMobs 4.6.5 && Spigot 1.14.4
 - Update 0.515d - added dMythicMechanic object
 				- added getmythicmechanic command

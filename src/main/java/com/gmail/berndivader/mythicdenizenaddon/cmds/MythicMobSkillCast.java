@@ -93,16 +93,16 @@ AbstractCommand
 		Entity trigger = ((EntityTag)entry.getObjectTag(Statics.str_trigger)).getBukkitEntity();
 		String skill = entry.getElement(Statics.str_skill).asString();
 		float power = entry.getElement(Statics.str_power).asFloat();
-		int ttimer = entry.getElement(Statics.str_repeat).asInt();
+		int defaultRepeat = entry.getElement(Statics.str_repeat).asInt();
 		long tdelay = entry.getElement(Statics.str_delay).asLong();
     	new BukkitRunnable() {
-    		int timer = ttimer;
+    		int repeat=defaultRepeat;
     		public void run() {
-    			if (timer==-1||caster==null) {
+    			if (repeat==-1||caster==null) {
     				this.cancel();
     			} else {
     				mmapi.castSkill(caster,skill,trigger,caster.getLocation(),etargets,ltargets,power);
-    				timer--;
+    				repeat--;
     			}
             } 
         }.runTaskTimer(MythicDenizenPlugin.inst(), 0, tdelay);

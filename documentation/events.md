@@ -1,7 +1,7 @@
 # Events:
 [MythicMobsDeathEvent](#mythicmobsdeathevent) <br>
 [MythicMobsSpawnEvent](#mythicmobsspawnevent) <br>
-[MythicMobsDropEvent](mythicmobsdropevent) <br>
+[MythicMobsLootDropEvent](#mythicmobslootdropevent) <br>
 [CustomMechanic](#custommechanic) <br>
 [CustomCondition](#customcondition) <br>
 [LocationTargeter](#locationtargeter) <br>
@@ -18,30 +18,15 @@
 |`<context.activemob>`|Returns the dActiveMob of the MythicMob being killed.<br>NOTE: You can use `<context.victim.activemob>` instead.|
 |`<context.killer>`<br>`<context.attacker>`|Returns the dEntity of the killer.|
 |`<context.drops>`|Returns a dList of the drops for this MythicMob.|
-|`<context.money>`|Returns an Element(Decimal) of the money dropped.|
-|`<context.exp>`|Returns an Element(Number) of the XP dropped by the mob.|
 
 **Determinations:** <br>
-*DETERMINATIONS DONT WORK ANYMORE BECAUSE MYTHICMOBS DEATHEVENT IS BROKEN*
+*TO MODIFY THE LOOT DROPS USE [MythicMobsLootDropEvent](#mythicmobslootdropevent) INSTEAD* <br>
 `DROPS:dList(dItem)` to specify new items to be dropped. <br>
-`MONEY:Element(Decimal)` to specify the new amount of money to drop. Requires Vault and an economy plugin. <br>
-`EXP:Element(Number)` to specify the new amount of XP to drop. <br>
 
 **Determination Examples:**
 ```yaml
   on mythicmobs death:
     - determine passively drops:li@
-    - determine money:0;exp:0
-    
-  on mm denizen death:
-  on mythicmobs death:
-    - determine drops:li@;money:0;exp:0
-    
-  on mm denizen death:
-  on mythicmobs death:
-    - determine passively money:0
-    - determine passively exp:0
-    - determine drops:li@
 ```
 ----
 ### MythicMobsSpawnEvent
@@ -61,7 +46,7 @@
 "`TRUE`" to cancel the event. (This allows use of the tag `<context.cancelled>`).
 
 ----
-### MythicMobsDropEvent
+### MythicMobsLootDropEvent
 **Names** <br>
 *mm lootdrop* <br>
 *mythicmobs lootdrop* <br>

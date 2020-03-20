@@ -12,7 +12,6 @@ import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
-import com.denizenscript.denizencore.scripts.containers.ScriptContainer;
 
 public 
 class
@@ -35,13 +34,14 @@ Listener {
 	
 	
 	@Override
-	public boolean couldMatch(ScriptContainer container, String s) {
-		String s1=s.toLowerCase();
-		return s1.startsWith("mm denizen condition")||s1.startsWith("mythicmobs condition");
+	public boolean couldMatch(ScriptPath path) {
+		String event=path.eventLower;
+		return event.startsWith("mm denizen condition")||event.startsWith("mythicmobs condition");
 	}
+	
 	@Override
-	public boolean matches(ScriptContainer container, String a) {
-		return true;
+	public boolean matches(ScriptPath path) {
+		return super.matches(path);
 	}
 
 	@Override
@@ -59,29 +59,32 @@ Listener {
     }
     
 	@Override
-    public boolean applyDetermination(ScriptPath container, ObjectTag tag) {
-		String d=tag.toString();
-		if (Argument.valueOf(d).matchesPrimitive(PrimitiveType.Boolean)) {
-			this.meet = new ElementTag(d);
+    public boolean applyDetermination(ScriptPath path, ObjectTag tag) {
+		if(isDefaultDetermination(tag)) {
+			String d=tag.toString();
+			if (Argument.valueOf(d).matchesPrimitive(PrimitiveType.Boolean)) {
+				this.meet = new ElementTag(d);
+			}
+			return Boolean.parseBoolean(d);
 		}
-		return Boolean.parseBoolean(d);
+		return super.applyDetermination(path, tag);
     }
 	
 	@Override
     public ObjectTag getContext(String name) {
 		switch(name.toLowerCase()) {
-		case "meet":
-			return meet;
-		case "entity":
-			return dentity;
-		case "condition":
-			return condition;
-		case "args":
-			return args;
-		case "location":
-			return dlocation;
-		case "type":
-			return type;
+			case "meet":
+				return meet;
+			case "entity":
+				return dentity;
+			case "condition":
+				return condition;
+			case "args":
+				return args;
+			case "location":
+				return dlocation;
+			case "type":
+				return type;
 		}
         return super.getContext(name);
     }
@@ -95,7 +98,7 @@ Listener {
 		this.dentity=e.getEntity()!=null?new EntityTag(e.getEntity()):null;
    		this.dlocation=e.getLocation()!=null?new LocationTag(e.getLocation()):null;
    		this.type=e.getEntity()!=null?new ElementTag("e"):e.getLocation()!=null?new ElementTag("l"):new ElementTag("n");
-        fire();
+        fire(e);
         e.setBool(this.meet.asBoolean());
     }
 }
