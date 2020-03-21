@@ -1,7 +1,8 @@
-# Denizen Support for MythicMobs 4.7.2
+# Denizen Support for MythicMobs 4.9.0
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.602	- MythicMobs 4.9.0 support
 - Update 0.601	- Denizen 1.1.2, MythicMobs 4.7.2 && Spigot 1.15.2 support
 				- fix for issue with events on reload
 				- fix for bukkit entity not avail in mythicmobsdeath event

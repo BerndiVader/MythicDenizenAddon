@@ -13,7 +13,7 @@ import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
-import io.lumine.xikage.mythicmobs.util.types.RandomInt;
+import io.lumine.xikage.mythicmobs.utils.numbers.RandomInt;
 
 public 
 class 
@@ -102,7 +102,7 @@ Adjustable
 		} else if (a.startsWith("mobamount")) {
 			return new ElementTag(ms.getNumberOfMobs()).getAttribute(a.fulfill(1));
 		} else if (a.startsWith("maxmobamount")) {
-			return new ElementTag(ms.getMaxMobs()).getAttribute(a.fulfill(1));
+			return new ElementTag(ms.getMaxMobs().get()).getAttribute(a.fulfill(1));
 		}
 		return new ElementTag(identify()).getAttribute(a);
 	}

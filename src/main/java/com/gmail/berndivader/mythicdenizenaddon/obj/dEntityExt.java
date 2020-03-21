@@ -46,8 +46,6 @@ dObjectExtension
        					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE);
        					ai.setBaseValue(val.asDouble());
        				};
-    		    } else {
-    		    	MythicMobs.inst().getVolatileCodeHandler().setFollowRange(le, val.asDouble());
     		    }
 				break;
 			case "damage":
@@ -56,8 +54,6 @@ dObjectExtension
     					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE);
     					ai.setBaseValue(val.asDouble());
     				}
-    			} else {
-    				MythicMobs.inst().getVolatileCodeHandler().setAttackDamage(le, val.asDouble());
     			}
 				break;
 			case "armor":
@@ -82,8 +78,6 @@ dObjectExtension
     					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_KNOCKBACK_RESISTANCE);
     					ai.setBaseValue(val.asDouble());
     				}
-    			} else {
-    				MythicMobs.inst().getVolatileCodeHandler().setKnockBackResistance(le, val.asDouble());
     			}
 				break;
 			}
