@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.denizenscript.denizencore.objects.Argument;
-import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ScriptTag;
-import com.denizenscript.denizencore.scripts.ScriptBuilder;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
 import com.denizenscript.denizencore.scripts.queues.ScriptQueue;
 import com.denizenscript.denizencore.scripts.queues.core.InstantQueue;
@@ -65,8 +63,6 @@ AbstractCustomCondition
 		
 		if(entries!=null) {
 			String id=ScriptQueue.getNextId(script.getContainer().getName());
-			long req_id=0l;
-			ScriptBuilder.addObjectToEntries(entries,"reqid",req_id);
 
 			HashMap<String,ObjectTag>context=new HashMap<String,ObjectTag>();
 			context.put("source",denizen_source);
@@ -92,7 +88,7 @@ AbstractCustomCondition
 			if(o!=null&&o instanceof List) {
 				for(String s1:(List<String>)o) {
 					Argument arg=new Argument(s1);
-					if(arg.matchesPrimitive(PrimitiveType.Boolean)) {
+					if(arg.matchesBoolean()) {
 						match=arg.asElement().asBoolean();
 						break;
 					}

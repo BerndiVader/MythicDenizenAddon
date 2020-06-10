@@ -15,7 +15,6 @@ import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.objects.core.ListTag;
 import com.denizenscript.denizencore.objects.core.ScriptTag;
-import com.denizenscript.denizencore.scripts.ScriptBuilder;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
 import com.denizenscript.denizencore.scripts.queues.ScriptQueue;
 import com.denizenscript.denizencore.scripts.queues.core.InstantQueue;
@@ -92,8 +91,6 @@ Utils
 		
 		if(entries!=null) {
 			String id=ScriptQueue.getNextId(script.getContainer().getName());
-			long req_id=0l;
-			ScriptBuilder.addObjectToEntries(entries,"reqid",req_id);
 
 			HashMap<String,ObjectTag>context=new HashMap<String,ObjectTag>();
 			context.put("data",new dMythicMeta(data));

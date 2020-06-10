@@ -7,7 +7,6 @@ import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.LocationTag;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
-import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.core.ListTag;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
 import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
@@ -46,7 +45,7 @@ AbstractCommand
 				entry.addObject(Statics.str_origin,arg.asType(LocationTag.class));
 			} else if(!entry.hasObject(Statics.str_targets)&&arg.matchesPrefix(Statics.str_targets)&&arg.matchesArgumentType(ListTag.class)) {
 				entry.addObject(Statics.str_targets,arg.asType(ListTag.class));
-			} else if(!entry.hasObject(Statics.str_power)&&arg.matchesPrefix(Statics.str_power)&&arg.matchesPrimitive(PrimitiveType.Float)) {
+			} else if(!entry.hasObject(Statics.str_power)&&arg.matchesPrefix(Statics.str_power)&&arg.matchesFloat()) {
 				entry.addObject(Statics.str_power,arg.asElement());
 			} else if(!entry.hasObject(Statics.str_result)&&arg.matchesPrefix(Statics.str_result)) {
 				entry.addObject(Statics.str_result,arg.asElement());

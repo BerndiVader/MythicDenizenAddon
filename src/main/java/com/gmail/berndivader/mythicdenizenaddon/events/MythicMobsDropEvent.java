@@ -15,7 +15,6 @@ import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.ItemTag;
 import com.denizenscript.denizen.utilities.implementation.BukkitScriptEntryData;
 import com.denizenscript.denizencore.objects.Argument;
-import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.objects.core.ListTag;
@@ -125,7 +124,7 @@ Listener
 				ItemDrop drop=new ItemDrop("MMDA",null,bit);
 				drop.setAmount(bit.getAmount());
 				itemDrops.add(drop);
-			}else if (Argument.valueOf(type).matchesPrimitive(PrimitiveType.String)) {
+			}else {
 				Drop drop=Drop.getDrop("mmda_drop",type);
 				if(drop instanceof IMultiDrop) {
 					LootBag loot=((IMultiDrop)drop).get(new DropMetadata(e.getMob(),BukkitAdapter.adapt(e.getKiller())));

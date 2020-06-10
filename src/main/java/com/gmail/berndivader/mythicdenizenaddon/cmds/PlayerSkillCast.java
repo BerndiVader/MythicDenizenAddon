@@ -11,7 +11,6 @@ import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.LocationTag;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
-import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
 import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
@@ -49,10 +48,10 @@ AbstractCommand
 			} else if (!entry.hasObject(Statics.str_trigger) && arg.matchesPrefix(Statics.str_trigger)) {
 				entry.addObject(Statics.str_trigger, arg.asType(EntityTag.class));
 			} else if (!entry.hasObject(Statics.str_repeat) && arg.matchesPrefix(Statics.str_repeat) 
-					&& arg.matchesPrimitive(PrimitiveType.Integer)) {
+					&& arg.matchesInteger()) {
 				entry.addObject(Statics.str_repeat, arg.asElement());
 			} else if (!entry.hasObject(Statics.str_delay) && arg.matchesPrefix(Statics.str_delay) 
-					&& arg.matchesPrimitive(PrimitiveType.Integer)) {
+					&& arg.matchesInteger()) {
 				entry.addObject(Statics.str_delay, arg.asElement());
 			}
 		}

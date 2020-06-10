@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import com.denizenscript.denizen.objects.LocationTag;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
-import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
 import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
@@ -35,7 +34,7 @@ AbstractCommand
 			} else if (!entry.hasObject(Statics.str_location) && arg.matchesArgumentType(LocationTag.class)) {
 				entry.addObject(Statics.str_location, arg.asType(LocationTag.class));
 			} else if (!entry.hasObject(Statics.str_level) 
-					&& arg.matchesPrefix(Statics.str_level) && arg.matchesPrimitive(PrimitiveType.Integer)) {
+					&& arg.matchesPrefix(Statics.str_level) && arg.matchesInteger()) {
 				entry.addObject(Statics.str_level, arg.asElement());
 			} else if (!entry.hasObject(Statics.str_world) 
 					&& arg.matchesPrefix(Statics.str_world)) entry.addObject(Statics.str_world, arg.asElement());

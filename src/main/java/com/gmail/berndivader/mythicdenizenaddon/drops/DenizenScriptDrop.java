@@ -12,7 +12,6 @@ import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.DurationTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.objects.core.ScriptTag;
-import com.denizenscript.denizencore.scripts.ScriptBuilder;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
 import com.denizenscript.denizencore.scripts.queues.ScriptQueue;
 import com.denizenscript.denizencore.scripts.queues.core.InstantQueue;
@@ -63,13 +62,11 @@ IIntangibleDrop
 		if(entries!=null) {
 			ScriptQueue queue;
 			String id=ScriptQueue.getNextId(script.getContainer().getName());
-			long req_id=0l;
-			ScriptBuilder.addObjectToEntries(entries,"reqid",req_id);
 			if(script.getContainer().contains("SPEED")) {
 				long ticks=DurationTag.valueOf(script.getContainer().getString("SPEED","0")).getTicks();
-				queue=ticks>0?((TimedQueue)TimedQueue.getQueue(id).addEntries(entries)).setSpeed(ticks):InstantQueue.getQueue(id).addEntries(entries);
+				queue=ticks>0?((TimedQueue)TimedQueue.getExistingQueue(id).addEntries(entries)).setSpeed(ticks):InstantQueue.getQueue(id).addEntries(entries);
 			} else {
-				queue=TimedQueue.getQueue(id).addEntries(entries);
+				queue=TimedQueue.getExistingQueue(id).addEntries(entries);
 			}
 			HashMap<String,ObjectTag>context=new HashMap<String,ObjectTag>();
 			context.put("player",new PlayerTag((Player)abstract_player.getBukkitEntity()));

@@ -7,7 +7,6 @@ import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.LocationTag;
 import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
-import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.objects.core.ListTag;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
@@ -43,7 +42,7 @@ AbstractCommand
 			if(!entry.hasObject(Statics.str_skill)&&arg.matchesPrefix(Statics.str_skill)) {
 				if(arg.matchesArgumentType(dMythicSkill.class)) {
 					entry.addObject(Statics.str_skill,arg.asType(dMythicSkill.class));
-				} else if (arg.matchesPrimitive(PrimitiveType.String)) {
+				} else {
 					entry.addObject(Statics.str_skill,new dMythicSkill(arg.asElement().asString()));
 				}
 			} else if(!entry.hasObject(Statics.str_data)&&arg.matchesPrefix(Statics.str_data)) {
@@ -55,9 +54,9 @@ AbstractCommand
 			} else if(!entry.hasObject(Statics.str_origin)&&arg.matchesPrefix(Statics.str_origin)) {
 				if(arg.matchesArgumentType(LocationTag.class)) entry.addObject(Statics.str_origin,arg.asType(LocationTag.class));
 			} else if(!entry.hasObject(Statics.str_cause)&&arg.matchesPrefix(Statics.str_cause)) {
-				if(arg.matchesPrimitive(PrimitiveType.String)) entry.addObject(Statics.str_cause,arg.asElement());
+				entry.addObject(Statics.str_cause,arg.asElement());
 			} else if(!entry.hasObject(Statics.str_power)&&arg.matchesPrefix(Statics.str_power)) {
-				if(arg.matchesPrimitive(PrimitiveType.Float)) arg.asElement();
+				if(arg.matchesFloat()) arg.asElement();
 			} else if(!entry.hasObject(Statics.str_targets)&&arg.matchesPrefix(Statics.str_targets)) {
 				if(arg.matchesArgumentType(ListTag.class)) {
 					entry.addObject(Statics.str_targets,arg.asType(ListTag.class));

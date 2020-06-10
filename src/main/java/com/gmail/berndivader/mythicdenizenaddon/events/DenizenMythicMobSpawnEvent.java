@@ -9,7 +9,6 @@ import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.LocationTag;
 import com.denizenscript.denizen.utilities.DenizenAPI;
 import com.denizenscript.denizencore.objects.Argument;
-import com.denizenscript.denizencore.objects.ArgumentHelper.PrimitiveType;
 import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMob;
@@ -59,9 +58,9 @@ Listener
     public boolean applyDetermination(ScriptPath path, ObjectTag tag) {
 		if(isDefaultDetermination(tag)) {
 			String d=tag.toString();
-			if (Argument.valueOf(d).matchesPrimitive(PrimitiveType.Boolean)&&Boolean.parseBoolean(d)) {
+			if (Argument.valueOf(d).matchesBoolean()&&Boolean.parseBoolean(d)) {
 				e.setCancelled();
-			} else if(Argument.valueOf(d).matchesPrimitive(PrimitiveType.Integer)) {
+			} else if(Argument.valueOf(d).matchesInteger()) {
 				e.setMobLevel(Integer.parseInt(d));
 			}
 	        return true;
