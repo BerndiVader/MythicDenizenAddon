@@ -70,7 +70,6 @@ AbstractCustomCondition
 			
 			ScriptQueue queue=InstantQueue.getQueue(id).addEntries(entries);
 			queue.setContextSource(new MythicContextSource(context));
-//			queue.setReqId(req_id);
 			for(Map.Entry<String,String>item:attributes.entrySet()) {
 				queue.addDefinition(item.getKey(),item.getValue());
 			}

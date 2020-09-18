@@ -24,7 +24,7 @@ repositories {
 dependencies {
 	compileOnly "org.spigotmc:spigot:+"
     compileOnly "io.lumine.xikage:mythicmobs:+"
-	compileOnly "com.denizenscript:denizen:+"
+	compileOnly "com.denizenscript:denizen:1.1.7-b507"
 }
 
 processResources {

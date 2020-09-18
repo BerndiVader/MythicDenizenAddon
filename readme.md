@@ -2,6 +2,7 @@
 
 # [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.603  - MythicMobs 4.10.0 free, Denizen 1.1.7 & Spigot 1.16.3 support
 - Update 0.602	- MythicMobs 4.9.0 support
 - Update 0.601	- Denizen 1.1.2, MythicMobs 4.7.2 && Spigot 1.15.2 support
 				- fix for issue with events on reload

@@ -10,8 +10,6 @@ import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.tags.Attribute;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
 
-import io.lumine.xikage.mythicmobs.MythicMobs;
-
 public 
 class
 dEntityExt 
@@ -41,44 +39,34 @@ dObjectExtension
 			LivingEntity le=this.entity.getLivingEntity();
 			switch(m.getName().toLowerCase()) {
 			case "followrange":
-    			if (MythicMobs.inst().getMinecraftVersion()>=9) {
-       				if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_FOLLOW_RANGE)!=null) {
-       					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE);
-       					ai.setBaseValue(val.asDouble());
-       				};
-    		    }
+   				if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_FOLLOW_RANGE)!=null) {
+   					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE);
+   					ai.setBaseValue(val.asDouble());
+   				}
 				break;
 			case "damage":
-    			if (MythicMobs.inst().getMinecraftVersion()>=9) {
-    				if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE)!=null) {
-    					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE);
-    					ai.setBaseValue(val.asDouble());
-    				}
-    			}
+				if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE)!=null) {
+					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE);
+					ai.setBaseValue(val.asDouble());
+				}
 				break;
 			case "armor":
-    			if (MythicMobs.inst().getMinecraftVersion()>=9) {
-    				if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ARMOR)!=null) {
-    					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ARMOR);
-    					ai.setBaseValue(val.asDouble());
-    				}
-    			}
+				if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ARMOR)!=null) {
+					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ARMOR);
+					ai.setBaseValue(val.asDouble());
+				}
 				break;
 			case "attackspeed":
-    			if (MythicMobs.inst().getMinecraftVersion()>=9) {
-    				if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED)!=null) {
-    					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED);
-    					ai.setBaseValue(val.asDouble());
-    				}
-    			}
+				if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED)!=null) {
+					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED);
+					ai.setBaseValue(val.asDouble());
+				}
 				break;
 			case "knockbackresist":
-    			if (MythicMobs.inst().getMinecraftVersion()>=9) {
-    				if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_KNOCKBACK_RESISTANCE)!=null) {
-    					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_KNOCKBACK_RESISTANCE);
-    					ai.setBaseValue(val.asDouble());
-    				}
-    			}
+				if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_KNOCKBACK_RESISTANCE)!=null) {
+					AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_KNOCKBACK_RESISTANCE);
+					ai.setBaseValue(val.asDouble());
+				}
 				break;
 			}
 		}
@@ -95,47 +83,35 @@ dObjectExtension
     	if (this.entity.isLivingEntity()) {
     		LivingEntity le=this.entity.getLivingEntity();
         	if (a.startsWith("damage")) {
-    			if (MythicMobs.inst().getMinecraftVersion()>=9) {
-               		if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE)!=null) {
-               			AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE);
-               			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
-               		};
+           		if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE)!=null) {
+           			AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE);
+           			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
     			}
         	} else if (a.startsWith("followrange")) {
-        		if (MythicMobs.inst().getMinecraftVersion()>=9) {
-        			if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_FOLLOW_RANGE)!=null) {
-        				AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_FOLLOW_RANGE);
-               			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
-        			}
-        		}
+    			if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_FOLLOW_RANGE)!=null) {
+    				AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_FOLLOW_RANGE);
+           			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
+    			}
         	} else if (a.startsWith("armor")) {
-        		if (MythicMobs.inst().getMinecraftVersion()>=9) {
-        			if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ARMOR)!=null) {
-        				AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ARMOR);
-               			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
-        			}
-        		}
+    			if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ARMOR)!=null) {
+    				AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ARMOR);
+           			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
+    			}
         	} else if (a.startsWith("attackspeed")) {
-        		if (MythicMobs.inst().getMinecraftVersion()>=9) {
-        			if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED)!=null) {
-        				AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED);
-               			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
-        			}
-        		}
+    			if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED)!=null) {
+    				AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_SPEED);
+           			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
+    			}
         	} else if (a.startsWith("knockbackresist")) {
-        		if (MythicMobs.inst().getMinecraftVersion()>=9) {
-        			if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_KNOCKBACK_RESISTANCE)!=null) {
-        				AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_KNOCKBACK_RESISTANCE);
-               			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
-        			}
-        		}
+    			if (le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_KNOCKBACK_RESISTANCE)!=null) {
+    				AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.GENERIC_KNOCKBACK_RESISTANCE);
+           			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
+    			}
         	} else if (a.startsWith("jumpstrength")) {
-        		if (MythicMobs.inst().getMinecraftVersion()>=9) {
-        			if (le.getAttribute(org.bukkit.attribute.Attribute.HORSE_JUMP_STRENGTH)!=null) {
-        				AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.HORSE_JUMP_STRENGTH);
-               			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
-        			}
-        		}
+    			if (le.getAttribute(org.bukkit.attribute.Attribute.HORSE_JUMP_STRENGTH)!=null) {
+    				AttributeInstance ai = le.getAttribute(org.bukkit.attribute.Attribute.HORSE_JUMP_STRENGTH);
+           			return new ElementTag(ai.getBaseValue()).getAttribute(a.fulfill(1));
+    			}
         	} else if (a.startsWith("maxnodamageticks")) {
        			return new ElementTag(le.getMaximumNoDamageTicks()).getAttribute(a.fulfill(1));
         	} else if (a.startsWith("nodamageticks")) {

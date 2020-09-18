@@ -71,8 +71,8 @@ import io.lumine.xikage.mythicmobs.skills.SkillTrigger;
 import io.lumine.xikage.mythicmobs.skills.targeters.ConsoleTargeter;
 import io.lumine.xikage.mythicmobs.skills.targeters.IEntitySelector;
 import io.lumine.xikage.mythicmobs.skills.targeters.ILocationSelector;
-import io.lumine.xikage.mythicmobs.skills.targeters.MTTriggerLocation;
 import io.lumine.xikage.mythicmobs.skills.targeters.OriginTargeter;
+import io.lumine.xikage.mythicmobs.skills.targeters.TriggerLocationTargeter;
 import io.lumine.xikage.mythicmobs.spawning.spawners.MythicSpawner;
 
 public 
@@ -359,7 +359,7 @@ MythicMobsAddon
             	Location l = BukkitAdapter.adapt(al);
             	targetList.add(new LocationTag(l).identify());
             }
-        } else if (targeter instanceof MTTriggerLocation) {
+        } else if (targeter instanceof TriggerLocationTargeter) {
             HashSet<AbstractLocation> lTargets = new HashSet<AbstractLocation>();
             lTargets.add(data.getTrigger().getLocation());
             data.setLocationTargets(lTargets);
