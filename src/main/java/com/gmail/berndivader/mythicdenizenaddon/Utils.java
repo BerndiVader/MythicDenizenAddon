@@ -123,7 +123,7 @@ Utils
 				for(String s1:(List<String>)o) {
 					Argument arg=new Argument(s1);
 					if (arg.matchesArgumentType(ListTag.class)) {
-						return arg.getList();
+						return arg.getList(null);
 					}
 				}
 			}

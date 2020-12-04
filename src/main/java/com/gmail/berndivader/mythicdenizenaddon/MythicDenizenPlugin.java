@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,12 +41,7 @@ JavaPlugin
 		} else if(pm.getPlugin(Dependings.Quests.name())!=null) {
 			writeDenizenCustomObjective();
 		}
-    	String strMMVer = Bukkit.getServer().getPluginManager().getPlugin(Dependings.MythicMobs.toString()).getDescription().getVersion();
-		int mmVer = Integer.valueOf(strMMVer.replaceAll("[\\D]", ""));
-		if (mmVer < 400) {
-			initFail("Only for MythicMobs 4 or higher!");
-			return;
-		}
+		
         try {
     		addon=new MythicMobsAddon();
     		new RegisterEvents();
