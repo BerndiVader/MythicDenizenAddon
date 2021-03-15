@@ -1,7 +1,8 @@
 # Denizen Support for MythicMobs 4.11
 
-# [DOWNLOAD](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/) [![Build Status](http://mc.hackerzlair.org:8080/job/MythicDenizenAddon/badge/icon)] <br>
+# [DOWNLOAD](https://mc.hackerzlair.org/jenkins/job/MythicDenizenAddon/) [![Build Status](https://mc.hackerzlair.org/jenkins/job/MythicDenizenAddon/badge/icon)] <br>
 
+- Update 0.605  - MythicMobs 4.11.0 free, Denizen 1.1.9 & Spigot 1.16.5 support
 - Update 0.604  - MythicMobs 4.11.0 free, Denizen 1.1.8 & Spigot 1.16.4 support
 - Update 0.603  - MythicMobs 4.10.0 free, Denizen 1.1.7 & Spigot 1.16.3 support
 - Update 0.602	- MythicMobs 4.9.0 support

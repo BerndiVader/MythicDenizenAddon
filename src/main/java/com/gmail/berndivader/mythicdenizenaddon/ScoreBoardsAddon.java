@@ -10,7 +10,6 @@ import org.bukkit.scoreboard.Team;
 
 import com.denizenscript.denizen.Denizen;
 import com.denizenscript.denizen.objects.EntityTag;
-import com.denizenscript.denizen.utilities.DenizenAPI;
 import com.denizenscript.denizencore.objects.ObjectFetcher;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.objects.core.ListTag;
@@ -29,7 +28,7 @@ class
 ScoreBoardsAddon
 {
 	public static Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
-	public static Denizen denizen=DenizenAPI.getCurrentInstance();
+	public static Denizen denizen=Denizen.getInstance();
 	static CommandRegistry commandregistry=denizen.getCommandRegistry();
 	
 	public ScoreBoardsAddon() {

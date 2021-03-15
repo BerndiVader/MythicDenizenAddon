@@ -7,9 +7,9 @@ import org.bukkit.event.Listener;
 import com.denizenscript.denizen.events.BukkitScriptEvent;
 import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.LocationTag;
-import com.denizenscript.denizen.utilities.DenizenAPI;
 import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
+import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dMythicMeta;
 
 public 
@@ -49,7 +49,7 @@ Listener
 	}
 
 	public void init() {
-		Bukkit.getServer().getPluginManager().registerEvents(this,DenizenAPI.getCurrentInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(this,MythicDenizenPlugin.inst());
 	}
 	
     @Override

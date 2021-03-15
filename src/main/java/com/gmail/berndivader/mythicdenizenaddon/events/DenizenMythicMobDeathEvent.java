@@ -11,13 +11,13 @@ import org.bukkit.inventory.ItemStack;
 import com.denizenscript.denizen.events.BukkitScriptEvent;
 import com.denizenscript.denizen.objects.EntityTag;
 import com.denizenscript.denizen.objects.ItemTag;
-import com.denizenscript.denizen.utilities.DenizenAPI;
 import com.denizenscript.denizen.utilities.implementation.BukkitScriptEntryData;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.objects.core.ListTag;
 import com.denizenscript.denizencore.scripts.ScriptEntryData;
+import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
@@ -52,7 +52,7 @@ Listener
 	}
 
 	public void init() {
-		Bukkit.getServer().getPluginManager().registerEvents(this, DenizenAPI.getCurrentInstance());
+		Bukkit.getServer().getPluginManager().registerEvents(this, MythicDenizenPlugin.inst());
 	}
 	
     @Override

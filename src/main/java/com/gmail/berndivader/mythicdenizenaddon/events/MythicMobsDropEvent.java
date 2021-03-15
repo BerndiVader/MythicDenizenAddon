@@ -19,7 +19,7 @@ import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.objects.core.ListTag;
 import com.denizenscript.denizencore.scripts.ScriptEntryData;
-import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
+import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mythicdenizenaddon.obj.dActiveMob;
 
 import io.lumine.xikage.mythicmobs.adapters.bukkit.BukkitAdapter;
@@ -51,12 +51,12 @@ Listener
 
 	@Override
 	public boolean couldMatch(ScriptPath path) {
-		return path.eventLower.startsWith("mm lootdrop")||path.eventLower.startsWith("mythicmobs lootdrop");
+		return path.eventLower.contains("mm lootdrop")||path.eventLower.contains("mythicmobs lootdrop");
 	}
 	
 	@Override
 	public boolean matches(ScriptPath path) {
-		return super.couldMatch(path);
+		return couldMatch(path);
 	}
 
 	@Override
@@ -65,7 +65,7 @@ Listener
 	}
 
 	public void init() {
-		Bukkit.getServer().getPluginManager().registerEvents(this, MythicMobsAddon.denizen);
+		Bukkit.getServer().getPluginManager().registerEvents(this, MythicDenizenPlugin.inst());
 	}
 	
     @Override
