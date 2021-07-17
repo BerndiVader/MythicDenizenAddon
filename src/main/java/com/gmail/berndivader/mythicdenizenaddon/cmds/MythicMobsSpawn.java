@@ -55,7 +55,7 @@ AbstractCommand
 			System.err.println("No MythicMobType found!");
 		}
 		int level = entry.getElement(Statics.str_level).asInt();
-		LocationTag loc = entry.getObjectTag(Statics.str_location);
+		LocationTag loc = entry.<LocationTag>getObjectTag(Statics.str_location);
 		String worldName = entry.hasObject(Statics.str_world)?entry.getElement(Statics.str_world).asString():loc.getWorld().getName();
 		AbstractLocation location = BukkitAdapter.adapt(loc);
 		AbstractWorld world = BukkitAdapter.adapt(Bukkit.getServer().getWorld(worldName));

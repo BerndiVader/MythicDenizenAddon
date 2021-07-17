@@ -43,7 +43,7 @@ ITargetedEntitySkill
 
 	public DenizenScriptMechanic(String skill, MythicLineConfig mlc) {
 		super(skill, mlc);
-		this.ASYNC_SAFE=false;
+		this.threadSafetyLevel = ThreadSafetyLevel.EITHER;;
 		
 		script_name=config.getString("script","");
 		attributes=Utils.parse_attributes(skill);

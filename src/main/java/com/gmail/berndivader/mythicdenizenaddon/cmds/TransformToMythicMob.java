@@ -39,7 +39,7 @@ AbstractCommand
 	
 	@Override
 	public void execute(ScriptEntry entry) {
-		Entity entity = ((EntityTag)entry.getObjectTag(Statics.str_entity)).getBukkitEntity();
+		Entity entity = ((EntityTag)entry.<EntityTag>getObjectTag(Statics.str_entity)).getBukkitEntity();
 		String mmName = entry.getElement(Statics.str_mobtype).asString();
 		MythicMob mm = MythicMobsAddon.mythicmobs.getMobManager().getMythicMob(mmName);
 		int level = entry.getElement(Statics.str_level).asInt();

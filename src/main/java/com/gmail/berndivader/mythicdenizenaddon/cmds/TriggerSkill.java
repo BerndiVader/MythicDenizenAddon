@@ -49,6 +49,6 @@ AbstractCommand
 		}
 		ActiveMob am = ((dActiveMob)entry.getObject(Statics.str_activemob)).getActiveMob();
 		AbstractEntity ae = BukkitAdapter.adapt(((EntityTag)entry.getObject(Statics.str_entity)).getBukkitEntity());
-		new TriggeredSkill(trigger,am,ae,new Pair[0]);
+		new TriggeredSkill(trigger,am,ae,false);
 	}
 }
