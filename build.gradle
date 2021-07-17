@@ -7,14 +7,18 @@ targetCompatibility = 11
 repositories {
 	mavenCentral()
     maven {
+        url "https://repo.citizensnpcs.co/"
+    }
+    maven {
         url "http://mc.hackerzlair.org:8888/repository/public"
+
     }
 }
 
 dependencies {
     compileOnly "org.spigotmc:spigot-1.16.5:+"
     compileOnly "io.lumine.xikage:mythicmobs:+"
-	compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+	compileOnly "com.denizenscript:denizen:1.2.0-SNAPSHOT"
 }
 
 processResources {
