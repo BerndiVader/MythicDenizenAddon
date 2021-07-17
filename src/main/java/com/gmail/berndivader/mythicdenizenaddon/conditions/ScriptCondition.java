@@ -62,13 +62,11 @@ AbstractCustomCondition
 		}
 		
 		if(entries!=null) {
-			String id=ScriptQueue.getNextId(script.getContainer().getName());
-
 			HashMap<String,ObjectTag>context=new HashMap<String,ObjectTag>();
 			context.put("source",denizen_source);
 			if(denizen_target!=null) context.put("target",denizen_target);
 			
-			ScriptQueue queue=InstantQueue.getQueue(id).addEntries(entries);
+			ScriptQueue queue= new InstantQueue(script.getContainer().getName()).addEntries(entries);
 			queue.setContextSource(new MythicContextSource(context));
 			for(Map.Entry<String,String>item:attributes.entrySet()) {
 				queue.addDefinition(item.getKey(),item.getValue());
@@ -83,8 +81,8 @@ AbstractCustomCondition
 			});
 			queue.start();
 			
-			Object o=queue.getLastEntryExecuted().getArguments();
-			if(o!=null&&o instanceof List) {
+			List<String> o=queue.getLastEntryExecuted().getArguments();
+			if(o!=null) {
 				for(String s1:(List<String>)o) {
 					Argument arg=new Argument(s1);
 					if(arg.matchesBoolean()) {

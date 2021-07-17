@@ -7,6 +7,7 @@ import com.denizenscript.denizencore.exceptions.InvalidArgumentsException;
 import com.denizenscript.denizencore.objects.Argument;
 import com.denizenscript.denizencore.objects.core.ElementTag;
 import com.denizenscript.denizencore.objects.core.ListTag;
+import com.denizenscript.denizencore.objects.ObjectTag;
 import com.denizenscript.denizencore.scripts.ScriptEntry;
 import com.denizenscript.denizencore.scripts.commands.AbstractCommand;
 import com.gmail.berndivader.mythicdenizenaddon.MythicMobsAddon;
@@ -42,7 +43,7 @@ AbstractCommand
 	@Override
 	public void execute(ScriptEntry entry) {
 		Pattern p=Pattern.compile(entry.getElement(Statics.str_filter).asString());
-		String metaId=entry.hasObject(Statics.str_data)?entry.getObjectTag(Statics.str_data).identify():null;
+		String metaId = (entry.hasObject(Statics.str_data))?((ObjectTag)entry.getObjectTag(Statics.str_data)).identify():null;
 		if (!entry.getElement(Statics.str_strict).asBoolean()) {
 			Iterator<Skill>it=MythicMobsAddon.mythicmobs.getSkillManager().getSkills().iterator();
 			ListTag list=new ListTag();

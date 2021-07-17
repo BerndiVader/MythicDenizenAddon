@@ -43,7 +43,7 @@ ITargetedEntitySkill
 
 	public DenizenScriptMechanic(String skill, MythicLineConfig mlc) {
 		super(skill, mlc);
-		this.ASYNC_SAFE=false;
+		this.threadSafetyLevel = ThreadSafetyLevel.EITHER;;
 		
 		script_name=config.getString("script","");
 		attributes=Utils.parse_attributes(skill);
@@ -79,12 +79,11 @@ ITargetedEntitySkill
 		}
 		if(entries==null) return false;
 		ScriptQueue queue;
-		String id=ScriptQueue.getNextId(script.getContainer().getName());
 		if(script.getContainer().contains("SPEED")) {
 			long ticks=DurationTag.valueOf(script.getContainer().getString("SPEED","0")).getTicks();
-			queue=ticks>0?((TimedQueue)TimedQueue.getExistingQueue(id).addEntries(entries)).setSpeed(ticks):InstantQueue.getQueue(id).addEntries(entries);
+			queue=ticks>0?((TimedQueue)(new TimedQueue(script.getContainer().getName()).addEntries(entries))).setSpeed(ticks):new InstantQueue(script.getContainer().getName()).addEntries(entries);
 		} else {
-			queue=TimedQueue.getExistingQueue(id).addEntries(entries);
+			queue=new TimedQueue(script.getContainer().getName()).addEntries(entries);
 		}
 		HashMap<String,ObjectTag>context=new HashMap<String,ObjectTag>();
 		context.put("data",new dMythicMeta(data));

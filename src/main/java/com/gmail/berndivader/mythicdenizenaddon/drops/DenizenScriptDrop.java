@@ -61,12 +61,11 @@ IIntangibleDrop
 		
 		if(entries!=null) {
 			ScriptQueue queue;
-			String id=ScriptQueue.getNextId(script.getContainer().getName());
 			if(script.getContainer().contains("SPEED")) {
-				long ticks=DurationTag.valueOf(script.getContainer().getString("SPEED","0")).getTicks();
-				queue=ticks>0?((TimedQueue)TimedQueue.getExistingQueue(id).addEntries(entries)).setSpeed(ticks):InstantQueue.getQueue(id).addEntries(entries);
+				long ticks=DurationTag.valueOf(script.getContainer().getString("SPEED","0"), null).getTicks();
+				queue=ticks>0?((TimedQueue)(new TimedQueue(script.getContainer().getName()).addEntries(entries))).setSpeed(ticks):new InstantQueue(script.getContainer().getName()).addEntries(entries);
 			} else {
-				queue=TimedQueue.getExistingQueue(id).addEntries(entries);
+				queue=new TimedQueue(script.getContainer().getName()).addEntries(entries);
 			}
 			HashMap<String,ObjectTag>context=new HashMap<String,ObjectTag>();
 			context.put("player",new PlayerTag((Player)abstract_player.getBukkitEntity()));
