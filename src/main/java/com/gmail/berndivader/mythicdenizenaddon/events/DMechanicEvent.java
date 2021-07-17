@@ -23,7 +23,7 @@ INoTargetSkill {
 	public DMechanicEvent(String skill, MythicLineConfig mlc) {
 		super(skill, mlc);
 		
-		this.ASYNC_SAFE=false;
+		this.threadSafetyLevel = ThreadSafetyLevel.EITHER;
 		this.skill = mlc.getString(new String[]{"skill", "s"}, "");
 		this.args = mlc.getString(new String[]{"args", "arg", "a"},"");
 	}
