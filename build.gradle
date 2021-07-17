@@ -1,6 +1,9 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 
+sourceCompatibility = 11
+targetCompatibility = 11
+
 repositories {
 	mavenCentral()
     maven {
@@ -11,7 +14,7 @@ repositories {
 dependencies {
     compileOnly "org.spigotmc:spigot-1.16.5:+"
     compileOnly "io.lumine.xikage:mythicmobs:+"
-	compileOnly "com.denizenscript:denizen:+"
+	compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 processResources {

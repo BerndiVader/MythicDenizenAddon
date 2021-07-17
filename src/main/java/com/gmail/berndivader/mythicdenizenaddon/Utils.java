@@ -90,12 +90,10 @@ Utils
 		}
 		
 		if(entries!=null) {
-			String id=ScriptQueue.getNextId(script.getContainer().getName());
-
 			HashMap<String,ObjectTag>context=new HashMap<String,ObjectTag>();
 			context.put("data",new dMythicMeta(data));
 			
-			ScriptQueue queue=InstantQueue.getQueue(id).addEntries(entries);
+			ScriptQueue queue= new InstantQueue(script.getContainer().getName()).addEntries(entries);
 			queue.setContextSource(new MythicContextSource(context));
 			for(Map.Entry<String,String>item:attributes.entrySet()) {
 				queue.addDefinition(item.getKey(),item.getValue());
