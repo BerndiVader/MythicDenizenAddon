@@ -3,7 +3,6 @@ package com.gmail.berndivader.mythicdenizenaddon;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import com.gmail.berndivader.mythicdenizenaddon.MythicDenizenPlugin;
 import com.gmail.berndivader.mythicdenizenaddon.conditions.EntityCompareScriptCondition;
 import com.gmail.berndivader.mythicdenizenaddon.conditions.EntityScriptCondition;
 import com.gmail.berndivader.mythicdenizenaddon.conditions.LocationCompareScriptCondition;
